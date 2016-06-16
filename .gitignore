@@ -1,0 +1,8 @@
+# executable
+straights
+
+# vim temp files
+*.swp
+
+# C++ temp files
+*.o

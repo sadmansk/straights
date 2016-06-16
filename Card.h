@@ -1,5 +1,6 @@
-#ifndef _CARD_
-#define _CARD_
+// CS247 staff please note that names following an underscore is reserved for compiler variables
+#ifndef CARD_H_
+#define CARD_H_
 
 #include <ostream>
 #include <istream>
@@ -27,4 +28,4 @@ bool operator==(const Card &, const Card &);
 std::ostream &operator<<(std::ostream &, const Card &);
 std::istream &operator>>(std::istream &, Card &);
 
-#endif
+#endif // CARD_H_
