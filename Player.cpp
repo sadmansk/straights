@@ -21,9 +21,8 @@ void Player::discardCard(const Card* card){
     _discard.push_back(card);                                   // Same as play except add to discard pile
 }
 
-const Card* Player::legalMoves(const Card* card){
+const Card** Player::legalMoves(const Card* card){
     //TODO I have no idea how to do this rn
-    return card;
 }
 
 void Player::updateScore(){

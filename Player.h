@@ -10,7 +10,7 @@ public:
     Player();                                       // Default Constructor
     void playCard(const Card*);                     // play a legal card
     void discardCard(const Card*);                  // discard a card if no plays can be made
-    const Card* legalMoves(const Card*);            // return a set of legal moves
+    const Card** legalMoves(const Card*);            // return a set of legal moves
     void endRound();                                // ends the round
     int getScore();                                // gets current score of player
 protected:
