@@ -23,8 +23,8 @@ Deck::~Deck(){
 }
 
 void Deck::shuffle() {
-    static std::random_device rng;     //TODO rng is not seeded!!
-    
+    static std::random_device rng;
+
 	int n = CARD_COUNT;
 
 	while ( n > 1 ) {
