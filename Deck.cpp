@@ -4,12 +4,11 @@
 // initialize static seed
 int Deck::rng_seed = 0;
 
-Deck::Deck(int seed) {
+Deck::Deck() {
     // we initialize the ordered deck here
     for (int i = 0; i < CARD_COUNT; i++) {
         cards_[i] = new Card(Suit(i/13), Rank(i%13));
     }
-    rng_seed = seed;
 }
 
 void Deck::shuffle() {
