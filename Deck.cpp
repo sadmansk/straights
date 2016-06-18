@@ -11,6 +11,12 @@ Deck::Deck() {
     }
 }
 
+Deck::~Deck(){
+    for( int i = 0; i < CARD_COUNT; i++){
+        delete cards_[i];
+    }
+}
+
 void Deck::shuffle() {
     static std::random_device rng;
 
@@ -25,8 +31,8 @@ void Deck::shuffle() {
 	}
 }
 
-Card Deck::getCardAt(int pos) const {
-    return *cards_[pos];
+Card* Deck::getCardAt(int pos) const {
+    return cards_[pos];
 }
 
 std::ostream &operator<<(std::ostream& os, const Deck& d) {

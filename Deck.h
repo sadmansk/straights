@@ -7,9 +7,10 @@
 
 class Deck {
 public:
-    Deck();                  // constructor
+    Deck();                     // default constructor
+    ~Deck();                    // destructor
     void shuffle();             // public function fot shuffling the deck
-    Card getCardAt(int) const;  // accessor for individual cards
+    Card* getCardAt(int) const; // accessor for individual cards
     static int rng_seed;        // global static seed for rng
 
 private:
