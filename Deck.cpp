@@ -4,12 +4,22 @@
 // initialize static seed
 int Deck::rng_seed = 0;
 
-Deck::Deck(int seed) {
-    // we initialize the ordered deck here
+Deck::Deck(){
     for (int i = 0; i < CARD_COUNT; i++) {
         cards_[i] = new Card(Suit(i/13), Rank(i%13));
     }
+
+    //TODO SET RNG SEED HERE
+}
+
+Deck::Deck(int seed): Deck() {
     rng_seed = seed;
+}
+
+Deck::~Deck(){
+    for( int i = 0; i < CARD_COUNT; i++){
+        delete cards_[i];
+    }
 }
 
 void Deck::shuffle() {
@@ -26,8 +36,8 @@ void Deck::shuffle() {
 	}
 }
 
-Card Deck::getCardAt(int pos) const {
-    return *cards_[pos];
+Card* Deck::getCardAt(int pos) const {
+    return cards_[pos];
 }
 
 std::ostream &operator<<(std::ostream& os, const Deck& d) {
