@@ -24,14 +24,22 @@ void Player::addCard(const Card* card) {
 
 void Player::playCard(const Card* card, std::vector<const Card*> played_cards){
     std::vector<const Card*> legalPlays = legalMoves(played_cards);
-    //assert(std::find(legalPlays.begin(), legalPlays.end(), card) != legalMoves.end()); TODO, I have no idea why this pass failed
+    for(int i = 0; i < legalPlays.size(); i++){
+        if(legalPlays[i] == card){
+            hand_.erase(card);
+            played_cards.push_back(card);
+            return;
+        }
+    }
 
-    hand_.erase(card);
-    played_cards.push_back(card);
+    throw "This is not a legal play.";
 }
 
 void Player::discardCard(const Card* card, const std::vector<const Card*> played_cards){
-    assert(legalMoves(played_cards).size() == 0);
+    if(legalMoves(played_cards).size() == 0){
+        throw "You have a legal play. You may not discard.";
+    }
+
     hand_.erase(card);
     discard_.push_back(card);                                   // Same as play except add to discard pile
 }
