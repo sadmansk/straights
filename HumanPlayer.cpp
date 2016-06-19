@@ -29,3 +29,7 @@ std::string HumanPlayer::printMoves(const std::vector<const Card*> played_cards)
     ss << std::endl;
     return ss.str();
 }
+
+GameState HumanPlayer::getTurnState() const {
+    return HUMAN_PLAYER_TURN;
+}

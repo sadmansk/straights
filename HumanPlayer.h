@@ -13,6 +13,7 @@ public:
     ComputerPlayer* ragequit();
     std::string printHand() const;
     std::string printMoves(const std::vector<const Card*>) const;
+    GameState getTurnState() const;
 };
 
 

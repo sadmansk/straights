@@ -9,6 +9,7 @@
 class ComputerPlayer: public Player{
 public:
     void autoPlay(std::vector<const Card*>);           // Automatically takes its turn
+    GameState getTurnState() const;
 };
 
 

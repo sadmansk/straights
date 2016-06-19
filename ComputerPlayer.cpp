@@ -8,3 +8,7 @@ void ComputerPlayer::autoPlay(std::vector<const Card*> played_cards){
 
     return playCard(*hand_.begin(), played_cards);
 }
+
+GameState ComputerPlayer::getTurnState() const {
+    return COMPUTER_PLAYER_TURN;
+}

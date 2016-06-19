@@ -25,26 +25,27 @@ void Player::addCard(const Card* card) {
     hand_.insert(card);
 }
 
-void Player::playCard(const Card* card, std::vector<const Card*> played_cards){
+GameState Player::playCard(const Card* card, std::vector<const Card*>& played_cards){
     std::vector<const Card*> legalPlays = legalMoves(played_cards);
     for(unsigned int i = 0; i < legalPlays.size(); i++){
         if(legalPlays[i] == card){
             hand_.erase(card);
             played_cards.push_back(card);
-            return;
+            return NEXT_TURN;
         }
     }
 
-    throw "This is not a legal play.";
+    return ILLEGAL_PLAY;
 }
 
-void Player::discardCard(const Card* card, const std::vector<const Card*> played_cards){
+GameState Player::discardCard(const Card* card, const std::vector<const Card*> played_cards){
     if(legalMoves(played_cards).size() == 0){
-        throw "You have a legal play. You may not discard.";
+        return ILLEGAL_PLAY;
     }
 
     hand_.erase(card);
     discard_.push_back(card);                                   // Same as play except add to discard pile
+    return NEXT_TURN;
 }
 
 std::vector<const Card*> Player::legalMoves(const std::vector<const Card*> played_cards) const {
