@@ -25,6 +25,17 @@ void Player::addCard(const Card* card) {
     hand_.insert(card);
 }
 
+const Card* Player::find(int suit, int rank) const{
+    std::set<const Card*>::iterator card;
+    for(card = hand_.begin(); card != hand_.end(); ++card){
+        if((*card)->getSuit() == suit, (*card)->getRank() == rank){
+            return *card;
+        }
+    }
+    
+    return nullptr;
+}
+
 void Player::playCard(const Card* card, std::vector<const Card*> played_cards){
     std::vector<const Card*> legalPlays = legalMoves(played_cards);
     for(unsigned int i = 0; i < legalPlays.size(); i++){

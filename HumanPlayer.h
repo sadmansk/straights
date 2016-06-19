@@ -10,7 +10,7 @@
 
 class HumanPlayer: public Player{
 public:
-    ComputerPlayer* ragequit();
+    ComputerPlayer* rageQuit();
     std::string printHand() const;
     std::string printMoves(const std::vector<const Card*>) const;
 };

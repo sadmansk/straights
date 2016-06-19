@@ -1,7 +1,7 @@
 #include "HumanPlayer.h"
 #include <sstream>
 
-ComputerPlayer* HumanPlayer::ragequit(){
+ComputerPlayer* HumanPlayer::rageQuit(){
     return (ComputerPlayer*)(this);
 }
 

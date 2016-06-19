@@ -6,6 +6,8 @@
 #include <ostream>
 #include "Subject.h"
 #include "Player.h"
+#include "ComputerPlayer.h"
+#include "HumanPlayer.h"
 #include "Deck.h"
 
 // declare states of the game
@@ -35,7 +37,7 @@ public:
 
     // consts
     const static int NUM_PLAYERS = 4;
-    
+
 private:
     typedef std::array< Player*, NUM_PLAYERS > Players;
     Players players_;                   // list of the current players

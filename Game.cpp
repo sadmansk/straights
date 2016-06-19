@@ -41,7 +41,7 @@ int Game::startRound() {
     deck_->shuffle(); // shuffle the deck at the beginning of the round
 
     int first_player = 0;
-    
+
     // after shuffling, we have to deal the cards to all the players
     int i = 0;
     for (Players::iterator iter = players_.begin(); iter != players_.end(); ++iter) {
@@ -76,4 +76,5 @@ void Game::quit() {
 }
 
 void Game::rageQuit() {
+    current_player_ = ((HumanPlayer*) current_player_)->rageQuit();
 }
