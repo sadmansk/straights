@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -std=c++11 -g -Wall
-OBJECTS = main.o Deck.o GameView.o Game.o GameController.o Card.o Player.o Subject.o Command.o
+OBJECTS = main.o Deck.o GameView.o Game.o GameController.o Card.o Player.o Subject.o ComputerPlayer.o HumanPlayer.o Command.o
 EXEC = straights
 
 ${EXEC} : ${OBJECTS}
@@ -12,6 +12,8 @@ GameController.o : GameController.h GameController.cpp Game.o
 Game.o : Game.h Game.cpp Subject.o Deck.o Player.o
 Deck.o : Deck.cpp Deck.h Card.o
 Card.o : Card.cpp Card.h
+ComputerPlayer.o : ComputerPlayer.cpp ComputerPlayer.h Player.o
+HumanPlayer.o : HumanPlayer.cpp HumanPlayer.h Player.o
 Player.o : Player.h Player.cpp
 Subject.o : Subject.h Subject.cpp
 Command.o: Command.h Command.cpp
