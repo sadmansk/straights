@@ -17,6 +17,7 @@ public:
 private:
 	// Observer Pattern: to access model accessors without having to downcast subject
 	Game *game_;
+    GameState state_;
 	
 	// Strategy Pattern member (plus signal handlers)
 	GameController *controller_;
