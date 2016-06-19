@@ -7,11 +7,14 @@
 class GameController {
 public:
     GameController (Game*);         // contructor
-    ~GameController();              // destructor
+    // adapter functions from view to model goes here
+    void onPlayerAdded(const char); // adds the type of player specified
+    void onShowDeck();
+    void onQuit();
+    void onRageQuit();
 
 private:
     Game* game_;
-    // adapter functions from view to model goes here
 };
 
 #endif // GAME_CONTROLLER_H_
