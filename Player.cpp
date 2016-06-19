@@ -3,16 +3,19 @@
 #include <cassert>
 
 bool checkLegality(const Card& first, const Card& second){
-    if(first.getRank() == second.getRank()){
+    if(first.getRank() == 6){   //7
         return true;
     }
 
-    if(first.getRank()+ 1 == second.getRank() || first.getRank() - 1 == second.getRank()){
+    if(first.getRank() + 1 == second.getRank() || first.getRank() - 1 == second.getRank()){
         if(first.getSuit() == second.getSuit()){
             return true;
         }
     }
+
+    return false;
 }
+
 Player::Player(){}
 
 void Player::addCard(const Card* card) {
@@ -33,7 +36,7 @@ void Player::discardCard(const Card* card, const std::vector<const Card*> played
     discard_.push_back(card);                                   // Same as play except add to discard pile
 }
 
-std::vector<const Card*> Player::legalMoves(const std::vector<const Card*> played_cards){
+std::vector<const Card*> Player::legalMoves(const std::vector<const Card*> played_cards) const {
     std::vector<const Card*> legalPlays;
 
     std::set<const Card*>::iterator card;
@@ -50,14 +53,19 @@ std::vector<const Card*> Player::legalMoves(const std::vector<const Card*> playe
     return legalPlays;
 }
 
-void Player::updateScore(){
-    score_ += discard_.size();
+int Player::updateScore(){
+    int increment = 0;
+    for(int i = 0; i < discard_.size(); i++){
+        increment+= discard_[i]->getRank();
+    }
+    score_ += increment;
     discard_.clear();
+    return increment;
 }
 
-void Player::endRound(){
+int Player::endRound(){
     assert( hand_.size() == 0);                                 // Shouldn't end round if still has cards
-    updateScore();
+    return updateScore();
 }
 
 int Player::getScore(){
