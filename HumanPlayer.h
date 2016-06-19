@@ -3,12 +3,14 @@
 
 #include "Card.h"
 #include "Player.h"
+#include "ComputerPlayer.h"
 #include <vector>
 #include <string>
 
 
 class HumanPlayer: public Player{
 public:
+    ComputerPlayer* ragequit();
     std::string printHand() const;
     std::string printMoves(const std::vector<const Card*>) const;
 };
