@@ -19,7 +19,7 @@ std::string HumanPlayer::printMoves(const std::vector<const Card*> played_cards)
 
     const std::vector<const Card*> legalPlays = legalMoves(played_cards);
 
-    for(int i = 0; i < played_cards.size(); i++){
+    for(int i = 0; i < legalPlays.size(); i++){
         ss << " " << *legalPlays[i];
     }
     ss << std::endl;
