@@ -5,11 +5,12 @@
 #include <vector>
 #include <ostream>
 #include "Subject.h"
-#include "Player.h"
+#include "HumanPlayer.h"
+#include "ComputerPlayer.h"
 #include "Deck.h"
 
 // declare states of the game
-enum GameState {
+enum class GameState: unsigned int {
     GAME_START,
     NEXT_TURN,
     ILLEGAL_PLAY,
@@ -17,9 +18,12 @@ enum GameState {
     COMPUTER_PLAYER_TURN,
     ROUND_ENDED,
     GAME_OVER,
+    GAME_QUIT,
 
     NUM_GAME_STATES
 };
+
+class Player;
 
 // Model class
 class Game : public Subject{

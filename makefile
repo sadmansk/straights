@@ -14,7 +14,7 @@ Deck.o : Deck.cpp Deck.h Card.o
 Card.o : Card.cpp Card.h
 ComputerPlayer.o : ComputerPlayer.cpp ComputerPlayer.h Player.o
 HumanPlayer.o : HumanPlayer.cpp HumanPlayer.h Player.o
-Player.o : Player.h Player.cpp
+Player.o : Player.h Player.cpp Game.h
 Subject.o : Subject.h Subject.cpp
 Command.o: Command.h Command.cpp
 

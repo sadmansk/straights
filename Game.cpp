@@ -9,7 +9,7 @@ int Game::player_count_ = 0;
 Game::Game() : Subject() {
     // initialize the deck of cards
     deck_ = new Deck();
-    state_ = GAME_START;
+    state_ = GameState::GAME_START;
 }
 
 Game::~Game() {
@@ -24,10 +24,10 @@ void Game::addPlayer(const char type) {
     // TODO: fix contructor calls after adding Player class children
     player_count_++;
     if (type == 'h') {
-        players_[player_count_] = new /*Human*/Player();
+        players_[player_count_] = new HumanPlayer();
     }
     else if (type == 'c') {
-        players_[player_count_] = new /*Computer*/Player();
+        players_[player_count_] = new ComputerPlayer();
     }
     else {
         assert(type); // TODO: again, better type validation
@@ -62,20 +62,20 @@ GameState Game::getState() {
     return state_;
 }
 
-void Game;:endTurn() {
+void Game::endTurn() {
     current_player_ = (current_player_+1)%4;
     state_ = players_[current_player_]->getTurnState();
     notify();
 }
 
 void Game::play(const Card& card) {
-    state_ = players_[i]->playCard(card, played_cards_);
+    state_ = players_[current_player_]->playCard(card, played_cards_);
 
     notify();
 }
 
-void Game::discard(const Card&) {
-    state_ = players_[i]->discardCard(card, played_cards_);
+void Game::discard(const Card& card) {
+    state_ = players_[current_player_]->discardCard(card, played_cards_);
     notify();
 }
 
@@ -84,7 +84,7 @@ Deck* Game::deck() const {
 }
 
 void Game::quit() {
-    state_ = GAME_QUIT;
+    state_ = GameState::GAME_QUIT;
     notify();
 
     delete this;

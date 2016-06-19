@@ -24,13 +24,13 @@ void GameView::start() {
 
 void GameView::run() {
     // game loop
-    while (state_ != GAME_OVER || state != GAME_QUIT) {
+    while (state_ != GameState::GAME_OVER || state != GameState::GAME_QUIT) {
         startRound();
-        while (state_ != ROUND_ENDED) {
-            if (state_ == COMPUTER_PLAYER_TURN) {
+        while (state_ != GameState::ROUND_ENDED) {
+            if (state_ == GameState::COMPUTER_PLAYER_TURN) {
                 controller_->onAITurn();
             }
-            else if (state_ == HUMAN_PLAYER_TURN) {
+            else if (state_ == GameState::HUMAN_PLAYER_TURN) {
                 // do action for the current state
                 std::cout << "Cards on the table:" << std::endl;
                 std::cout << "Clubs: " << controller_->listClubs() << std::endl;
@@ -40,8 +40,8 @@ void GameView::run() {
 
                 std::cout << "Your hand: " << controller_->getHand() << std::endl;
                 std::cout << "Legal Plays: " << controller_->getLegalPlays() << std::endl;
-                while (state_ != NEXT_TURN) {
-                    if (state_ == ILLEGAL_PLAY) {
+                while (state_ != GameState::NEXT_TURN) {
+                    if (state_ == GameState::ILLEGAL_PLAY) {
                         std::cout << "This is not a legal play." << std::endl;
                     }
                     std::cout << ">";
@@ -81,7 +81,7 @@ void GameView::run() {
             //std::cout << "Player " << i + 1 << "'s score: " << controller_->getDiscards(i) << std::endl;
         }
     }
-    if (state_ == GAME_OVER) {
+    if (state_ == GameState::GAME_OVER) {
         std::cout << "Player " << game_->winner() << " wins!";
     } // prints nothing if the state was GAME_QUIT
 }

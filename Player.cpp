@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Game.h"
 #include <iostream>
 #include <cassert>
 
@@ -25,27 +26,27 @@ void Player::addCard(const Card* card) {
     hand_.insert(card);
 }
 
-GameState Player::playCard(const Card* card, std::vector<const Card*>& played_cards){
+GameState Player::playCard(const Card& card, std::vector<const Card*>& played_cards){
     std::vector<const Card*> legalPlays = legalMoves(played_cards);
     for(unsigned int i = 0; i < legalPlays.size(); i++){
         if(legalPlays[i] == card){
             hand_.erase(card);
             played_cards.push_back(card);
-            return NEXT_TURN;
+            return GameState::NEXT_TURN;
         }
     }
 
-    return ILLEGAL_PLAY;
+    return GameState::ILLEGAL_PLAY;
 }
 
-GameState Player::discardCard(const Card* card, const std::vector<const Card*> played_cards){
+GameState Player::discardCard(const Card& card, const std::vector<const Card*> played_cards){
     if(legalMoves(played_cards).size() == 0){
-        return ILLEGAL_PLAY;
+        return GameState::ILLEGAL_PLAY;
     }
 
     hand_.erase(card);
     discard_.push_back(card);                                   // Same as play except add to discard pile
-    return NEXT_TURN;
+    return GameState::NEXT_TURN;
 }
 
 std::vector<const Card*> Player::legalMoves(const std::vector<const Card*> played_cards) const {
