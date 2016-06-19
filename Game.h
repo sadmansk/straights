@@ -1,8 +1,9 @@
 #ifndef GAME_H_
 #define GAME_H_
 
-#include <set>
+#include <array>
 #include <vector>
+#include <ostream>
 #include "Subject.h"
 #include "Player.h"
 #include "Deck.h"
@@ -13,7 +14,7 @@ enum GameState {
     GAME_START,
     PLAYER_TURN,
     ROUND_ENDED,
-    GAME_OVER
+    GAME_OVER,
 
     NUM_GAME_STATES
 };
@@ -26,6 +27,11 @@ public:
     int startRound();               // called at the beginning of every round
     void addPlayer(const char);     // adds a new player to the game
     GameState getState();           // accessor for the game state
+    Deck* deck() const;             // accessor for the deck
+    void play(const Card&);         // play the given card of the current player
+    void discard(const Card&);      // discard the given card of the current player
+    void quit();                    // quit the game
+    void rageQuit();                // rage quit the current player
 
     // consts
     const static int NUM_PLAYERS = 4;
@@ -37,6 +43,7 @@ private:
     Deck *deck_;                        // stores the main deck
     std::vector<Card> played_cards_;    // we store the values of the cards already played
     GameState state_;
+    static int player_count_;
 };
 
 #endif // GAME_H_

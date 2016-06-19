@@ -11,8 +11,8 @@ int GameController::onStartRound() {
     return game_->startRound();
 }
 
-void GameController::onShowDeck() {
-    game_->showDeck();
+Deck* GameController::onShowDeck() {
+    return game_->deck();
 }
 
 void GameController::onRageQuit() {
@@ -23,10 +23,10 @@ void GameController::onQuit() {
     game_->quit();
 }
 
-void GameController::onPlay(const std::string& card) {
-    game_->playCard(card);
+void GameController::onPlay(const Card& card) {
+    game_->play(card);
 }
 
-void GameController::onDiscard(const std::string& card) {
+void GameController::onDiscard(const Card& card) {
     game_->discard(card);
 }
