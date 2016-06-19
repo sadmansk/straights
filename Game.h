@@ -22,7 +22,7 @@ class Game : public Subject{
 public:
     Game();             // contructor
     ~Game();            // destructor
-    void startRound();  // called at the beginning of every round
+    int startRound();  // called at the beginning of every round
     void addPlayer(const char);   // adds a new player to the game
 
     // consts

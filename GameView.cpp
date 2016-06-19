@@ -14,8 +14,14 @@ GameView::~GameView() {
 void GameView::start() {
     // first we invite all the players
     invitePlayers();
+    
+    startRound();
+}
 
-    // then we run the game
+void GameView::startRound() {
+    int first_player = controller_->onStartRound();
+
+    std::cout << "A new round begins. It's player " << first_player << "'s turn to play." << std::endl;
 }
 
 void GameView::update() {

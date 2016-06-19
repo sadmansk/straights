@@ -13,6 +13,7 @@ public:
     GameView(GameController*, Game*);   // contructor
     virtual ~GameView();                // destructor
     virtual void start();               // start the view
+    virtual void startRound();          // start a new round
     virtual void update();              // Observer pattern: concrete update method
 
 private:

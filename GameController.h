@@ -9,6 +9,7 @@ public:
     GameController (Game*);         // contructor
     // adapter functions from view to model goes here
     void onPlayerAdded(const char); // adds the type of player specified
+    int onStartRound();             // starts the round and returns the first player
     void onShowDeck();
     void onQuit();
     void onRageQuit();
