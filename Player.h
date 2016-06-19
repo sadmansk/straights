@@ -17,10 +17,10 @@ public:
     int getScore();                                // gets current score of player
 protected:
     std::set <const Card*> hand_;                   // players hand
+    std::vector<const Card*> discard_;              // discarded cards
     int updateScore();                             // updates score at end of round, clears discard pile
 private:
     int score_;                                     // score of player
-    std::vector<const Card*> discard_;              // discarded cards
 };
 
 #endif // PLAYER_H_
