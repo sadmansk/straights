@@ -13,6 +13,7 @@ enum GameState {
     GAME_START,
     PLAYER_TURN,
     ROUND_ENDED,
+    GAME_OVER
 
     NUM_GAME_STATES
 };
@@ -20,16 +21,17 @@ enum GameState {
 // Model class
 class Game : public Subject{
 public:
-    Game();             // contructor
-    ~Game();            // destructor
-    int startRound();  // called at the beginning of every round
-    void addPlayer(const char);   // adds a new player to the game
+    Game();                         // contructor
+    ~Game();                        // destructor
+    int startRound();               // called at the beginning of every round
+    void addPlayer(const char);     // adds a new player to the game
+    GameState getState();           // accessor for the game state
 
     // consts
     const static int NUM_PLAYERS = 4;
     
 private:
-    typedef std::set< Player* > Players;
+    typedef std::array< Player*, NUM_PLAYERS > Players;
     Players players_;                   // list of the current players
     Player* current_player_;            // keep track of the current player
     Deck *deck_;                        // stores the main deck

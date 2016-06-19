@@ -14,9 +14,20 @@ GameView::~GameView() {
 void GameView::start() {
     // first we invite all the players
     invitePlayers();
-    
-    startRound();
+
+    // run the game
+    run();
 }
+
+void GameView::run() {
+    while (game_->getState() != GAME_OVER) {
+        startRound();
+        while (game_->getState() != ROUND_ENDED) {
+            // keep the round going
+        }
+    }
+}
+
 
 void GameView::startRound() {
     int first_player = controller_->onStartRound();
