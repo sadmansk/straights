@@ -40,7 +40,7 @@ void Game::addPlayer(const char type) {
 int Game::startRound() {
     deck_->shuffle(); // shuffle the deck at the beginning of the round
 
-    int first_player = 0;
+    current_player_ = 0;
     
     // after shuffling, we have to deal the cards to all the players
     int i = 0;
@@ -51,21 +51,25 @@ int Game::startRound() {
             (*iter)->addCard(cur_card);
             // check if the current card is the seven of spades
             if (cur_card->getSuit() == SPADE && cur_card->getRank() == SEVEN)
-                first_player = i+1;
+                current_player_ = i+1;
         }
         i++;
     }
-    return first_player;
+    return current_player_;
 }
 
 GameState Game::getState() {
     return state_;
 }
 
-void Game::play(const Card&) {
+void Game::play(const Card& card) {
+    state_ = players_[i]->playCard(card, played_cards_);
+    notify();
 }
 
 void Game::discard(const Card&) {
+    state_ = players_[i]->discardCard(card, played_cards_);
+    notify();
 }
 
 Deck* Game::deck() const {
@@ -73,6 +77,10 @@ Deck* Game::deck() const {
 }
 
 void Game::quit() {
+    state_ = GAME_QUIT;
+    notify();
+
+    delete this;
 }
 
 void Game::rageQuit() {
