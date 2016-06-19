@@ -18,7 +18,7 @@ int main (int argc, char* argv[]) {
     GameController controller(&game);
     GameView view(&controller, &game);
 
-    view->start();
+    view.start();
 
     return 0;
 }

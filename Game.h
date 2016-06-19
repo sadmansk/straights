@@ -4,6 +4,8 @@
 #include <set>
 #include <vector>
 #include "Subject.h"
+#include "Player.h"
+#include "Deck.h"
 
 // declare states of the game
 enum GameState {
@@ -16,22 +18,23 @@ enum GameState {
 };
 
 // Model class
-class Game : class Subject{
+class Game : public Subject{
 public:
     Game();             // contructor
     ~Game();            // destructor
     void startRound();  // called at the beginning of every round
+    void addPlayer(const char);   // adds a new player to the game
+
+    // consts
+    const static int NUM_PLAYERS = 4;
     
 private:
-    typedef std::set< Player* > players;
+    typedef std::set< Player* > Players;
     Players players_;                   // list of the current players
     Player* current_player_;            // keep track of the current player
     Deck *deck_;                        // stores the main deck
     std::vector<Card> played_cards_;    // we store the values of the cards already played
     GameState state_;
-
-    // consts
-    const static int NUM_PLAYERS = 4;
 };
 
 #endif // GAME_H_

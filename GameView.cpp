@@ -1,3 +1,5 @@
+#include <cassert>
+
 #include "GameView.h"
 
 // Contructor
@@ -13,19 +15,22 @@ void GameView::start() {
     // first we invite all the players
     invitePlayers();
 
+    // then we run the game
+}
+
+void GameView::update() {
 }
 
 void GameView::invitePlayers() {
-    for (unsigned int i = 0; i < NUM_PLAYERS; i++) {
+    for (unsigned int i = 0; i < Game::NUM_PLAYERS; i++) {
         std::cout << "Is player " << i+1 << " a human(h) or a computer(c)?\n>";
-        bool valid_type = false;
         char cmd;
         std::cin >> cmd;
         if (cmd == 'h') {
-            controller_->onPlayerAdded(/*human*/);
+            controller_->onPlayerAdded(cmd/*human*/);
         }
         else if (cmd == 'c') {
-            controller_->onPlayerAdded(/*computer*/);
+            controller_->onPlayerAdded(cmd/*computer*/);
         }
         else {
             assert(cmd); // TODO: gotta change how failure or invalidity is handled

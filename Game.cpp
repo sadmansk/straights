@@ -1,3 +1,5 @@
+#include <cassert>
+
 #include "Game.h"
 
 // constructor
@@ -16,11 +18,12 @@ Game::~Game() {
 }
 
 void Game::addPlayer(const char type) {
+    // TODO: fix contructor calls after adding Player class children
     if (type == 'h') {
-        players_.insert(new HumanPlayer());
+        players_.insert(new /*Human*/Player());
     }
     else if (type == 'c') {
-        players_.insert(new ComputerPlayer());
+        players_.insert(new /*Computer*/Player());
     }
     else {
         assert(type); // TODO: again, better type validation
@@ -33,12 +36,13 @@ void Game::startRound() {
     deck_->shuffle(); // shuffle the deck at the beginning of the round
     
     // after shuffling, we have to deal the cards to all the players
-    for (Players::iter iter = players_.begin(), unsigned int i = 0; iter != players_.end(); ++i, ++iter) {
+    int i = 0;
+    for (Players::iterator iter = players_.begin(); iter != players_.end(); ++iter) {
         // distribute the cards uniformly
         for (int j = 0; j < CARD_COUNT/NUM_PLAYERS; ++j) {
-            (*i)->addCard(deck_->getCardAt(j + (i*RANK_COUNT)));
+            (*iter)->addCard(deck_->getCardAt(j + (i*RANK_COUNT)));
         }
+        i++;
     }
-
 
 }
