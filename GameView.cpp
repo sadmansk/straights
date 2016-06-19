@@ -1,5 +1,6 @@
 #include <cassert>
 
+#include "Command.h"
 #include "GameView.h"
 
 // Contructor
@@ -14,9 +15,46 @@ GameView::~GameView() {
 void GameView::start() {
     // first we invite all the players
     invitePlayers();
-    
-    startRound();
+
+    // run the game
+    run();
 }
+
+void GameView::run() {
+    // game loop
+    while (game_->getState() != GAME_OVER) {
+        startRound();
+        while (game_->getState() != ROUND_ENDED) {
+            // keep the round going
+            // do action for the current state
+            Command instr;
+            // get a command if applicable
+            std::cin >> instr;
+
+            // act on that instruction
+            switch (instr.type) {
+            case PLAY:
+                controller_->onPlay(instr.card);
+                break;
+            case DISCARD:
+                controller_->onDiscard(instr.card);
+                break;
+            case DECK:
+                std::cout << controller_->onShowDeck() << std::endl;
+                break;
+            case QUIT:
+                controller_->onQuit();
+                break;
+            case RAGEQUIT:
+                controller_->onRageQuit();
+                break;
+            default:
+                break;
+            }
+        }
+    }
+}
+
 
 void GameView::startRound() {
     int first_player = controller_->onStartRound();
@@ -41,5 +79,8 @@ void GameView::invitePlayers() {
         else {
             assert(cmd); // TODO: gotta change how failure or invalidity is handled
         }
+
+        // update the view according to the game state
+        update();
     }
 }

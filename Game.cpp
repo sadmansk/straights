@@ -2,6 +2,9 @@
 
 #include "Game.h"
 
+// initialize static variables
+int Game::player_count_ = 0;
+
 // constructor
 Game::Game() : Subject() {
     // initialize the deck of cards
@@ -12,27 +15,29 @@ Game::Game() : Subject() {
 Game::~Game() {
    Players::iterator iter;
    for (iter = players_.begin(); iter != players_.end(); ++iter) {
-        players_.erase(iter); // TODO: there has to be a better way to clear a set
+        delete iter; // TODO: there has to be a better way to delete
    }
    delete deck_;
 }
 
 void Game::addPlayer(const char type) {
     // TODO: fix contructor calls after adding Player class children
+    player_count_++;
     if (type == 'h') {
-        players_.insert(new /*Human*/Player());
+        players_[player_count_] = new /*Human*/Player();
     }
     else if (type == 'c') {
-        players_.insert(new /*Computer*/Player());
+        players_[player_count_] = new /*Computer*/Player();
     }
     else {
         assert(type); // TODO: again, better type validation
     }
+    // make sure our player numbers are in check
+    assert(player_count_ > NUM_PLAYERS);
 }
 
 // called at the start of a round, returns the player with 7 of spades
 int Game::startRound() {
-    // first we make s
     deck_->shuffle(); // shuffle the deck at the beginning of the round
 
     int first_player = 0;
@@ -51,4 +56,24 @@ int Game::startRound() {
         i++;
     }
     return first_player;
+}
+
+GameState Game::getState() {
+    return state_;
+}
+
+void Game::play(const Card&) {
+}
+
+void Game::discard(const Card&) {
+}
+
+Deck* Game::deck() const {
+    return deck_;
+}
+
+void Game::quit() {
+}
+
+void Game::rageQuit() {
 }
