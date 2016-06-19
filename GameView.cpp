@@ -40,31 +40,38 @@ void GameView::run() {
 
                 std::cout << "Your hand: " << controller_->getHand() << std::endl;
                 std::cout << "Legal Plays: " << controller_->getLegalPlays() << std::endl;
+                while (state_ != NEXT_TURN) {
+                    if (state_ == ILLEGAL_PLAY) {
+                        std::cout << "This is not a legal play." << std::endl;
+                    }
+                    std::cout << ">";
+                    Command instr;
+                    // get a command if applicable
+                    std::cin >> instr;
 
-                Command instr;
-                // get a command if applicable
-                std::cin >> instr;
-
-                // act on that instruction
-                switch (instr.type) {
-                    case PLAY:
-                        controller_->onPlay(instr.card);
-                        break;
-                    case DISCARD:
-                        controller_->onDiscard(instr.card);
-                        break;
-                    case DECK:
-                        std::cout << controller_->onShowDeck() << std::endl;
-                        break;
-                    case QUIT:
-                        controller_->onQuit();
-                        break;
-                    case RAGEQUIT:
-                        controller_->onRageQuit();
-                        break;
-                    default:
-                        break;
+                    // act on that instruction
+                    switch (instr.type) {
+                        case PLAY:
+                            controller_->onPlay(instr.card);
+                            break;
+                        case DISCARD:
+                            controller_->onDiscard(instr.card);
+                            break;
+                        case DECK:
+                            std::cout << controller_->onShowDeck() << std::endl;
+                            break;
+                        case QUIT:
+                            controller_->onQuit();
+                            break;
+                        case RAGEQUIT:
+                            controller_->onRageQuit();
+                            break;
+                        default:
+                            break;
+                    }
                 }
+                // go to the next player
+                controller_->endTurn();
             }
         }
         // After each round ends:

@@ -11,6 +11,8 @@
 // declare states of the game
 enum GameState {
     GAME_START,
+    NEXT_TURN,
+    ILLEGAL_PLAY,
     HUMAN_PLAYER_TURN,
     COMPUTER_PLAYER_TURN,
     ROUND_ENDED,
@@ -32,6 +34,7 @@ public:
     void discard(const Card&);      // discard the given card of the current player
     void quit();                    // quit the game
     void rageQuit();                // rage quit the current player
+    void endTurn();                 // end turn of the current player
     std::string listClubs() const;  // list all the clubs on the table
     std::string listDiamonds() const;// list all diamonds on the table
     std::string listHearts() const; // list all hearts on the table

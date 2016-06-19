@@ -15,7 +15,7 @@ Game::Game() : Subject() {
 Game::~Game() {
    Players::iterator iter;
    for (iter = players_.begin(); iter != players_.end(); ++iter) {
-        delete iter; // TODO: there has to be a better way to delete
+        delete *iter;
    }
    delete deck_;
 }
@@ -62,8 +62,15 @@ GameState Game::getState() {
     return state_;
 }
 
+void Game;:endTurn() {
+    current_player_ = (current_player_+1)%4;
+    state_ = players_[current_player_]->getTurnState();
+    notify();
+}
+
 void Game::play(const Card& card) {
     state_ = players_[i]->playCard(card, played_cards_);
+
     notify();
 }
 
