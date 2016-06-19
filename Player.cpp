@@ -64,7 +64,7 @@ std::vector<const Card*> Player::legalMoves(const std::vector<const Card*> playe
 int Player::updateScore(){
     int increment = 0;
     for(unsigned int i = 0; i < discard_.size(); i++){
-        increment+= discard_[i]->getRank();
+        increment+= discard_[i]->getRank() + 1;
     }
     score_ += increment;
     discard_.clear();
