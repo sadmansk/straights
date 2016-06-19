@@ -18,7 +18,7 @@ Deck::~Deck(){
 }
 
 void Deck::shuffle() {
-    static std::random_device rng;
+    static std::mt19937 rng(rng_seed);
 
 	int n = CARD_COUNT;
 
