@@ -158,3 +158,28 @@ std::string Game::getDiscards(int player) const{
     }
     return ss.str();
 }
+
+std::string Game::listBySuit( const std::vector<const Card*> cards, Suit suit ) const {
+    std::stringstream ss;
+    for( unsigned int i = 0; i < cards.size(); i++){
+        if(cards[i]->getSuit() == suit){
+            ss << *cards[i];
+        }
+    }
+    return ss.str();
+}
+
+std::string Game::listClubs() const {  // list all the played clubs
+    return "Clubs:" + listBySuit(played_cards_, CLUB);
+}
+std::string Game::listDiamonds() const { // list all the played diamonds
+    return "Diamonds:" + listBySuit(played_cards_, DIAMOND);
+}
+
+std::string Game::listHearts() const { // list all the played hearts
+    return "Hearts:" + listBySuit(played_cards_, HEART);
+}
+
+std::string Game::listSpades() const { // list all the played spades
+    return "Hearts:" + listBySuit(played_cards_, SPADE);
+}

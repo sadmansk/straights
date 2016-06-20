@@ -57,6 +57,7 @@ private:
     Deck *deck_;                        // stores the main deck
     std::vector<const Card*> played_cards_;    // we store the values of the cards already played
     GameState state_;
+    std::string listBySuit(const std::vector<const Card*>, Suit) const;
     static int player_count_;
 };
 

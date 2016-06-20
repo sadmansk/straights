@@ -46,3 +46,18 @@ std::string GameController::getLegalPlays() const{
 std::string GameController::getDiscards(int player) const{
     return game_->getDiscards(player);
 }
+
+std::string GameController::listClubs() const {
+    return game_->listClubs();
+}
+std::string GameController::listDiamonds() const {
+    return game_->listDiamonds();
+}
+
+std::string GameController::listHearts() const {
+    return game_->listHearts();
+}
+
+std::string GameController::listSpades() const {
+    return game_->listSpades();
+}
