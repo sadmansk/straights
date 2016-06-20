@@ -1,4 +1,5 @@
 #include "Deck.h"
+#include <cassert>
 #include <random>
 
 // initialize static seed
@@ -32,6 +33,7 @@ void Deck::shuffle() {
 }
 
 Card* Deck::getCardAt(int pos) const {
+    assert(pos < CARD_COUNT);
     return cards_[pos];
 }
 

@@ -11,8 +11,8 @@
 class HumanPlayer: public Player{
 public:
     ComputerPlayer* rageQuit();
-    const std::set<const Card*> getHand() const;
-    const std::vector<const Card*> getMoves(const std::vector<const Card*>) const;
+    const std::set<Card*> getHand() const;
+    const std::vector<Card*> getMoves(const std::vector<Card*>) const;
     GameState getTurnState() const;
 };
 

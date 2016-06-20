@@ -22,31 +22,36 @@ bool checkLegality(const Card& first, const Card& second){
 
 Player::Player(){}
 
-void Player::addCard(const Card* card) {
+Player::~Player() {
+}
+
+void Player::addCard(Card* card) {
+    std::cout << *card;
     hand_.insert(card);
 }
 
-const Card* Player::find(int suit, int rank) const{
-    std::set<const Card*>::iterator card;
-    for(card = hand_.begin(); card != hand_.end(); ++card){
-        if((*card)->getSuit() == suit && (*card)->getRank() == rank){
-            return *card;
+Card* Player::find(const Card& card) const{
+    std::set<Card*>::iterator iter;
+    for(iter = hand_.begin(); iter != hand_.end(); ++iter){
+        if((*iter)->getSuit() == card.getSuit() && (*iter)->getRank() == card.getRank()){
+            return *iter;
         }
     }
 
     return nullptr;
 }
 
-std::vector<const Card*>  Player::getDiscards() const {
+std::vector<Card*>  Player::getDiscards() const {
     return discard_;
 }
 
-GameState Player::playCard(const Card& card, std::vector<const Card*>& played_cards){
-    std::vector<const Card*> legalPlays = legalMoves(played_cards);
+GameState Player::playCard(const Card& card, std::vector<Card*>& played_cards){
+    std::vector<Card*> legalPlays = legalMoves(played_cards);
     for(unsigned int i = 0; i < legalPlays.size(); i++){
+        Card* card_ptr = find(card);
         if(*legalPlays[i] == card){
-            hand_.erase(&card);
-            played_cards.push_back(&card);
+            hand_.erase(card_ptr);
+            played_cards.push_back(card_ptr);
             return GameState::NEXT_TURN;
         }
     }
@@ -54,20 +59,21 @@ GameState Player::playCard(const Card& card, std::vector<const Card*>& played_ca
     return GameState::ILLEGAL_PLAY;
 }
 
-GameState Player::discardCard(const Card& card, const std::vector<const Card*> played_cards){
+GameState Player::discardCard(const Card& card, const std::vector<Card*>& played_cards){
     if(legalMoves(played_cards).size() == 0){
         return GameState::ILLEGAL_PLAY;
     }
 
-    hand_.erase(&card);
-    discard_.push_back(&card);                                   // Same as play except add to discard pile
+    Card* card_ptr = find(card);
+    hand_.erase(card_ptr);
+    discard_.push_back(card_ptr);                                   // Same as play except add to discard pile
     return GameState::NEXT_TURN;
 }
 
-std::vector<const Card*> Player::legalMoves(const std::vector<const Card*> played_cards) const {
-    std::vector<const Card*> legalPlays;
+std::vector<Card*> Player::legalMoves(const std::vector<Card*>& played_cards) const {
+    std::vector<Card*> legalPlays;
 
-    std::set<const Card*>::iterator card;
+    std::set<Card*>::iterator card;
     for(card = hand_.begin(); card != hand_.end(); ++card){
         for(unsigned int j = 0; j < played_cards.size(); j++){
             legalPlays.push_back(*card);

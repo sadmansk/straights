@@ -1,15 +1,16 @@
 #include "HumanPlayer.h"
+#include "Game.h"
 #include <sstream>
 
 ComputerPlayer* HumanPlayer::rageQuit(){
     return (ComputerPlayer*)(this);
 }
 
-const std::set<const Card *> HumanPlayer::getHand() const{
+const std::set<Card *> HumanPlayer::getHand() const{
     return hand_;
 }
 
-const std::vector<const Card *> HumanPlayer::getMoves(const std::vector<const Card*> played_cards) const{
+const std::vector<Card *> HumanPlayer::getMoves(const std::vector<Card*> played_cards) const{
     return legalMoves(played_cards);
 }
 
@@ -39,5 +40,5 @@ const std::vector<const Card *> HumanPlayer::getMoves(const std::vector<const Ca
 // }
 
 GameState HumanPlayer::getTurnState() const {
-    //return HUMAN_PLAYER_TURN;
+    return GameState::HUMAN_PLAYER_TURN;
 }

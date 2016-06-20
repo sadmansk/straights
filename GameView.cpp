@@ -104,16 +104,13 @@ void GameView::invitePlayers() {
         char cmd;
         std::cin >> cmd;
         if (cmd == 'h') {
-            controller_->onPlayerAdded(cmd/*human*/);
+            controller_->onPlayerAdded(cmd);
         }
         else if (cmd == 'c') {
-            controller_->onPlayerAdded(cmd/*computer*/);
+            controller_->onPlayerAdded(cmd);
         }
         else {
             assert(cmd); // TODO: gotta change how failure or invalidity is handled
         }
-
-        // update the view according to the game state
-        update();
     }
 }

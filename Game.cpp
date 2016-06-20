@@ -1,4 +1,5 @@
 #include <cassert>
+#include <iostream>
 
 #include "Game.h"
 #include "Player.h"
@@ -14,6 +15,7 @@ Game::Game() : Subject() {
     // initialize the deck of cards
     deck_ = new Deck();
     state_ = GameState::GAME_START;
+    notify();
 }
 
 Game::~Game() {
@@ -50,7 +52,7 @@ int Game::startRound() {
     for (Players::iterator iter = players_.begin(); iter != players_.end(); ++iter) {
         // distribute the cards uniformly
         for (int j = 0; j < CARD_COUNT/NUM_PLAYERS; ++j) {
-            const Card* cur_card = deck_->getCardAt((j + (i* RANK_COUNT)));
+            Card* cur_card = deck_->getCardAt((j + (i* Rank::RANK_COUNT)));
             (*iter)->addCard(cur_card);
             // check if the current card is the seven of spades
             if (cur_card->getSuit() == SPADE && cur_card->getRank() == SEVEN)
@@ -116,7 +118,7 @@ void Game::rageQuit() {
 }
 
 std::string Game::aiTurn() {
-    std::pair<const Card*, std::string>  play = ((ComputerPlayer*) players_[current_player_]) -> autoPlay(played_cards_);
+    std::pair<Card*, std::string>  play = ((ComputerPlayer*) players_[current_player_]) -> autoPlay(played_cards_);
     std::stringstream ss;
     ss << "Player " << current_player_ << " " << play.first << " " << play.second;
     notify();
@@ -124,11 +126,11 @@ std::string Game::aiTurn() {
 }
 
 std::string Game::getHand() const{
-    std::set<const Card*> hand = ((HumanPlayer*) players_[current_player_])->getHand();
+    std::set<Card*> hand = ((HumanPlayer*) players_[current_player_])->getHand();
     std::stringstream ss;
     ss << "Your Hand:";
 
-    std::set<const Card*>::iterator card;
+    std::set<Card*>::iterator card;
     for(card = hand.begin(); card != hand.end(); ++card){
        ss << " " << **card;
     }
@@ -140,7 +142,7 @@ std::string Game::getLegalPlays() const{
     std::stringstream ss;
     ss << "Legal Plays:";
 
-    const std::vector<const Card*> legalPlays = ((HumanPlayer*) players_[current_player_])->getMoves(played_cards_);
+    const std::vector<Card*> legalPlays = ((HumanPlayer*) players_[current_player_])->getMoves(played_cards_);
 
     for(unsigned int i = 0; i < legalPlays.size(); i++){
         ss << " " << *legalPlays[i];
@@ -152,14 +154,14 @@ std::string Game::getLegalPlays() const{
 std::string Game::getDiscards(int player) const{
     std::stringstream ss;
     ss << "Player " << player << "\'s discards:";
-    const std::vector<const Card*> discards = players_[player]->getDiscards();
+    const std::vector<Card*> discards = players_[player]->getDiscards();
     for( unsigned int i = 0; i<discards.size(); i++){
         ss << " " << *discards[i];
     }
     return ss.str();
 }
 
-std::string Game::listBySuit( const std::vector<const Card*> cards, Suit suit ) const {
+std::string Game::listBySuit( const std::vector<Card*> cards, Suit suit ) const {
     std::stringstream ss;
     for( unsigned int i = 0; i < cards.size(); i++){
         if(cards[i]->getSuit() == suit){
