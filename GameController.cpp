@@ -47,6 +47,10 @@ std::string GameController::getDiscards(int player) const{
     return game_->getDiscards(player);
 }
 
+std::string GameController::updateScore(int player) {
+    return game_->updateScore(player);
+}
+
 std::string GameController::listClubs() const {
     return game_->listClubs();
 }
@@ -60,4 +64,8 @@ std::string GameController::listHearts() const {
 
 std::string GameController::listSpades() const {
     return game_->listSpades();
+}
+
+void GameController::endTurn() {
+    game_->endTurn();
 }

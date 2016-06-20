@@ -37,7 +37,7 @@ void Game::addPlayer(const char type) {
         assert(type); // TODO: again, better type validation
     }
     // make sure our player numbers are in check
-    assert(player_count_ < NUM_PLAYERS);
+    assert(player_count_ <= NUM_PLAYERS);
 }
 
 // called at the start of a round, returns the player with 7 of spades
@@ -182,4 +182,12 @@ std::string Game::listHearts() const { // list all the played hearts
 
 std::string Game::listSpades() const { // list all the played spades
     return "Hearts:" + listBySuit(played_cards_, SPADE);
+}
+
+std::string Game::updateScore(int player) {
+    std::stringstream ss;
+    int oldScore = players_[player]->getScore();
+    players_[player]->endRound();
+    int newScore = players_[player]->getScore();
+    ss << oldScore << " + " << (newScore - oldScore) << " = " << newScore;
 }

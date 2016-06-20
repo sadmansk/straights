@@ -30,6 +30,7 @@ void GameView::run() {
         while (state_ != GameState::ROUND_ENDED) {
             if (state_ == GameState::COMPUTER_PLAYER_TURN) {
                 controller_->onAITurn();
+                controller_->endTurn();
             }
             else if (state_ == GameState::HUMAN_PLAYER_TURN) {
                 // do action for the current state
@@ -78,8 +79,7 @@ void GameView::run() {
         // After each round ends:
         for (int i = 0; i < Game::NUM_PLAYERS; i++) {
             std::cout << "Player " << i + 1 << "'s discards: " << controller_->getDiscards(i) << std::endl;
-            // TODO: I'll let you handle the scores here
-            //std::cout << "Player " << i + 1 << "'s score: " << controller_->getDiscards(i) << std::endl;
+            std::cout << "Player " << i + 1 << "'s score: " << controller_->updateScore(i) << std::endl;
         }
     }
     if (state_ == GameState::GAME_OVER) {
