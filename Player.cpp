@@ -37,6 +37,9 @@ const Card* Player::find(int suit, int rank) const{
     return nullptr;
 }
 
+std::vector<const Card*>  Player::getDiscards() const {
+    return discard_;
+}
 
 GameState Player::playCard(const Card& card, std::vector<const Card*>& played_cards){
     std::vector<const Card*> legalPlays = legalMoves(played_cards);

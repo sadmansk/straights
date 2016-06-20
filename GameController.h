@@ -15,13 +15,13 @@ public:
     Deck* onShowDeck();              // shows the deck
     void onQuit();
     void onRageQuit();
-    void onPlay(const Card&);
-    void onDiscard(const Card&);
+    std::string onPlay(const Card&);
+    std::string onDiscard(const Card&);
     std::string listClubs() const;  // list all the played clubs
     std::string listDiamonds() const;// list all the played diamonds
     std::string listHearts() const; // list all the played hearts
     std::string listSpades() const; // list all the played spades
-    void onAITurn();                // computer player's turn
+    std::string onAITurn();                // computer player's turn
     std::string getHand() const;    // returns the hand of the current player
     std::string getLegalPlays() const;//returns the legal plays of the current player
     void endTurn();                 // end turn of the current player

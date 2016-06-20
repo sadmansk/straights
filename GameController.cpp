@@ -23,10 +23,26 @@ void GameController::onQuit() {
     game_->quit();
 }
 
-void GameController::onPlay(const Card& card) {
-    game_->play(card);
+std::string GameController::onPlay(const Card& card) {
+    return game_->play(card);
 }
 
-void GameController::onDiscard(const Card& card) {
-    game_->discard(card);
+std::string GameController::onDiscard(const Card& card) {
+    return game_->discard(card);
+}
+
+std::string GameController::onAITurn(){
+    return game_->aiTurn();
+}
+
+std::string GameController::getHand() const{
+    return game_->getHand();
+}
+
+std::string GameController::getLegalPlays() const{
+    return game_->getLegalPlays();
+}
+
+std::string GameController::getDiscards(int player) const{
+    return game_->getDiscards(player);
 }

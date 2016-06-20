@@ -5,8 +5,6 @@
 #include <vector>
 #include <ostream>
 #include "Subject.h"
-#include "HumanPlayer.h"
-#include "ComputerPlayer.h"
 #include "Deck.h"
 
 // declare states of the game
@@ -34,15 +32,18 @@ public:
     void addPlayer(const char);     // adds a new player to the game
     GameState getState();           // accessor for the game state
     Deck* deck() const;             // accessor for the deck
-    void play(const Card&);         // play the given card of the current player
-    void discard(const Card&);      // discard the given card of the current player
+    std::string play(const Card&);         // play the given card of the current player
+    std::string discard(const Card&);      // discard the given card of the current player
     void quit();                    // quit the game
     void rageQuit();                // rage quit the current player
     void endTurn();                 // end turn of the current player
+    int winner() const;             // declares winner
+    std::string aiTurn();     // ai play
     std::string listClubs() const;  // list all the clubs on the table
     std::string listDiamonds() const;// list all diamonds on the table
     std::string listHearts() const; // list all hearts on the table
     std::string listSpades() const; // list all the spades on the table
+    std::string getDiscards(int) const; //gets all the discarded cards of a player
     std::string getHand() const;    // show the hand of the current player
     std::string getLegalPlays() const;//show the legal plays of the current player
 

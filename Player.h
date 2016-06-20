@@ -18,6 +18,7 @@ public:
     const Card* find(int suit, int rank) const;     // find a pointer to a card given a suit and rank
     int endRound();                                // ends the round
     int getScore();                                // gets current score of player
+    std::vector<const Card*>  getDiscards() const;        // return the discarded cards
     virtual GameState getTurnState() const = 0;           // returns the turn state type
 protected:
     std::set <const Card*> hand_;                   // players hand

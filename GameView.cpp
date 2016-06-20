@@ -6,6 +6,7 @@
 // Contructor
 GameView::GameView(GameController* controller, Game* game) : Observer(), game_(game), controller_(controller) {
     game_->subscribe(this);
+}
 
 // Destructor
 GameView::~GameView() {
@@ -24,7 +25,7 @@ void GameView::start() {
 
 void GameView::run() {
     // game loop
-    while (state_ != GameState::GAME_OVER || state != GameState::GAME_QUIT) {
+    while (state_ != GameState::GAME_OVER || state_ != GameState::GAME_QUIT) {
         startRound();
         while (state_ != GameState::ROUND_ENDED) {
             if (state_ == GameState::COMPUTER_PLAYER_TURN) {
