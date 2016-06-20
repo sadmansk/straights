@@ -26,12 +26,27 @@ void Player::addCard(const Card* card) {
     hand_.insert(card);
 }
 
+const Card* Player::find(int suit, int rank) const{
+    std::set<const Card*>::iterator card;
+    for(card = hand_.begin(); card != hand_.end(); ++card){
+        if((*card)->getSuit() == suit && (*card)->getRank() == rank){
+            return *card;
+        }
+    }
+
+    return nullptr;
+}
+
+std::vector<const Card*>  Player::getDiscards() const {
+    return discard_;
+}
+
 GameState Player::playCard(const Card& card, std::vector<const Card*>& played_cards){
     std::vector<const Card*> legalPlays = legalMoves(played_cards);
     for(unsigned int i = 0; i < legalPlays.size(); i++){
-        if(legalPlays[i] == card){
-            hand_.erase(card);
-            played_cards.push_back(card);
+        if(*legalPlays[i] == card){
+            hand_.erase(&card);
+            played_cards.push_back(&card);
             return GameState::NEXT_TURN;
         }
     }
@@ -44,8 +59,8 @@ GameState Player::discardCard(const Card& card, const std::vector<const Card*> p
         return GameState::ILLEGAL_PLAY;
     }
 
-    hand_.erase(card);
-    discard_.push_back(card);                                   // Same as play except add to discard pile
+    hand_.erase(&card);
+    discard_.push_back(&card);                                   // Same as play except add to discard pile
     return GameState::NEXT_TURN;
 }
 

@@ -10,9 +10,9 @@
 
 class HumanPlayer: public Player{
 public:
-    ComputerPlayer* ragequit();
-    std::string printHand() const;
-    std::string printMoves(const std::vector<const Card*>) const;
+    ComputerPlayer* rageQuit();
+    const std::set<const Card*> getHand() const;
+    const std::vector<const Card*> getMoves(const std::vector<const Card*>) const;
     GameState getTurnState() const;
 };
 
