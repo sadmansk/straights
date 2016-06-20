@@ -5,21 +5,25 @@
 #include <vector>
 #include <ostream>
 #include "Subject.h"
-#include "Player.h"
-#include "ComputerPlayer.h"
 #include "HumanPlayer.h"
+#include "ComputerPlayer.h"
 #include "Deck.h"
 
 // declare states of the game
-enum GameState {
-    MAIN_MENU,
+enum class GameState: unsigned int {
     GAME_START,
-    PLAYER_TURN,
+    NEXT_TURN,
+    ILLEGAL_PLAY,
+    HUMAN_PLAYER_TURN,
+    COMPUTER_PLAYER_TURN,
     ROUND_ENDED,
     GAME_OVER,
+    GAME_QUIT,
 
     NUM_GAME_STATES
 };
+
+class Player;
 
 // Model class
 class Game : public Subject{
@@ -34,6 +38,13 @@ public:
     void discard(const Card&);      // discard the given card of the current player
     void quit();                    // quit the game
     void rageQuit();                // rage quit the current player
+    void endTurn();                 // end turn of the current player
+    std::string listClubs() const;  // list all the clubs on the table
+    std::string listDiamonds() const;// list all diamonds on the table
+    std::string listHearts() const; // list all hearts on the table
+    std::string listSpades() const; // list all the spades on the table
+    std::string getHand() const;    // show the hand of the current player
+    std::string getLegalPlays() const;//show the legal plays of the current player
 
     // consts
     const static int NUM_PLAYERS = 4;
@@ -41,9 +52,9 @@ public:
 private:
     typedef std::array< Player*, NUM_PLAYERS > Players;
     Players players_;                   // list of the current players
-    Player* current_player_;            // keep track of the current player
+    unsigned int current_player_;       // keep track of the current player
     Deck *deck_;                        // stores the main deck
-    std::vector<Card> played_cards_;    // we store the values of the cards already played
+    std::vector<const Card*> played_cards_;    // we store the values of the cards already played
     GameState state_;
     static int player_count_;
 };

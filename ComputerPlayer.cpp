@@ -12,3 +12,7 @@ std::pair<const Card*, std::string> ComputerPlayer::autoPlay(std::vector<const C
     playCard( *hand_.begin(), played_cards );
     return {played, "played"};
 }
+
+GameState ComputerPlayer::getTurnState() const {
+    return COMPUTER_PLAYER_TURN;
+}

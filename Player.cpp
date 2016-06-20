@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Game.h"
 #include <iostream>
 #include <cassert>
 
@@ -28,34 +29,36 @@ void Player::addCard(const Card* card) {
 const Card* Player::find(int suit, int rank) const{
     std::set<const Card*>::iterator card;
     for(card = hand_.begin(); card != hand_.end(); ++card){
-        if((*card)->getSuit() == suit, (*card)->getRank() == rank){
+        if((*card)->getSuit() == suit && (*card)->getRank() == rank){
             return *card;
         }
     }
-    
+
     return nullptr;
 }
 
-void Player::playCard(const Card* card, std::vector<const Card*> played_cards){
+
+GameState Player::playCard(const Card& card, std::vector<const Card*>& played_cards){
     std::vector<const Card*> legalPlays = legalMoves(played_cards);
     for(unsigned int i = 0; i < legalPlays.size(); i++){
-        if(legalPlays[i] == card){
-            hand_.erase(card);
-            played_cards.push_back(card);
-            return;
+        if(*legalPlays[i] == card){
+            hand_.erase(&card);
+            played_cards.push_back(&card);
+            return GameState::NEXT_TURN;
         }
     }
 
-    throw "This is not a legal play.";
+    return GameState::ILLEGAL_PLAY;
 }
 
-void Player::discardCard(const Card* card, const std::vector<const Card*> played_cards){
+GameState Player::discardCard(const Card& card, const std::vector<const Card*> played_cards){
     if(legalMoves(played_cards).size() == 0){
-        throw "You have a legal play. You may not discard.";
+        return GameState::ILLEGAL_PLAY;
     }
 
-    hand_.erase(card);
-    discard_.push_back(card);                                   // Same as play except add to discard pile
+    hand_.erase(&card);
+    discard_.push_back(&card);                                   // Same as play except add to discard pile
+    return GameState::NEXT_TURN;
 }
 
 std::vector<const Card*> Player::legalMoves(const std::vector<const Card*> played_cards) const {

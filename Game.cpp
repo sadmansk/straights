@@ -1,6 +1,7 @@
 #include <cassert>
 
 #include "Game.h"
+#include "Player.h"
 
 // initialize static variables
 int Game::player_count_ = 0;
@@ -9,13 +10,13 @@ int Game::player_count_ = 0;
 Game::Game() : Subject() {
     // initialize the deck of cards
     deck_ = new Deck();
-    state_ = GAME_START;
+    state_ = GameState::GAME_START;
 }
 
 Game::~Game() {
    Players::iterator iter;
    for (iter = players_.begin(); iter != players_.end(); ++iter) {
-        delete iter; // TODO: there has to be a better way to delete
+        delete *iter;
    }
    delete deck_;
 }
@@ -24,10 +25,10 @@ void Game::addPlayer(const char type) {
     // TODO: fix contructor calls after adding Player class children
     player_count_++;
     if (type == 'h') {
-        players_[player_count_] = new /*Human*/Player();
+        players_[player_count_] = new HumanPlayer();
     }
     else if (type == 'c') {
-        players_[player_count_] = new /*Computer*/Player();
+        players_[player_count_] = new ComputerPlayer();
     }
     else {
         assert(type); // TODO: again, better type validation
@@ -40,9 +41,8 @@ void Game::addPlayer(const char type) {
 int Game::startRound() {
     deck_->shuffle(); // shuffle the deck at the beginning of the round
 
-    int first_player = 0;
-
-    // after shuffling, we have to deal the cards to all the players
+    current_player_ = 0;
+        // after shuffling, we have to deal the cards to all the players
     int i = 0;
     for (Players::iterator iter = players_.begin(); iter != players_.end(); ++iter) {
         // distribute the cards uniformly
@@ -51,21 +51,32 @@ int Game::startRound() {
             (*iter)->addCard(cur_card);
             // check if the current card is the seven of spades
             if (cur_card->getSuit() == SPADE && cur_card->getRank() == SEVEN)
-                first_player = i+1;
+                current_player_ = i+1;
         }
         i++;
     }
-    return first_player;
+    return current_player_;
 }
 
 GameState Game::getState() {
     return state_;
 }
 
-void Game::play(const Card&) {
+void Game::endTurn() {
+    current_player_ = (current_player_+1)%4;
+    state_ = players_[current_player_]->getTurnState();
+    notify();
 }
 
-void Game::discard(const Card&) {
+void Game::play(const Card& card) {
+    state_ = players_[current_player_]->playCard(card, played_cards_);
+
+    notify();
+}
+
+void Game::discard(const Card& card) {
+    state_ = players_[current_player_]->discardCard(card, played_cards_);
+    notify();
 }
 
 Deck* Game::deck() const {
@@ -73,8 +84,12 @@ Deck* Game::deck() const {
 }
 
 void Game::quit() {
+    state_ = GameState::GAME_QUIT;
+    notify();
+
+    delete this;
 }
 
 void Game::rageQuit() {
-    current_player_ = ((HumanPlayer*) current_player_)->rageQuit();
+    players_[current_player_] = ((HumanPlayer*) current_player_)->rageQuit();
 }
