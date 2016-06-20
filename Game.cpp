@@ -45,9 +45,9 @@ void Game::addPlayer(const char type) {
 // called at the start of a round, returns the player with 7 of spades
 int Game::startRound() {
     deck_->shuffle(); // shuffle the deck at the beginning of the round
-
+    std::cout << *deck_ << std::endl;
     current_player_ = 0;
-        // after shuffling, we have to deal the cards to all the players
+    // after shuffling, we have to deal the cards to all the players
     int i = 0;
     for (Players::iterator iter = players_.begin(); iter != players_.end(); ++iter) {
         // distribute the cards uniformly
@@ -68,13 +68,13 @@ GameState Game::getState() {
 }
 
 void Game::endTurn() {
-    current_player_ = (current_player_+1)%4;
-    state_ = players_[current_player_]->getTurnState();
+    current_player_ = (current_player_)%4 + 1;
+    state_ = players_[current_player_-1]->getTurnState();
     notify();
 }
 
 std::string Game::play(const Card& card) {
-    state_ = players_[current_player_]->playCard(card, played_cards_);
+    state_ = players_[current_player_-1]->playCard(card, played_cards_);
     std::stringstream ss;
     ss << "Player " << current_player_ << " plays " << card;
     notify();
@@ -95,7 +95,7 @@ int Game::winner() const{
 }
 
 std::string Game::discard(const Card& card) {
-    state_ = players_[current_player_]->discardCard(card, played_cards_);
+    state_ = players_[current_player_-1]->discardCard(card, played_cards_);
     std::stringstream ss;
     ss << "Player " << current_player_ << " discards " << card;
     notify();
@@ -114,11 +114,11 @@ void Game::quit() {
 }
 
 void Game::rageQuit() {
-    players_[current_player_] = ((HumanPlayer*) players_[current_player_])->rageQuit();
+    players_[current_player_-1] = ((HumanPlayer*) players_[current_player_-1])->rageQuit();
 }
 
 std::string Game::aiTurn() {
-    std::pair<Card*, std::string>  play = ((ComputerPlayer*) players_[current_player_]) -> autoPlay(played_cards_);
+    std::pair<Card*, std::string>  play = ((ComputerPlayer*) players_[current_player_-1]) -> autoPlay(played_cards_);
     std::stringstream ss;
     ss << "Player " << current_player_ << " " << play.first << " " << play.second;
     notify();
@@ -126,7 +126,7 @@ std::string Game::aiTurn() {
 }
 
 std::string Game::getHand() const{
-    std::set<Card*> hand = ((HumanPlayer*) players_[current_player_])->getHand();
+    std::set<Card*> hand = ((HumanPlayer*) players_[current_player_-1])->getHand();
     std::stringstream ss;
     ss << "Your Hand:";
 
@@ -142,7 +142,7 @@ std::string Game::getLegalPlays() const{
     std::stringstream ss;
     ss << "Legal Plays:";
 
-    const std::vector<Card*> legalPlays = ((HumanPlayer*) players_[current_player_])->getMoves(played_cards_);
+    const std::vector<Card*> legalPlays = ((HumanPlayer*) players_[current_player_-1])->getMoves(played_cards_);
 
     for(unsigned int i = 0; i < legalPlays.size(); i++){
         ss << " " << *legalPlays[i];
@@ -192,4 +192,5 @@ std::string Game::updateScore(int player) {
     players_[player]->endRound();
     int newScore = players_[player]->getScore();
     ss << oldScore << " + " << (newScore - oldScore) << " = " << newScore;
+    return ss.str();
 }

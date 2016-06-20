@@ -20,13 +20,14 @@ bool checkLegality(const Card& first, const Card& second){
     return false;
 }
 
-Player::Player(){}
+Player::Player(){
+}
 
 Player::~Player() {
+    hand_.clear();
 }
 
 void Player::addCard(Card* card) {
-    std::cout << *card;
     hand_.insert(card);
 }
 

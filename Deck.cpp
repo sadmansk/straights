@@ -39,7 +39,7 @@ Card* Deck::getCardAt(int pos) const {
 
 std::ostream &operator<<(std::ostream& os, const Deck& d) {
     for (int i = 0; i < CARD_COUNT; i++) {
-        os << d.getCardAt(i) << " ";
+        os << *d.getCardAt(i) << " ";
         if (i % 13 == 12) os << std::endl;
     }
 
