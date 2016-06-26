@@ -28,14 +28,15 @@ Player::~Player() {
 }
 
 void Player::addCard(Card* card) {
-    hand_.insert(card);
+    hand_.push_back(card);
 }
 
-Card* Player::find(const Card& card) const{
-    std::set<Card*>::iterator iter;
-    for(iter = hand_.begin(); iter != hand_.end(); ++iter){
-        if((*iter)->getSuit() == card.getSuit() && (*iter)->getRank() == card.getRank()){
-            return *iter;
+Card* Player::removeFromHand(const Card& card) {
+    for(std::vector<Card*>::iterator iter = hand_.begin(); iter != hand_.end(); ++iter){
+        if(*(*iter) == card){
+            Card* card = *iter;
+            hand_.erase(iter);
+            return card;
         }
     }
 
@@ -49,9 +50,8 @@ std::vector<Card*>  Player::getDiscards() const {
 GameState Player::playCard(const Card& card, std::vector<Card*>& played_cards){
     std::vector<Card*> legalPlays = legalMoves(played_cards);
     for(unsigned int i = 0; i < legalPlays.size(); i++){
-        Card* card_ptr = find(card);
         if(*legalPlays[i] == card){
-            hand_.erase(card_ptr);
+            Card* card_ptr = removeFromHand(card);
             played_cards.push_back(card_ptr);
             return GameState::NEXT_TURN;
         }
@@ -65,8 +65,7 @@ GameState Player::discardCard(const Card& card, const std::vector<Card*>& played
         return GameState::ILLEGAL_PLAY;
     }
 
-    Card* card_ptr = find(card);
-    hand_.erase(card_ptr);
+    Card* card_ptr = removeFromHand(card);
     discard_.push_back(card_ptr);                                   // Same as play except add to discard pile
     return GameState::NEXT_TURN;
 }
@@ -74,7 +73,7 @@ GameState Player::discardCard(const Card& card, const std::vector<Card*>& played
 std::vector<Card*> Player::legalMoves(const std::vector<Card*>& played_cards) const {
     std::vector<Card*> legalPlays;
 
-    std::set<Card*>::iterator card;
+    std::vector<Card*>::const_iterator card;
     for(card = hand_.begin(); card != hand_.end(); ++card){
         for(unsigned int j = 0; j < played_cards.size(); j++){
             legalPlays.push_back(*card);

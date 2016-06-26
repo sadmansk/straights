@@ -6,7 +6,7 @@ ComputerPlayer* HumanPlayer::rageQuit(){
     return (ComputerPlayer*)(this);
 }
 
-const std::set<Card *> HumanPlayer::getHand() const{
+const std::vector<Card *> HumanPlayer::getHand() const{
     return hand_;
 }
 

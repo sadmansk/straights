@@ -7,15 +7,12 @@
 #include <vector>
 #include <string>
 
-
 class HumanPlayer: public Player{
 public:
     ComputerPlayer* rageQuit();
-    const std::set<Card*> getHand() const;
+    const std::vector<Card*> getHand() const;
     const std::vector<Card*> getMoves(const std::vector<Card*>) const;
     GameState getTurnState() const;
 };
-
-
 
 #endif // HUMANPLAYER_H_

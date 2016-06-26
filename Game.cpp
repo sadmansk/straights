@@ -46,8 +46,8 @@ void Game::addPlayer(const char type) {
 // called at the start of a round, returns the player with 7 of spades
 int Game::startRound() {
     deck_->shuffle(); // shuffle the deck at the beginning of the round
-    std::cout << *deck_ << std::endl;
     current_player_ = 0;
+    std::cout << *deck_ << std::endl;
     // after shuffling, we have to deal the cards to all the players
     int i = 0;
     for (Players::iterator iter = players_.begin(); iter != players_.end(); ++iter) {
@@ -61,6 +61,7 @@ int Game::startRound() {
         }
         i++;
     }
+    state_ = players_[current_player_ - 1]->getTurnState();
     return current_player_;
 }
 
@@ -127,11 +128,10 @@ std::string Game::aiTurn() {
 }
 
 std::string Game::getHand() const{
-    std::set<Card*> hand = ((HumanPlayer*) players_[current_player_-1])->getHand();
+    std::vector<Card*> hand = ((HumanPlayer*) players_[current_player_-1])->getHand();
     std::stringstream ss;
-    ss << "Your Hand:";
 
-    std::set<Card*>::iterator card;
+    std::vector<Card*>::iterator card;
     for(card = hand.begin(); card != hand.end(); ++card){
        ss << " " << **card;
     }
@@ -141,7 +141,6 @@ std::string Game::getHand() const{
 
 std::string Game::getLegalPlays() const{
     std::stringstream ss;
-    ss << "Legal Plays:";
 
     const std::vector<Card*> legalPlays = ((HumanPlayer*) players_[current_player_-1])->getMoves(played_cards_);
 
@@ -173,18 +172,18 @@ std::string Game::listBySuit( const std::vector<Card*> cards, Suit suit ) const 
 }
 
 std::string Game::listClubs() const {  // list all the played clubs
-    return "Clubs:" + listBySuit(played_cards_, CLUB);
+    return listBySuit(played_cards_, CLUB);
 }
 std::string Game::listDiamonds() const { // list all the played diamonds
-    return "Diamonds:" + listBySuit(played_cards_, DIAMOND);
+    return listBySuit(played_cards_, DIAMOND);
 }
 
 std::string Game::listHearts() const { // list all the played hearts
-    return "Hearts:" + listBySuit(played_cards_, HEART);
+    return listBySuit(played_cards_, HEART);
 }
 
 std::string Game::listSpades() const { // list all the played spades
-    return "Hearts:" + listBySuit(played_cards_, SPADE);
+    return listBySuit(played_cards_, SPADE);
 }
 
 std::string Game::updateScore(int player) {

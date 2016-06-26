@@ -27,6 +27,7 @@ void GameView::run() {
     // game loop
     while (state_ != GameState::GAME_OVER || state_ != GameState::GAME_QUIT) {
         startRound();
+        update();
         while (state_ != GameState::ROUND_ENDED) {
             if (state_ == GameState::COMPUTER_PLAYER_TURN) {
                 controller_->onAITurn();
