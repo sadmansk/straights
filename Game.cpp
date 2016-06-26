@@ -122,8 +122,7 @@ void Game::rageQuit() {
 std::string Game::aiTurn() {
     std::pair<Card*, std::string>  play = ((ComputerPlayer*) players_[current_player_-1]) -> autoPlay(played_cards_);
     std::stringstream ss;
-    ss << "Player " << current_player_ << " " << play.first << " " << play.second;
-    notify();
+    ss << "Player " << current_player_ << " " << play.second << " " << *play.first << ".";
     return ss.str();
 }
 
@@ -142,7 +141,7 @@ std::string Game::getHand() const{
 std::string Game::getLegalPlays() const{
     std::stringstream ss;
 
-    const std::vector<Card*> legalPlays = ((HumanPlayer*) players_[current_player_-1])->getMoves(played_cards_);
+    std::vector<Card*> legalPlays = players_[current_player_-1]->legalMoves(played_cards_);
 
     for(unsigned int i = 0; i < legalPlays.size(); i++){
         ss << " " << *legalPlays[i];

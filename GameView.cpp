@@ -30,7 +30,7 @@ void GameView::run() {
         update();
         while (state_ != GameState::ROUND_ENDED) {
             if (state_ == GameState::COMPUTER_PLAYER_TURN) {
-                controller_->onAITurn();
+                std::cout << controller_->onAITurn() << std::endl;
                 controller_->endTurn();
             }
             else if (state_ == GameState::HUMAN_PLAYER_TURN) {
@@ -61,7 +61,7 @@ void GameView::run() {
                             controller_->onDiscard(instr.card);
                             break;
                         case DECK:
-                            std::cout << controller_->onShowDeck() << std::endl;
+                            std::cout << *controller_->onShowDeck() << std::endl;
                             break;
                         case QUIT:
                             controller_->onQuit();
