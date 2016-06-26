@@ -28,7 +28,6 @@ Game::~Game() {
 
 void Game::addPlayer(const char type) {
     // TODO: fix contructor calls after adding Player class children
-    player_count_++;
     if (type == 'h') {
         players_[player_count_] = new HumanPlayer();
     }
@@ -38,6 +37,8 @@ void Game::addPlayer(const char type) {
     else {
         assert(type); // TODO: again, better type validation
     }
+    player_count_++;
+
     // make sure our player numbers are in check
     assert(player_count_ <= NUM_PLAYERS);
 }
