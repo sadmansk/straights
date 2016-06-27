@@ -1,5 +1,4 @@
 #include <cassert>
-#include <iostream>
 
 #include "Game.h"
 #include "Player.h"
@@ -46,7 +45,6 @@ void Game::addPlayer(const char type) {
 int Game::startRound() {
     deck_->shuffle(); // shuffle the deck at the beginning of the round
     current_player_ = 0;
-    std::cout << *deck_ << std::endl;
     // after shuffling, we have to deal the cards to all the players
     int i = 0;
     for (Players::iterator iter = players_.begin(); iter != players_.end(); ++iter) {
@@ -77,7 +75,7 @@ void Game::endTurn() {
 std::string Game::play(const Card& card) {
     state_ = players_[current_player_-1]->playCard(card, played_cards_);
     std::stringstream ss;
-    ss << "Player " << current_player_ << " plays " << card;
+    ss << "Player " << current_player_ << " plays " << card << ".";
     notify();
     return ss.str();
 }
@@ -97,7 +95,7 @@ int Game::winner() const{
 std::string Game::discard(const Card& card) {
     state_ = players_[current_player_-1]->discardCard(card, played_cards_);
     std::stringstream ss;
-    ss << card;
+    ss << "Player " << current_player_ << " discards " << card << ".";
     notify();
     return ss.str();
 }
@@ -109,8 +107,6 @@ Deck* Game::deck() const {
 void Game::quit() {
     state_ = GameState::GAME_QUIT;
     notify();
-
-    delete this;
 }
 
 void Game::rageQuit() {
@@ -132,7 +128,6 @@ std::string Game::getHand() const{
     for(card = hand.begin(); card != hand.end(); ++card){
        ss << " " << **card;
     }
-    ss << std::endl;
     return ss.str();
 }
 
@@ -144,7 +139,6 @@ std::string Game::getLegalPlays() const{
     for(unsigned int i = 0; i < legalPlays.size(); i++){
         ss << " " << *legalPlays[i];
     }
-    ss << std::endl;
     return ss.str();
 }
 
@@ -159,9 +153,12 @@ std::string Game::getDiscards(int player) const{
 
 std::string Game::listBySuit( const std::vector<Card*> cards, Suit suit ) const {
     std::stringstream ss;
+    std::string ranks[RANK_COUNT] = {"A", "2", "3", "4", "5", "6",
+		"7", "8", "9", "10", "J", "Q", "K"};
+
     for( unsigned int i = 0; i < cards.size(); i++){
         if(cards[i]->getSuit() == suit){
-            ss << *cards[i];
+            ss << " " << ranks[cards[i]->getRank()];
         }
     }
     return ss.str();

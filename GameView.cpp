@@ -11,8 +11,6 @@ GameView::GameView(GameController* controller, Game* game) : Observer(), game_(g
 // Destructor
 GameView::~GameView() {
     game_->unsubscribe(this);
-    delete game_;
-    delete controller_;
 }
 
 void GameView::start() {
@@ -36,16 +34,19 @@ void GameView::run() {
             else if (state_ == GameState::HUMAN_PLAYER_TURN) {
                 // do action for the current state
                 std::cout << "Cards on the table:" << std::endl;
-                std::cout << "Clubs: " << controller_->listClubs() << std::endl;
-                std::cout << "Diamonds: " << controller_->listDiamonds() << std::endl;
-                std::cout << "Hearts: " << controller_->listHearts() << std::endl;
-                std::cout << "Spades: " << controller_->listSpades() << std::endl;
+                std::cout << "Clubs:" << controller_->listClubs() << std::endl;
+                std::cout << "Diamonds:" << controller_->listDiamonds() << std::endl;
+                std::cout << "Hearts:" << controller_->listHearts() << std::endl;
+                std::cout << "Spades:" << controller_->listSpades() << std::endl;
 
-                std::cout << "Your hand: " << controller_->getHand() << std::endl;
-                std::cout << "Legal Plays: " << controller_->getLegalPlays() << std::endl;
+                std::cout << "Your hand:" << controller_->getHand() << std::endl;
+                std::cout << "Legal plays:" << controller_->getLegalPlays() << std::endl;
                 while (state_ != GameState::NEXT_TURN) {
                     if (state_ == GameState::ILLEGAL_PLAY) {
                         std::cout << "This is not a legal play." << std::endl;
+                    }
+                    else if(state_ == GameState::ILLEGAL_DISCARD){
+                        std::cout << "You have a legal play. You may not discard." << std::endl;
                     }
                     std::cout << ">";
                     Command instr;
@@ -55,13 +56,13 @@ void GameView::run() {
                     // act on that instruction
                     switch (instr.type) {
                         case PLAY:
-                            controller_->onPlay(instr.card);
+                            std::cout << controller_->onPlay(instr.card) << std::endl;
                             break;
                         case DISCARD:
-                            controller_->onDiscard(instr.card);
+                            std::cout << controller_->onDiscard(instr.card) << std::endl;
                             break;
                         case DECK:
-                            std::cout << *controller_->onShowDeck() << std::endl;
+                            std::cout << *controller_->onShowDeck();
                             break;
                         case QUIT:
                             controller_->onQuit();
@@ -72,6 +73,9 @@ void GameView::run() {
                         default:
                             break;
                     }
+
+                    if(state_ == GameState::GAME_QUIT)
+                        return;
                 }
                 // go to the next player
                 controller_->endTurn();

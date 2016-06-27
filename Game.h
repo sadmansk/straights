@@ -17,6 +17,7 @@ enum class GameState: unsigned int {
     ROUND_ENDED,
     GAME_OVER,
     GAME_QUIT,
+    ILLEGAL_DISCARD,
 
     NUM_GAME_STATES
 };

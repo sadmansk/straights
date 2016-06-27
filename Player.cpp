@@ -70,7 +70,7 @@ GameState Player::playCard(const Card& card, std::vector<Card*>& played_cards){
 
 GameState Player::discardCard(const Card& card, const std::vector<Card*>& played_cards){
     if(legalMoves(played_cards).size() > 0){
-        return GameState::ILLEGAL_PLAY;
+        return GameState::ILLEGAL_DISCARD;
     }
 
     Card* card_ptr = removeFromHand(card);
@@ -78,7 +78,7 @@ GameState Player::discardCard(const Card& card, const std::vector<Card*>& played
         discard_.push_back(card_ptr);                                   // Same as play except add to discard pile
         return GameState::NEXT_TURN;
     }
-    return GameState::ILLEGAL_PLAY;
+    return GameState::ILLEGAL_DISCARD;
 }
 
 std::vector<Card*> Player::legalMoves(const std::vector<Card*>& played_cards) const {
