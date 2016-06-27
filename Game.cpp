@@ -120,7 +120,7 @@ void Game::rageQuit() {
 }
 
 std::string Game::aiTurn() {
-    std::pair<Card*, std::string>  play = ((ComputerPlayer*) players_[current_player_-1]) -> autoPlay(played_cards_);
+    std::pair<Card*, std::string>  play = players_[current_player_-1] -> autoPlay(played_cards_);
     std::stringstream ss;
     ss << "Player " << current_player_ << " " << play.second << " " << *play.first << ".";
     return ss.str();
@@ -164,7 +164,7 @@ std::string Game::listBySuit( const std::vector<Card*> cards, Suit suit ) const 
     std::stringstream ss;
     for( unsigned int i = 0; i < cards.size(); i++){
         if(cards[i]->getSuit() == suit){
-            ss << *cards[i];
+            ss << " " << *cards[i];
         }
     }
     return ss.str();
