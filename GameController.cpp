@@ -69,3 +69,7 @@ std::string GameController::listSpades() const {
 void GameController::endTurn() {
     game_->endTurn();
 }
+
+void GameController::endRound() {
+    game_->endRound();
+}

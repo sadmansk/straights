@@ -17,5 +17,8 @@ std::pair<Card*, std::string> ComputerPlayer::autoPlay(std::vector<Card*> & play
 }
 
 GameState ComputerPlayer::getTurnState() const {
+    if (hand_.size() == 0) {
+        return GameState::ROUND_ENDED;
+    }
     return GameState::COMPUTER_PLAYER_TURN;
 }

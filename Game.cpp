@@ -19,9 +19,8 @@ Game::Game() : Subject() {
 }
 
 Game::~Game() {
-   Players::iterator iter;
-   for (iter = players_.begin(); iter != players_.end(); ++iter) {
-        delete *iter;
+   for (unsigned int i = 0; i < players_.size(); i++) {
+       delete players_[i];
    }
    delete deck_;
 }
@@ -92,14 +91,13 @@ int Game::winner() const{
             lowScore = players_[i]->getScore();
         }
     }
-
-    return lowPlayer;
+    return lowPlayer + 1;
 }
 
 std::string Game::discard(const Card& card) {
     state_ = players_[current_player_-1]->discardCard(card, played_cards_);
     std::stringstream ss;
-    ss << "Player " << current_player_ << " discards " << card;
+    ss << card;
     notify();
     return ss.str();
 }
@@ -120,7 +118,7 @@ void Game::rageQuit() {
 }
 
 std::string Game::aiTurn() {
-    std::pair<Card*, std::string>  play = players_[current_player_-1] -> autoPlay(played_cards_);
+    std::pair<Card*, std::string>  play = ((ComputerPlayer*) players_[current_player_-1]) -> autoPlay(played_cards_);
     std::stringstream ss;
     ss << "Player " << current_player_ << " " << play.second << " " << *play.first << ".";
     return ss.str();
@@ -152,7 +150,6 @@ std::string Game::getLegalPlays() const{
 
 std::string Game::getDiscards(int player) const{
     std::stringstream ss;
-    ss << "Player " << player << "\'s discards:";
     const std::vector<Card*> discards = players_[player]->getDiscards();
     for( unsigned int i = 0; i<discards.size(); i++){
         ss << " " << *discards[i];
@@ -164,7 +161,7 @@ std::string Game::listBySuit( const std::vector<Card*> cards, Suit suit ) const 
     std::stringstream ss;
     for( unsigned int i = 0; i < cards.size(); i++){
         if(cards[i]->getSuit() == suit){
-            ss << " " << *cards[i];
+            ss << *cards[i];
         }
     }
     return ss.str();
@@ -188,8 +185,16 @@ std::string Game::listSpades() const { // list all the played spades
 std::string Game::updateScore(int player) {
     std::stringstream ss;
     int oldScore = players_[player]->getScore();
-    players_[player]->endRound();
+    players_[player]->updateScore();
     int newScore = players_[player]->getScore();
     ss << oldScore << " + " << (newScore - oldScore) << " = " << newScore;
+    if (newScore >= 80) {
+        state_ = GameState::GAME_OVER;
+    }
     return ss.str();
+}
+
+void Game::endRound() {
+    played_cards_.clear();
+    notify();
 }

@@ -37,6 +37,7 @@ public:
     void quit();                    // quit the game
     void rageQuit();                // rage quit the current player
     void endTurn();                 // end turn of the current player
+    void endRound();                // end the round
     int winner() const;             // declares winner
     std::string aiTurn();     // ai play
     std::string listClubs() const;  // list all the clubs on the table

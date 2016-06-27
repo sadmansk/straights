@@ -25,7 +25,7 @@ void GameView::start() {
 
 void GameView::run() {
     // game loop
-    while (state_ != GameState::GAME_OVER || state_ != GameState::GAME_QUIT) {
+    while (state_ != GameState::GAME_OVER && state_ != GameState::GAME_QUIT) {
         startRound();
         update();
         while (state_ != GameState::ROUND_ENDED) {
@@ -79,12 +79,13 @@ void GameView::run() {
         }
         // After each round ends:
         for (int i = 0; i < Game::NUM_PLAYERS; i++) {
-            std::cout << "Player " << i + 1 << "'s discards: " << controller_->getDiscards(i) << std::endl;
+            std::cout << "Player " << i + 1 << "'s discards:" << controller_->getDiscards(i) << std::endl;
             std::cout << "Player " << i + 1 << "'s score: " << controller_->updateScore(i) << std::endl;
         }
+        controller_->endRound();
     }
     if (state_ == GameState::GAME_OVER) {
-        std::cout << "Player " << game_->winner() << " wins!";
+        std::cout << "Player " << game_->winner() << " wins!" << std::endl;
     } // prints nothing if the state was GAME_QUIT
 }
 

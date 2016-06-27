@@ -1,5 +1,7 @@
 # executable
 straights
+*.exe
+*.stackdump
 
 # vim temp files
 *.swp

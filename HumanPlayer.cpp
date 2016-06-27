@@ -15,6 +15,10 @@ const std::vector<Card *> HumanPlayer::getMoves(const std::vector<Card*> played_
 }
 
 GameState HumanPlayer::getTurnState() const {
+    // return round ended if the hand is empty
+    if (hand_.size() == 0) {
+        return GameState::ROUND_ENDED;
+    }
     return GameState::HUMAN_PLAYER_TURN;
 }
 

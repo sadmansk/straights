@@ -98,6 +98,7 @@ std::vector<Card*> Player::legalMoves(const std::vector<Card*>& played_cards) co
 }
 
 int Player::updateScore(){
+    assert( hand_.size() == 0);                                 // Shouldn't end round if still has cards
     int increment = 0;
     for(unsigned int i = 0; i < discard_.size(); i++){
         increment+= discard_[i]->getRank() + 1;
@@ -105,11 +106,6 @@ int Player::updateScore(){
     score_ += increment;
     discard_.clear();
     return increment;
-}
-
-int Player::endRound(){
-    assert( hand_.size() == 0);                                 // Shouldn't end round if still has cards
-    return updateScore();
 }
 
 int Player::getScore(){
