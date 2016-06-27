@@ -4,14 +4,14 @@
 #include <cassert>
 
 bool Player::checkLegality(const Card& first, const std::vector<Card*>& played) const{
-    if(played.size() == 0){
+    if(played.size() == 0){ //first card must be SEVEN
         if(first.getRank() == SEVEN && first.getSuit() == SPADE){
             return true;
         }
         return false;
     }
 
-    if(first.getRank() == SEVEN){   //7
+    if(first.getRank() == SEVEN){
         return true;
     }
 
@@ -91,7 +91,7 @@ std::vector<Card*> Player::legalMoves(const std::vector<Card*>& played_cards) co
         }
     }
 
-    if(played_cards.size() == 0){
+    if(played_cards.size() == 0){ // assert exactly one playable card (7 of spades) if first play
         assert( legalPlays.size() == 1 );
     }
     return legalPlays;
