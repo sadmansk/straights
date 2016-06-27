@@ -4,10 +4,17 @@
 #include <cassert>
 
 bool Player::checkLegality(const Card& first, const std::vector<Card*>& played) const{
-    if(first.getRank() == 6){   //7
+    if(played.size() == 0){
+        if(first.getRank() == SEVEN && first.getSuit() == SPADE){
+            return true;
+        }
+        return false;
+    }
+
+    if(first.getRank() == SEVEN){   //7
         return true;
     }
-    
+
     for (std::vector<Card*>::const_iterator iter = played.begin(); iter != played.end(); ++iter) {
         if(first.getRank() == (*iter)->getRank() - 1 || first.getRank() == (*iter)->getRank() + 1){
             if(first.getSuit() == (*iter)->getSuit()){
@@ -33,7 +40,6 @@ void Player::addCard(Card* card) {
 Card* Player::removeFromHand(const Card& card) {
     for(std::vector<Card*>::iterator iter = hand_.begin(); iter != hand_.end(); ++iter){
         if(*(*iter) == card){
-            std::cout << "Found card to discard: " << card << std::endl;
             Card* card = *iter;
             hand_.erase(iter);
             return card;
@@ -85,6 +91,9 @@ std::vector<Card*> Player::legalMoves(const std::vector<Card*>& played_cards) co
         }
     }
 
+    if(played_cards.size() == 0){
+        assert( legalPlays.size() == 1 );
+    }
     return legalPlays;
 }
 
