@@ -119,12 +119,13 @@ void Game::quit() {
     notify();
 }
 
-void Game::rageQuit() {
+int Game::rageQuit() {
     Player* temp = players_[current_player_-1];
     players_[current_player_-1] = new ComputerPlayer(*players_[current_player_-1]);
     delete temp;
     state_ = GameState::COMPUTER_PLAYER_TURN;
     notify();
+    return current_player_;
 }
 
 std::string Game::aiTurn() {

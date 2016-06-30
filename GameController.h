@@ -14,7 +14,7 @@ public:
     int onStartRound();             // starts the round and returns the first player
     Deck* onShowDeck();              // shows the deck
     void onQuit();
-    void onRageQuit();
+    int onRageQuit();
     std::string onPlay(const Card&);
     std::string onDiscard(const Card&);
     std::string listClubs() const;  // list all the played clubs

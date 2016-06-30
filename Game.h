@@ -36,7 +36,7 @@ public:
     std::string play(const Card&);         // play the given card of the current player
     std::string discard(const Card&);      // discard the given card of the current player
     void quit();                    // quit the game
-    void rageQuit();                // rage quit the current player
+    int rageQuit();                // rage quit the current player
     void endTurn();                 // end turn of the current player
     void endRound();                // end the round
     std::vector<int> winners() const;             // declares winner

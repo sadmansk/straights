@@ -15,8 +15,8 @@ Deck* GameController::onShowDeck() {
     return game_->deck();
 }
 
-void GameController::onRageQuit() {
-    game_->rageQuit();
+int GameController::onRageQuit() {
+    return game_->rageQuit();
 }
 
 void GameController::onQuit() {

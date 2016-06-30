@@ -68,7 +68,7 @@ void GameView::run() {
                             controller_->onQuit();
                             break;
                         case RAGEQUIT:
-                            controller_->onRageQuit();
+                            std::cout << "Player " << controller_->onRageQuit() << " ragequits. A computer will now take over." << std::endl;
                             std::cout << controller_->onAITurn() << std::endl;
                             break;
                         default:
