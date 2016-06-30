@@ -90,7 +90,10 @@ void GameView::run() {
         controller_->endRound();
     }
     if (state_ == GameState::GAME_OVER) {
-        std::cout << "Player " << game_->winner() << " wins!" << std::endl;
+        std::vector<int> winners = game_->winners();
+        for(int i = 0; i < winners.size(); i++){
+            std::cout << "Player " << winners[i] << " wins!" << std::endl;
+        }
     } // prints nothing if the state was GAME_QUIT
 }
 

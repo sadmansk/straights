@@ -82,16 +82,22 @@ std::string Game::play(const Card& card) {
     return ss.str();
 }
 
-int Game::winner() const{
-    int lowPlayer = 0;
-    int lowScore = players_[lowPlayer] -> getScore();
+std::vector<int> Game::winners() const{
+    int lowScore = players_[0] -> getScore();
     for(int i = 1; i < player_count_; i++){
         if( lowScore > players_[i]->getScore()){
-            lowPlayer = i;
             lowScore = players_[i]->getScore();
         }
     }
-    return lowPlayer + 1;
+
+    std::vector<int> lowPlayers;
+
+    for(int i = 0; i < player_count_; i++){
+        if( lowScore == players_[i]->getScore()){
+            lowPlayers.push_back(i+1);
+        }
+    }
+    return lowPlayers;
 }
 
 std::string Game::discard(const Card& card) {
@@ -114,7 +120,9 @@ void Game::quit() {
 }
 
 void Game::rageQuit() {
-    players_[current_player_-1] = new ComputerPlayer(std::move(*players_[current_player_-1]));
+    Player* temp = players_[current_player_-1];
+    players_[current_player_-1] = new ComputerPlayer(*players_[current_player_-1]);
+    delete temp;
     state_ = GameState::COMPUTER_PLAYER_TURN;
     notify();
 }
@@ -123,6 +131,8 @@ std::string Game::aiTurn() {
     std::pair<Card*, std::string>  play = ((ComputerPlayer*) players_[current_player_-1]) -> autoPlay(played_cards_);
     std::stringstream ss;
     ss << "Player " << current_player_ << " " << play.second << " " << *play.first << ".";
+    state_ = GameState::NEXT_TURN;      //TODO, kind of sketch, but ai turn should never fail, so whatevs
+    notify();
     return ss.str();
 }
 

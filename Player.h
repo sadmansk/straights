@@ -13,6 +13,7 @@ class Player {
 public:
     Player();                                       // Default Constructor
     virtual ~Player();
+    Player(Player &);
     void addCard(Card*);                      // adds a card to the hand
     virtual std::pair<Card*, std::string> autoPlay(std::vector<Card*> &) = 0;           // Automatically takes its turn
     GameState playCard(const Card&, std::vector<Card*>&);                     // play a legal card

@@ -9,7 +9,7 @@
 class ComputerPlayer: public Player{
 public:
     ComputerPlayer() : Player() {}
-    ComputerPlayer(Player&&);
+    ComputerPlayer(Player&);
     virtual std::pair<Card*, std::string> autoPlay(std::vector<Card*> &);           // Automatically takes its turn
     GameState getTurnState() const;
 };

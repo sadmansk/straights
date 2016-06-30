@@ -35,6 +35,12 @@ Player::~Player() {
     hand_.clear();
 }
 
+Player::Player(Player& p) {
+    hand_ = p.hand_;
+    discard_ = p.discard_;
+    score_ = p.score_;
+}
+
 void Player::addCard(Card* card) {
     hand_.push_back(card);
 }
