@@ -9,7 +9,6 @@
 
 class HumanPlayer: public Player{
 public:
-    ComputerPlayer* rageQuit();
     virtual std::pair<Card*, std::string> autoPlay(std::vector<Card*> &);
     const std::vector<Card*> getHand() const;
     const std::vector<Card*> getMoves(const std::vector<Card*>) const;

@@ -114,7 +114,9 @@ void Game::quit() {
 }
 
 void Game::rageQuit() {
-    players_[current_player_-1] = ((HumanPlayer*) players_[current_player_-1])->rageQuit();
+    players_[current_player_-1] = new ComputerPlayer(std::move(*players_[current_player_-1]));
+    state_ = GameState::COMPUTER_PLAYER_TURN;
+    notify();
 }
 
 std::string Game::aiTurn() {

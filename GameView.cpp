@@ -69,6 +69,7 @@ void GameView::run() {
                             break;
                         case RAGEQUIT:
                             controller_->onRageQuit();
+                            std::cout << controller_->onAITurn() << std::endl;
                             break;
                         default:
                             break;

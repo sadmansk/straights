@@ -8,6 +8,7 @@
 
 enum class GameState: unsigned int;
 
+class HumanPlayer;
 class Player {
 public:
     Player();                                       // Default Constructor
@@ -22,6 +23,7 @@ public:
     std::vector<Card*> getDiscards() const;        // return the discarded cards
     virtual GameState getTurnState() const = 0;           // returns the turn state type
     virtual int updateScore();                             // updates score at end of round, clears discard pile
+    //ComputerPlayer* rageQuit();
 protected:
     std::vector<Card*> hand_;                   // players hand
     std::vector<Card*> discard_;              // discarded cards

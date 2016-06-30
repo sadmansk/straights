@@ -2,10 +2,6 @@
 #include "Game.h"
 #include <sstream>
 
-ComputerPlayer* HumanPlayer::rageQuit(){
-    return (ComputerPlayer*)(this);
-}
-
 const std::vector<Card *> HumanPlayer::getHand() const{
     return hand_;
 }

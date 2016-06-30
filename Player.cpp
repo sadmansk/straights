@@ -2,6 +2,8 @@
 #include "Game.h"
 #include <iostream>
 #include <cassert>
+#include "HumanPlayer.h"
+#include <algorithm>
 
 bool Player::checkLegality(const Card& first, const std::vector<Card*>& played) const{
     if(played.size() == 0){ //first card must be SEVEN

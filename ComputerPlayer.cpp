@@ -2,6 +2,10 @@
 #include "ComputerPlayer.h"
 #include <cassert>
 
+ComputerPlayer::ComputerPlayer(Player&& p) {
+    std::swap(*this, p);
+}
+
 std::pair<Card*, std::string> ComputerPlayer::autoPlay(std::vector<Card*> & played_cards){
     const std::vector<Card*> plays = legalMoves(played_cards);
     assert(hand_.size() != 0);
