@@ -75,7 +75,9 @@ void Game::endTurn() {
 std::string Game::play(const Card& card) {
     state_ = players_[current_player_-1]->playCard(card, played_cards_);
     std::stringstream ss;
-    ss << "Player " << current_player_ << " plays " << card << ".";
+    if (state_ != GameState::ILLEGAL_PLAY) {
+        ss << "Player " << current_player_ << " plays " << card << "." << std::endl;
+    }
     notify();
     return ss.str();
 }
@@ -95,7 +97,9 @@ int Game::winner() const{
 std::string Game::discard(const Card& card) {
     state_ = players_[current_player_-1]->discardCard(card, played_cards_);
     std::stringstream ss;
-    ss << "Player " << current_player_ << " discards " << card << ".";
+    if (state_ != GameState::ILLEGAL_DISCARD) {
+        ss << "Player " << current_player_ << " discards " << card << "." << std::endl;
+    }
     notify();
     return ss.str();
 }
@@ -155,10 +159,16 @@ std::string Game::listBySuit( const std::vector<Card*> cards, Suit suit ) const 
     std::stringstream ss;
     std::string ranks[RANK_COUNT] = {"A", "2", "3", "4", "5", "6",
 		"7", "8", "9", "10", "J", "Q", "K"};
+    int count[RANK_COUNT] = {0};
 
     for( unsigned int i = 0; i < cards.size(); i++){
         if(cards[i]->getSuit() == suit){
-            ss << " " << ranks[cards[i]->getRank()];
+            count[cards[i]->getRank()]++;
+        }
+    }
+    for (unsigned int i = 0; i < RANK_COUNT; i++) {
+        for (int j = 0; j < count[i]; j++) {
+            ss << " " << ranks[i];
         }
     }
     return ss.str();

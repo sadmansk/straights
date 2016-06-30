@@ -56,10 +56,10 @@ void GameView::run() {
                     // act on that instruction
                     switch (instr.type) {
                         case PLAY:
-                            std::cout << controller_->onPlay(instr.card) << std::endl;
+                            std::cout << controller_->onPlay(instr.card);
                             break;
                         case DISCARD:
-                            std::cout << controller_->onDiscard(instr.card) << std::endl;
+                            std::cout << controller_->onDiscard(instr.card);
                             break;
                         case DECK:
                             std::cout << *controller_->onShowDeck();
