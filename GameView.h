@@ -26,14 +26,15 @@ private:
     Gtk::VBox panels_;                  // Main window divided into four horizontal panels
     Gtk::HBox menu_buttons_;            // Top panel containing new and end game options and seed value
     Gtk::Frame table_;                  // Shows the cards on the table
-    Gtk::HBox cards_;                   // container for card mages
+    Gtk::Table cards_;                   // container for card mages
+    Gtk::Image image_;
     /*Gtk::HBox player_panel;             // Panel showing the status of the players
     Gtk::HBox player_hand;              // Panel containing the hand of the current player
     */
     Gtk::Button new_game_;
     Gtk::Button end_game_;
-    Gtk::TextView rng_seed_;             // Text box holding the current seed
-    Glib::RefPtr<Gtk::TextBuffer> seed_buffer_;
+    Gtk::Entry rng_seed_;             // Text box holding the current seed
+    Glib::RefPtr<Gtk::EntryBuffer> seed_buffer_;
 
     // helper functions
     /*

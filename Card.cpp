@@ -1,11 +1,19 @@
 #include "Card.h"
 #include <string>
+#include <sstream>
+#include <iostream>
 #include <cassert>
 using namespace std;
 
 Card::Card(Suit s, Rank r){
 	suit_ = s;
 	rank_ = r;
+	string ranks = "0123456789jqk";
+    std::stringstream image_name;
+    image_name << "img/" << s << "_" << ranks[r] << ".png";
+    std::string image_str = image_name.str();
+    image_.set(image_str);
+    //Card::hidden_.set("img/nothing.png");
 }
 
 Suit Card::getSuit() const{
@@ -14,6 +22,10 @@ Suit Card::getSuit() const{
 
 Rank Card::getRank() const{
 	return rank_;
+}
+
+Gtk::Image* Card::getImage() {
+    return &image_;
 }
 
 bool operator==(const Card &a, const Card &b){

@@ -8,8 +8,10 @@ GameView::GameView(GameController* controller, Game* game) :
     Observer(),
     game_(game),
     controller_(controller),
-    panels_(true, 10),
+    panels_(false, 10),
     menu_buttons_(true, 10),
+    cards_(Suit::SUIT_COUNT, Rank::RANK_COUNT),
+    image_("img/nothing.png"),
     //player_panel(true, 10),
     //player_hand(true, 10),
     new_game_("Start new game with seed:"),
@@ -22,15 +24,15 @@ GameView::GameView(GameController* controller, Game* game) :
     add(panels_);
 
 
-    panels_.add(menu_buttons_);
-    panels_.add(table_);
+    panels_.pack_start(menu_buttons_, Gtk::PACK_SHRINK);
+    panels_.pack_start(table_, Gtk::PACK_SHRINK);
     //panels.add(player_panel);
     //panels.add(player_hand);
 
     // Add widgets to the top panel
-    menu_buttons_.add(new_game_);
-    menu_buttons_.add(rng_seed_);
-    menu_buttons_.add(end_game_);
+    menu_buttons_.pack_start(new_game_, Gtk::PACK_EXPAND_WIDGET);
+    menu_buttons_.pack_start(rng_seed_, Gtk::PACK_EXPAND_WIDGET);
+    menu_buttons_.pack_start(end_game_, Gtk::PACK_EXPAND_WIDGET);
 
     /* Set the frames label */
     table_.set_label("Cards");
@@ -41,11 +43,18 @@ GameView::GameView(GameController* controller, Game* game) :
     // add cards to the frame
     table_.add(cards_);
 
+    // fill up the table of cards
+    for (unsigned int i = 0; i < Suit::SUIT_COUNT; i++) {
+        for (unsigned int j = 0; j < Rank::RANK_COUNT; j++) {
+            cards_.attach(*(game_->deck()->getCardAt(i*Rank::RANK_COUNT+j)->getImage()), j, j+1, i, i+1, Gtk::EXPAND, Gtk::EXPAND, 5, 5);
+        }
+    }
     //new_game.signal_clicked().connect(sigc::mem_fun(*this, &GameView::newGameButtonClicked) );
     //end_game.signal_clicked().connect(sigc::mem_fun(*this, &GameView::endGameButtonClicked) );
-    seed_buffer_ = Gtk::TextBuffer::create();
+    seed_buffer_ = Gtk::EntryBuffer::create();
     seed_buffer_ ->set_text("0");
     rng_seed_.set_buffer(seed_buffer_);
+    rng_seed_.set_alignment(Gtk::ALIGN_CENTER);
 
     show_all_children();
 

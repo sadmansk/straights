@@ -4,6 +4,7 @@
 
 #include <ostream>
 #include <istream>
+#include <gtkmm/image.h>
 
 enum Suit { CLUB, DIAMOND, HEART, SPADE, SUIT_COUNT };
 enum Rank { ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN,
@@ -16,10 +17,13 @@ public:
 	Card(Suit, Rank);
 	Suit getSuit() const;
 	Rank getRank() const;
+    Gtk::Image* getImage();
 	
 private:
 	Suit suit_;
 	Rank rank_;
+    Gtk::Image image_;
+    static Gtk::Image hidden_;
 };
 
 bool operator==(const Card &, const Card &);
