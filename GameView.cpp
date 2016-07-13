@@ -4,15 +4,61 @@
 #include "GameView.h"
 
 // Contructor
-GameView::GameView(GameController* controller, Game* game) : Observer(), game_(game), controller_(controller) {
+GameView::GameView(GameController* controller, Game* game) : 
+    Observer(),
+    game_(game),
+    controller_(controller),
+    panels_(true, 10),
+    menu_buttons_(true, 10),
+    //player_panel(true, 10),
+    //player_hand(true, 10),
+    new_game_("Start new game with seed:"),
+    end_game_("End current game")
+{
+    set_title("Straights UI");
+    set_border_width(10);
+
+    // Add the main panel to the window
+    add(panels_);
+
+
+    panels_.add(menu_buttons_);
+    panels_.add(table_);
+    //panels.add(player_panel);
+    //panels.add(player_hand);
+
+    // Add widgets to the top panel
+    menu_buttons_.add(new_game_);
+    menu_buttons_.add(rng_seed_);
+    menu_buttons_.add(end_game_);
+
+    /* Set the frames label */
+    table_.set_label("Cards");
+    /* Align the label at the right of the frame */
+    table_.set_label_align(Gtk::ALIGN_LEFT, Gtk::ALIGN_TOP);
+    /* Set the style of the frame */
+    table_.set_shadow_type(Gtk::SHADOW_ETCHED_OUT);  // Add the sub panels to the main panel
+    // add cards to the frame
+    table_.add(cards_);
+
+    //new_game.signal_clicked().connect(sigc::mem_fun(*this, &GameView::newGameButtonClicked) );
+    //end_game.signal_clicked().connect(sigc::mem_fun(*this, &GameView::endGameButtonClicked) );
+    seed_buffer_ = Gtk::TextBuffer::create();
+    seed_buffer_ ->set_text("0");
+    rng_seed_.set_buffer(seed_buffer_);
+
+    show_all_children();
+
     game_->subscribe(this);
 }
 
-// Destructor
-GameView::~GameView() {
-    game_->unsubscribe(this);
+void GameView::update() {
+    state_ = game_->getState();
 }
 
+void GameView::newGameButtonClicked() {}
+void GameView::endGameButtonClicked() {}
+/*
 void GameView::start() {
     // first we invite all the players
     invitePlayers();
@@ -104,10 +150,6 @@ void GameView::startRound() {
     std::cout << "A new round begins. It's player " << first_player << "'s turn to play." << std::endl;
 }
 
-void GameView::update() {
-    state_ = game_->getState();
-}
-
 void GameView::invitePlayers() {
     for (unsigned int i = 0; i < Game::NUM_PLAYERS; i++) {
         std::cout << "Is player " << i+1 << " a human(h) or a computer(c)?\n>";
@@ -123,4 +165,4 @@ void GameView::invitePlayers() {
             assert(cmd); // TODO: gotta change how failure or invalidity is handled
         }
     }
-}
+}*/

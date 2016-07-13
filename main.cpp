@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstdlib>
+#include <gtkmm/main.h>
 
 #include "Deck.h"
 #include "GameView.h"
@@ -12,13 +13,15 @@ int main (int argc, char* argv[]) {
         // update the static global RNG seed
         Deck::rng_seed = atoi(argv[1]);
     }
+    Gtk::Main kit(argc, argv);
 
     // Create and initialize MVC components
     Game game;
     GameController controller(&game);
     GameView view(&controller, &game);
 
-    view.start();
 
+    Gtk::Main::run(view);
+    
     return 0;
 }
