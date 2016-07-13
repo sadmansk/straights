@@ -28,7 +28,13 @@ bool Player::checkLegality(const Card& first, const std::vector<Card*>& played) 
     return false;
 }
 
-Player::Player(){
+Player::Player() : rage_button_("RAGE!"), score_label_("Score: 0"), discards_label_("Discards: 0") {
+    set_label("Player ");
+    set_label_align(Gtk::ALIGN_LEFT, Gtk::ALIGN_TOP);
+    set_shadow_type(Gtk::SHADOW_ETCHED_OUT);
+
+    add(score_label_);
+    add(discards_label_);
 }
 
 Player::~Player() {

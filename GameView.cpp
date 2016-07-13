@@ -10,8 +10,6 @@ GameView::GameView(GameController* controller, Game* game) :
     controller_(controller),
     panels_(false, 10),
     menu_buttons_(true, 10),
-    cards_(Suit::SUIT_COUNT, Rank::RANK_COUNT),
-    image_("img/nothing.png"),
     //player_panel(true, 10),
     //player_hand(true, 10),
     new_game_("Start new game with seed:"),
@@ -41,14 +39,19 @@ GameView::GameView(GameController* controller, Game* game) :
     /* Set the style of the frame */
     table_.set_shadow_type(Gtk::SHADOW_ETCHED_OUT);  // Add the sub panels to the main panel
     // add cards to the frame
-    table_.add(cards_);
+    table_.add(*(game_->deck()));
 
+    // add the player panel
+    table_.add(*(game_->getPlayerPanel()));
+
+    /*
     // fill up the table of cards
     for (unsigned int i = 0; i < Suit::SUIT_COUNT; i++) {
         for (unsigned int j = 0; j < Rank::RANK_COUNT; j++) {
             cards_.attach(*(game_->deck()->getCardAt(i*Rank::RANK_COUNT+j)->getImage()), j, j+1, i, i+1, Gtk::EXPAND, Gtk::EXPAND, 5, 5);
         }
     }
+    */
     //new_game.signal_clicked().connect(sigc::mem_fun(*this, &GameView::newGameButtonClicked) );
     //end_game.signal_clicked().connect(sigc::mem_fun(*this, &GameView::endGameButtonClicked) );
     seed_buffer_ = Gtk::EntryBuffer::create();

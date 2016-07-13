@@ -12,8 +12,10 @@ Card::Card(Suit s, Rank r){
     std::stringstream image_name;
     image_name << "img/" << s << "_" << ranks[r] << ".png";
     std::string image_str = image_name.str();
+    
+    // store both the card image as well as the upside down image
     image_.set(image_str);
-    //Card::hidden_.set("img/nothing.png");
+    hidden_.set("img/nothing.png");
 }
 
 Suit Card::getSuit() const{
@@ -24,8 +26,10 @@ Rank Card::getRank() const{
 	return rank_;
 }
 
-Gtk::Image* Card::getImage() {
-    return &image_;
+Gtk::Image* Card::getImage(bool show) {
+    if (show)
+        return &image_;
+    return &hidden_;
 }
 
 bool operator==(const Card &a, const Card &b){

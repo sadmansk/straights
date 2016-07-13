@@ -2,10 +2,11 @@
 #define DECK_H_
 
 #include "Card.h"
+#include <gtkmm/table.h>
 
 #define CARD_COUNT 52
 
-class Deck {
+class Deck : public Gtk::Table {
 public:
     Deck();                     // default constructor
     ~Deck();                    // destructor

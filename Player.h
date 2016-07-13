@@ -5,11 +5,12 @@
 #include <array>
 #include <vector>
 #include <unordered_set>
+#include <gtkmm.h>
 
 enum class GameState: unsigned int;
 
 class HumanPlayer;
-class Player {
+class Player : public Gtk::Frame  {
 public:
     Player();                                       // Default Constructor
     virtual ~Player();
@@ -28,6 +29,9 @@ public:
 protected:
     std::vector<Card*> hand_;                   // players hand
     std::vector<Card*> discard_;              // discarded cards
+    Gtk::Button rage_button_;
+    Gtk::Label score_label_;
+    Gtk::Label discards_label_;
 private:
     int score_;                                     // score of player
     bool checkLegality(const Card&, const std::vector<Card*>&) const;   //heloper function to check for legal moves

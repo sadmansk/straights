@@ -17,13 +17,13 @@ public:
 	Card(Suit, Rank);
 	Suit getSuit() const;
 	Rank getRank() const;
-    Gtk::Image* getImage();
+    Gtk::Image* getImage(bool show = false);
 	
 private:
 	Suit suit_;
 	Rank rank_;
     Gtk::Image image_;
-    static Gtk::Image hidden_;
+    Gtk::Image hidden_;
 };
 
 bool operator==(const Card &, const Card &);

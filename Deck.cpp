@@ -5,10 +5,11 @@
 // initialize static seed
 int Deck::rng_seed = 0;
 
-Deck::Deck() {
+Deck::Deck() : Gtk::Table(Suit::SUIT_COUNT, Rank::RANK_COUNT) {
     // we initialize the ordered deck here
     for (int i = 0; i < CARD_COUNT; i++) {
         cards_[i] = new Card(Suit(i/13), Rank(i%13));
+        attach(*(cards_[i]->getImage(true)), i%13, i%13 + 1, i/13, i/13 +1, Gtk::EXPAND, Gtk::EXPAND, 5, 5);
     }
 }
 
