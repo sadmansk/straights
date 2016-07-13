@@ -7,7 +7,7 @@
 #include <sstream>
 
 // initialize static variables
-int Game::player_count_ = 0;
+unsigned int Game::player_count_ = 0;
 
 // constructor
 Game::Game() : Subject() {
@@ -18,7 +18,7 @@ Game::Game() : Subject() {
 }
 
 Game::~Game() {
-   for (unsigned int i = 0; i < players_.size(); i++) {
+   for (unsigned int i = 0; i < player_count_; i++) {
        delete players_[i];
    }
    delete deck_;
@@ -84,7 +84,7 @@ std::string Game::play(const Card& card) {
 
 std::vector<int> Game::winners() const{
     int lowScore = players_[0] -> getScore();
-    for(int i = 1; i < player_count_; i++){
+    for(unsigned int i = 1; i < player_count_; i++){
         if( lowScore > players_[i]->getScore()){
             lowScore = players_[i]->getScore();
         }
@@ -92,7 +92,7 @@ std::vector<int> Game::winners() const{
 
     std::vector<int> lowPlayers;
 
-    for(int i = 0; i < player_count_; i++){
+    for(unsigned int i = 0; i < player_count_; i++){
         if( lowScore == players_[i]->getScore()){
             lowPlayers.push_back(i+1);
         }
@@ -200,6 +200,21 @@ std::string Game::listHearts() const { // list all the played hearts
 
 std::string Game::listSpades() const { // list all the played spades
     return listBySuit(played_cards_, SPADE);
+}
+
+void Game::reset(const std::vector<char> players){
+    assert(players.size() == 4);
+
+    //clear old players / board
+    for (unsigned int i = 0; i < player_count_; i++) {
+        delete players_[i];
+    }
+    played_cards_.clear();
+
+    std::vector<char>::const_iterator player;
+    for(player = players.begin();  player != players.end(); player++){
+        addPlayer(*player);
+    }
 }
 
 std::string Game::updateScore(int player) {

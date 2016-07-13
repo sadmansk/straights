@@ -4,7 +4,7 @@
 #include "GameView.h"
 
 // Contructor
-GameView::GameView(GameController* controller, Game* game) : 
+GameView::GameView(GameController* controller, Game* game) :
     Observer(),
     game_(game),
     controller_(controller),
@@ -33,7 +33,7 @@ GameView::GameView(GameController* controller, Game* game) :
     menu_buttons_.pack_start(end_game_, Gtk::PACK_EXPAND_WIDGET);
 
     /* Set the frames label */
-    table_.set_label("Cards");
+    table_.set_label("Cards on the table");
     /* Align the label at the right of the frame */
     table_.set_label_align(Gtk::ALIGN_LEFT, Gtk::ALIGN_TOP);
     /* Set the style of the frame */

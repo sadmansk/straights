@@ -49,6 +49,7 @@ public:
     std::string updateScore(int);       //updates and returns score of player
     std::string getHand() const;   // show the hand of the current player
     std::string getLegalPlays() const;//show the legal plays of the current player
+    void reset(const std::vector<char>); //resets game to group of players
 
     // consts
     const static int NUM_PLAYERS = 4;
@@ -61,7 +62,7 @@ private:
     std::vector<Card*> played_cards_;    // we store the values of the cards already played
     GameState state_;
     std::string listBySuit(const std::vector<Card*>, Suit) const;
-    static int player_count_;
+    static unsigned int player_count_;
 };
 
 #endif // GAME_H_
