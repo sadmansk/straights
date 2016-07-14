@@ -9,7 +9,8 @@ public:
     HandGui();
     virtual ~HandGui();
 private:
-    Gtk::Image nothing_;
+    std::array <Gtk::Image*, 13> nothing_;
+    Gtk::Table hand_;
     std::array < Gtk::Button*, 13 > cards_;
 };
 

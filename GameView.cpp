@@ -46,7 +46,7 @@ GameView::GameView(GameController* controller, Game* game) :
         player_panel_.attach(*(player_gui[i]), i, i+1, 0, 1, Gtk::EXPAND, Gtk::EXPAND, 2, 2);
     }
 
-    //panels_.add(player_hand_);
+    panels_.add(player_hand_);
 
     //new_game.signal_clicked().connect(sigc::mem_fun(*this, &GameView::newGameButtonClicked) );
     //end_game.signal_clicked().connect(sigc::mem_fun(*this, &GameView::endGameButtonClicked) );
