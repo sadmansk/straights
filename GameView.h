@@ -7,6 +7,7 @@
 #include "Observer.h"
 #include "GameController.h"
 #include "Game.h"
+#include "PlayerGui.h"
 
 // View class
 class GameView : public Gtk::Window, public Observer {
@@ -32,6 +33,7 @@ private:
     Gtk::Button end_game_;
     Gtk::Entry rng_seed_;             // Text box holding the current seed
     Glib::RefPtr<Gtk::EntryBuffer> seed_buffer_;
+    std::array< PlayerGui*, 4 > player_gui;
 
     // helper functions
     /*

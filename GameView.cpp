@@ -5,16 +5,14 @@
 
 // Contructor
 GameView::GameView(GameController* controller, Game* game) :
-    Observer(),
-    game_(game),
-    controller_(controller),
-    panels_(false, 10),
-    menu_buttons_(true, 10),
-    //player_panel(true, 10),
-    //player_hand(true, 10),
-    new_game_("Start new game with seed:"),
-    end_game_("End current game")
-{
+        Observer(),
+        game_(game),
+        controller_(controller),
+        panels_(false, 10),
+        menu_buttons_(true, 10),
+        new_game_("Start new game with seed:"),
+        end_game_("End current game") {
+
     set_title("Straights UI");
     set_border_width(10);
 
@@ -42,16 +40,14 @@ GameView::GameView(GameController* controller, Game* game) :
     table_.add(*(game_->deck()));
 
     // add the player panel
-    table_.add(*(game_->getPlayerPanel()));
-
-    /*
-    // fill up the table of cards
-    for (unsigned int i = 0; i < Suit::SUIT_COUNT; i++) {
-        for (unsigned int j = 0; j < Rank::RANK_COUNT; j++) {
-            cards_.attach(*(game_->deck()->getCardAt(i*Rank::RANK_COUNT+j)->getImage()), j, j+1, i, i+1, Gtk::EXPAND, Gtk::EXPAND, 5, 5);
-        }
+    panels_.add(player_panel_);
+    for (unsigned int i = 0; i < 4; i++) {
+        player_gui[i] = new PlayerGui();
+        player_panel_.attach(*(player_gui[i]), i, i+1, 0, 1, Gtk::EXPAND, Gtk::EXPAND, 2, 2);
     }
-    */
+
+    //panels_.add(player_hand_);
+
     //new_game.signal_clicked().connect(sigc::mem_fun(*this, &GameView::newGameButtonClicked) );
     //end_game.signal_clicked().connect(sigc::mem_fun(*this, &GameView::endGameButtonClicked) );
     seed_buffer_ = Gtk::EntryBuffer::create();
