@@ -166,13 +166,9 @@ std::string Game::getLegalPlays() const{
     return ss.str();
 }
 
-std::string Game::getDiscards(int player) const{
-    std::stringstream ss;
+int Game::getDiscards(int player) const{
     const std::vector<Card*> discards = players_[player]->getDiscards();
-    for( unsigned int i = 0; i<discards.size(); i++){
-        ss << " " << *discards[i];
-    }
-    return ss.str();
+    return discards.size();
 }
 
 std::string Game::listBySuit( const std::vector<Card*> cards, Suit suit ) const {
@@ -231,16 +227,13 @@ void Game::reset(const std::vector<char> players, std::array<PlayerGui*, 4>& pla
     notify();
 }
 
-std::string Game::updateScore(int player) {
-    std::stringstream ss;
-    int oldScore = players_[player]->getScore();
+int Game::updateScore(int player) {
     players_[player]->updateScore();
     int newScore = players_[player]->getScore();
-    ss << oldScore << " + " << (newScore - oldScore) << " = " << newScore;
     if (newScore >= 80) {
         state_ = GameState::GAME_OVER;
     }
-    return ss.str();
+    return newScore;
 }
 
 void Game::endRound() {

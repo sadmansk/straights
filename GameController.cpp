@@ -43,11 +43,11 @@ std::string GameController::getLegalPlays() const{
     return game_->getLegalPlays();
 }
 
-std::string GameController::getDiscards(int player) const{
+int GameController::getDiscards(int player) const{
     return game_->getDiscards(player);
 }
 
-std::string GameController::updateScore(int player) {
+int GameController::updateScore(int player) {
     return game_->updateScore(player);
 }
 

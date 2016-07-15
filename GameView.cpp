@@ -91,12 +91,12 @@ void GameView::startRound() {
 }
 
 void GameView::run() {
+    int player_index = 0;
     // game loop
     while (state_ != GameState::GAME_OVER && state_ != GameState::GAME_QUIT) { startRound(); update();
         while (state_ != GameState::ROUND_ENDED) {
             if (state_ == GameState::COMPUTER_PLAYER_TURN) {
                 std::cout << controller_->onAITurn() << std::endl;
-                controller_->endTurn();
             }
             else if (state_ == GameState::HUMAN_PLAYER_TURN) {
                 // do action for the current state
@@ -145,14 +145,20 @@ void GameView::run() {
                     if(state_ == GameState::GAME_QUIT)
                         return;
                 }
-                // go to the next player
-                controller_->endTurn();
             }
+            // update discard count
+            player_gui_[player_index]->updateDiscard(controller_->getDiscards(player_index));
+            // go to the next player
+            controller_->endTurn();
+            player_index = (player_index+1)%4;
         }
         // After each round ends:
         for (int i = 0; i < Game::NUM_PLAYERS; i++) {
-            std::cout << "Player " << i + 1 << "'s discards:" << controller_->getDiscards(i) << std::endl;
-            std::cout << "Player " << i + 1 << "'s score: " << controller_->updateScore(i) << std::endl;
+            //std::cout << "Player " << i + 1 << "'s discards:" << controller_->getDiscards(i) << std::endl;
+            player_gui_[i]->updateScore(controller_->updateScore(i));
+            player_gui_[i]->updateDiscard(controller_->getDiscards(i));
+
+            //std::cout << "Player " << i + 1 << "'s score: " << controller_->updateScore(i) << std::endl;
         }
         controller_->endRound();
     }

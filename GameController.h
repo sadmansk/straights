@@ -26,8 +26,8 @@ public:
     std::string getLegalPlays() const;//returns the legal plays of the current player
     void endTurn();                 // end turn of the current player
     void endRound();                // end the current round
-    std::string getDiscards(int) const;//returns the discarded cards of the specified player
-    std::string updateScore(int);//returns the updated score of the specified player
+    int getDiscards(int) const;//returns the discarded cards of the specified player
+    int updateScore(int);//returns the updated score of the specified player
     // TODO: need some way to get the score of the players
 
 private:
