@@ -3,16 +3,20 @@
 
 #include <gtkmm.h>
 #include <array>
+#include <vector>
+#include <utility>
 #include "GameController.h"
 
 class HandGui : public Gtk::Frame {
 public:
-    HandGui();
-    virtual ~HandGui();
+    HandGui(GameController*);                   // constructor
+    virtual ~HandGui();                         // destructor
+    void update(const std::vector< std::pair<Card*, bool> >&);     // update the hand display with new cards
 private:
-    std::array <Gtk::Image*, 13> nothing_;
+    std::array <Gtk::Image*, 13> nothing_;      // TODO: should be able to get away with using just one image
     Gtk::Table hand_;
     std::array < Gtk::Button*, 13 > cards_;
+    GameController* controller_;
 };
 
 class PlayerGui : public Gtk::Frame {

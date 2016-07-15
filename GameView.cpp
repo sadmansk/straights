@@ -10,8 +10,10 @@ GameView::GameView(GameController* controller, Game* game) :
         controller_(controller),
         panels_(false, 10),
         menu_buttons_(true, 10),
+        player_hand_(controller_),
         new_game_("Start new game with seed:"),
         end_game_("End current game") {
+        
 
     set_title("Straights UI");
     set_border_width(10);
@@ -50,7 +52,6 @@ GameView::GameView(GameController* controller, Game* game) :
     }
 
     panels_.add(player_hand_);
-
 
     seed_buffer_ = Gtk::EntryBuffer::create();
     seed_buffer_ ->set_text("0");
@@ -100,47 +101,23 @@ void GameView::run() {
             }
             else if (state_ == GameState::HUMAN_PLAYER_TURN) {
                 // do action for the current state
-                std::cout << "Cards on the table:" << std::endl;
-                std::cout << "Clubs:" << controller_->listClubs() << std::endl;
-                std::cout << "Diamonds:" << controller_->listDiamonds() << std::endl;
-                std::cout << "Hearts:" << controller_->listHearts() << std::endl;
-                std::cout << "Spades:" << controller_->listSpades() << std::endl;
-
-                std::cout << "Your hand:" << controller_->getHand() << std::endl;
+                // enable rage
+                player_gui_[player_index]->enableRage();
+                // update hand
+                ///player_hand_.update(controller_->getHand());
                 std::cout << "Legal plays:" << controller_->getLegalPlays() << std::endl;
                 while (state_ != GameState::NEXT_TURN) {
                     if (state_ == GameState::ILLEGAL_PLAY) {
+                        // TODO: Replace this with a dialog
                         std::cout << "This is not a legal play." << std::endl;
                     }
                     else if(state_ == GameState::ILLEGAL_DISCARD){
+                        // TODO: Replace this with a dialog
                         std::cout << "You have a legal play. You may not discard." << std::endl;
                     }
-                    std::cout << ">";
-                    Command instr;
-                    // get a command if applicable
-                    std::cin >> instr;
 
-                    // act on that instruction
-                    switch (instr.type) {
-                        case PLAY:
-                            std::cout << controller_->onPlay(instr.card);
-                            break;
-                        case DISCARD:
-                            std::cout << controller_->onDiscard(instr.card);
-                            break;
-                        case DECK:
-                            std::cout << *controller_->onShowDeck();
-                            break;
-                        case QUIT:
-                            controller_->onQuit();
-                            break;
-                        case RAGEQUIT:
-                            std::cout << "Player " << controller_->onRageQuit() << " ragequits. A computer will now take over." << std::endl;
-                            std::cout << controller_->onAITurn() << std::endl;
-                            break;
-                        default:
-                            break;
-                    }
+                            //std::cout << controller_->onPlay(instr.card);
+                            //std::cout << controller_->onDiscard(instr.card);
 
                     if(state_ == GameState::GAME_QUIT)
                         return;
@@ -148,6 +125,8 @@ void GameView::run() {
             }
             // update discard count
             player_gui_[player_index]->updateDiscard(controller_->getDiscards(player_index));
+            // disable rage
+            player_gui_[player_index]->disableRage();
             // go to the next player
             controller_->endTurn();
             player_index = (player_index+1)%4;
