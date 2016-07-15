@@ -5,22 +5,19 @@
 
 // Contructor
 GameView::GameView(GameController* controller, Game* game) :
-    Observer(),
-    game_(game),
-    controller_(controller),
-    panels_(false, 10),
-    menu_buttons_(true, 10),
-    //player_panel(true, 10),
-    //player_hand(true, 10),
-    new_game_("Start new game with seed:"),
-    end_game_("End current game")
-{
+        Observer(),
+        game_(game),
+        controller_(controller),
+        panels_(false, 10),
+        menu_buttons_(true, 10),
+        new_game_("Start new game with seed:"),
+        end_game_("End current game") {
+
     set_title("Straights UI");
     set_border_width(10);
 
-    // Add the main panel to the window
+    // Add the mai1n panel to the window
     add(panels_);
-
 
     panels_.pack_start(menu_buttons_, Gtk::PACK_SHRINK);
     panels_.pack_start(table_, Gtk::PACK_SHRINK);
@@ -41,19 +38,19 @@ GameView::GameView(GameController* controller, Game* game) :
     // add cards to the frame
     table_.add(*(game_->deck()));
 
-    // add the player panel
-    //table_.add(*(game_->getPlayerPanel()));
-
-    /*
-    // fill up the table of cards
-    for (unsigned int i = 0; i < Suit::SUIT_COUNT; i++) {
-        for (unsigned int j = 0; j < Rank::RANK_COUNT; j++) {
-            cards_.attach(*(game_->deck()->getCardAt(i*Rank::RANK_COUNT+j)->getImage()), j, j+1, i, i+1, Gtk::EXPAND, Gtk::EXPAND, 5, 5);
-        }
-    }
-    */
     new_game_.signal_clicked().connect(sigc::mem_fun(*this, &GameView::newGameButtonClicked) );
     //end_game_.signal_clicked().connect(sigc::mem_fun(*this, &GameView::endGameButtonClicked) );
+
+    // add the player panel
+    panels_.add(player_panel_);
+    for (unsigned int i = 0; i < 4; i++) {
+        player_gui[i] = new PlayerGui();
+        player_panel_.attach(*(player_gui[i]), i, i+1, 0, 1, Gtk::EXPAND, Gtk::EXPAND, 2, 2);
+    }
+
+    panels_.add(player_hand_);
+
+
     seed_buffer_ = Gtk::EntryBuffer::create();
     seed_buffer_ ->set_text("0");
     rng_seed_.set_buffer(seed_buffer_);
@@ -69,20 +66,8 @@ void GameView::update() {
 }
 
 void GameView::newGameButtonClicked() {
-    Gtk::Window window;
-
-    Gtk::HBox panels;
-
-    Gtk::Button okay("Okay");
-    Gtk::ComboBox playerType;
-
-    panels.pack_start(playerType);
-    panels.pack_start(okay);
-    window.add(panels);
-
-    window.show_all_children();
-    Gtk::Main::run(window);
-    std::cout << "test" << std::endl;
+    PlayerSelections selections(*this, "hello", game_->NUM_PLAYERS);
+    game_->reset(selections.query());
 }
 
 void GameView::endGameButtonClicked() {}

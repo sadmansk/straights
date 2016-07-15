@@ -7,6 +7,8 @@
 #include "Observer.h"
 #include "GameController.h"
 #include "Game.h"
+#include "PlayerGui.h"
+#include "PlayerSelections.h"
 
 // View class
 class GameView : public Gtk::Window, public Observer {
@@ -18,7 +20,7 @@ private:
 	// Observer Pattern: to access model accessors without having to downcast subject
 	Game *game_;
     GameState state_;
-	
+
 	// Strategy Pattern member (plus signal handlers)
 	GameController *controller_;
 
@@ -27,11 +29,12 @@ private:
     Gtk::HBox menu_buttons_;            // Top panel containing new and end game options and seed value
     Gtk::Frame table_;                  // Shows the cards on the table
     Gtk::Table player_panel_;             // Panel showing the status of the players
-    Gtk::Frame player_hand_;              // Panel containing the hand of the current player
+    HandGui player_hand_;              // Panel containing the hand of the current player
     Gtk::Button new_game_;
     Gtk::Button end_game_;
     Gtk::Entry rng_seed_;             // Text box holding the current seed
     Glib::RefPtr<Gtk::EntryBuffer> seed_buffer_;
+    std::array< PlayerGui*, 4 > player_gui;
 
     // helper functions
     /*
