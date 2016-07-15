@@ -203,12 +203,15 @@ std::string Game::listSpades() const { // list all the played spades
 }
 
 void Game::reset(const std::vector<char> players){
-    assert(players.size() == 4);
+    assert(players.size() == NUM_PLAYERS);
 
     //clear old players / board
     for (unsigned int i = 0; i < player_count_; i++) {
         delete players_[i];
     }
+
+    player_count_ = 0;
+    current_player_ = -1;
     played_cards_.clear();
 
     std::vector<char>::const_iterator player;

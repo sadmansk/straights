@@ -66,11 +66,19 @@ void GameView::update() {
 }
 
 void GameView::newGameButtonClicked() {
-    PlayerSelections selections(*this, "hello", game_->NUM_PLAYERS);
+    PlayerSelections selections(*this, "Human or Computer Players?", game_->NUM_PLAYERS);
     game_->reset(selections.query());
+    startRound();
 }
 
 void GameView::endGameButtonClicked() {}
+
+void GameView::startRound() {
+    int first_player = controller_->onStartRound();
+
+    std::cout << "A new round begins. It's player " << first_player << "'s turn to play." << std::endl;
+}
+
 /*
 void GameView::start() {
     // first we invite all the players
@@ -156,12 +164,6 @@ void GameView::run() {
     } // prints nothing if the state was GAME_QUIT
 }
 
-
-void GameView::startRound() {
-    int first_player = controller_->onStartRound();
-
-    std::cout << "A new round begins. It's player " << first_player << "'s turn to play." << std::endl;
-}
 
 void GameView::invitePlayers() {
     for (unsigned int i = 0; i < Game::NUM_PLAYERS; i++) {

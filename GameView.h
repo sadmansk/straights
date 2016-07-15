@@ -36,10 +36,11 @@ private:
     Glib::RefPtr<Gtk::EntryBuffer> seed_buffer_;
     std::array< PlayerGui*, 4 > player_gui;
 
+    virtual void startRound();          // start a new round
+
     // helper functions
     /*
     virtual void invitePlayers();       // invite and add the players
-    virtual void startRound();          // start a new round
     virtual void run();                 // run the game loop
     */
 

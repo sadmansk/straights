@@ -8,6 +8,7 @@
 #include "PlayerSelections.h"
 #include <gtkmm/stock.h>
 #include <iostream>
+#include <cassert>
 
 using std::string;
 using std::vector;
@@ -17,11 +18,12 @@ PlayerSelections::PlayerSelections( Gtk::Window & parentWindow, string title, in
     // Obtain the dialog box's vertical alignment box.
     Gtk::VBox* contentArea = this->get_vbox();
 
+    assert(players > 0);
     // Set up a group of radio buttons
-      for ( unsigned int i = 0; i < players ; i++ ) {
+      for ( int i = 0; i < players ; i++ ) {
           choices.push_back( new Gtk::ComboBoxText);
           choices[i]->append("Human Player");
-          choices[i]->append("ComputerPlayer");
+          choices[i]->append("Computer Player");
           choices[i]->set_active(0);
           contentArea->add( *choices[i] );
       }
@@ -36,7 +38,7 @@ std::vector<char> PlayerSelections::query(){
     // Wait for a response from the dialog box.
     int result = run();
     switch (result) {
-    case Gtk::RESPONSE_OK:
+    case Gtk::RESPONSE_OK:{
         std::vector<char> response;
 
         for ( unsigned int i = 0; i < choices.size(); i++ ) {
@@ -49,7 +51,10 @@ std::vector<char> PlayerSelections::query(){
         }
 
         return response;
-        break;
+        }break;
+    default:
+        std::vector<char> empty;
+        return empty;
     }
 }
 
