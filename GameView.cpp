@@ -35,6 +35,7 @@ GameView::GameView(GameController* controller, Game* game) :
     table_.set_label_align(Gtk::ALIGN_LEFT, Gtk::ALIGN_TOP);
     /* Set the style of the frame */
     table_.set_shadow_type(Gtk::SHADOW_ETCHED_OUT);  // Add the sub panels to the main panel
+
     // add cards to the frame
     table_.add(*(game_->deck()));
 
@@ -67,7 +68,11 @@ void GameView::update() {
 
 void GameView::newGameButtonClicked() {
     PlayerSelections selections(*this, "Human or Computer Players?", game_->NUM_PLAYERS);
-    game_->reset(selections.query());
+    std::vector<char> players;
+    while( players.size() != game_->NUM_PLAYERS){
+        players = selections.query();
+    }
+    game_->reset(players);
     startRound();
 }
 
