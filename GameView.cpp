@@ -42,7 +42,7 @@ GameView::GameView(GameController* controller, Game* game) :
     table_.add(*(game_->deck()));
 
     // add the player panel
-    table_.add(*(game_->getPlayerPanel()));
+    //table_.add(*(game_->getPlayerPanel()));
 
     /*
     // fill up the table of cards
@@ -52,8 +52,8 @@ GameView::GameView(GameController* controller, Game* game) :
         }
     }
     */
-    //new_game.signal_clicked().connect(sigc::mem_fun(*this, &GameView::newGameButtonClicked) );
-    //end_game.signal_clicked().connect(sigc::mem_fun(*this, &GameView::endGameButtonClicked) );
+    new_game_.signal_clicked().connect(sigc::mem_fun(*this, &GameView::newGameButtonClicked) );
+    //end_game_.signal_clicked().connect(sigc::mem_fun(*this, &GameView::endGameButtonClicked) );
     seed_buffer_ = Gtk::EntryBuffer::create();
     seed_buffer_ ->set_text("0");
     rng_seed_.set_buffer(seed_buffer_);
@@ -68,7 +68,23 @@ void GameView::update() {
     state_ = game_->getState();
 }
 
-void GameView::newGameButtonClicked() {}
+void GameView::newGameButtonClicked() {
+    Gtk::Window window;
+
+    Gtk::HBox panels;
+
+    Gtk::Button okay("Okay");
+    Gtk::ComboBox playerType;
+
+    panels.pack_start(playerType);
+    panels.pack_start(okay);
+    window.add(panels);
+
+    window.show_all_children();
+    Gtk::Main::run(window);
+    std::cout << "test" << std::endl;
+}
+
 void GameView::endGameButtonClicked() {}
 /*
 void GameView::start() {
