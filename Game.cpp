@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "HumanPlayer.h"
 #include "ComputerPlayer.h"
+#include "PlayerGui.h"
 #include <sstream>
 
 // initialize static variables
@@ -208,7 +209,7 @@ std::string Game::listSpades() const { // list all the played spades
     return listBySuit(played_cards_, SPADE);
 }
 
-void Game::reset(const std::vector<char> players){
+void Game::reset(const std::vector<char> players, std::array<PlayerGui*, 4>& player_gui){
     assert(players.size() == NUM_PLAYERS);
 
     //clear old players / board
@@ -223,6 +224,8 @@ void Game::reset(const std::vector<char> players){
     std::vector<char>::const_iterator player;
     for(player = players.begin();  player != players.end(); player++){
         addPlayer(*player);
+        player_gui[player_count_-1]->setPlayer(player_count_);
+
     }
     state_ = GameState::GAME_START;
     notify();

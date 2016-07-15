@@ -34,16 +34,11 @@ private:
     Gtk::Button end_game_;
     Gtk::Entry rng_seed_;             // Text box holding the current seed
     Glib::RefPtr<Gtk::EntryBuffer> seed_buffer_;
-    std::array< PlayerGui*, 4 > player_gui;
-
-    virtual void startRound();          // start a new round
-
-    virtual void run();                 // run the game loop
+    std::array< PlayerGui*, 4 > player_gui_;
 
     // helper functions
-    /*
-    virtual void invitePlayers();       // invite and add the players
-    */
+    virtual void startRound();          // start a new round
+    virtual void run();                 // run the game loop
 
     // signal handlers
     void newGameButtonClicked();

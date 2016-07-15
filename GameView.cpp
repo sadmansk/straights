@@ -45,8 +45,8 @@ GameView::GameView(GameController* controller, Game* game) :
     // add the player panel
     panels_.add(player_panel_);
     for (unsigned int i = 0; i < 4; i++) {
-        player_gui[i] = new PlayerGui();
-        player_panel_.attach(*(player_gui[i]), i, i+1, 0, 1, Gtk::EXPAND, Gtk::EXPAND, 2, 2);
+        player_gui_[i] = new PlayerGui(controller_);
+        player_panel_.attach(*(player_gui_[i]), i, i+1, 0, 1, Gtk::EXPAND, Gtk::EXPAND, 2, 2);
     }
 
     panels_.add(player_hand_);
@@ -73,7 +73,11 @@ void GameView::newGameButtonClicked() {
         players = selections.query();
     }
 
-    game_->reset(players);
+    game_->reset(players, player_gui_); // TODO: BAD, this is not MVC
+
+    // update the player cards
+    assert(player_gui_.size() == game_->NUM_PLAYERS);
+
     run();
 }
 
@@ -88,9 +92,7 @@ void GameView::startRound() {
 
 void GameView::run() {
     // game loop
-    while (state_ != GameState::GAME_OVER && state_ != GameState::GAME_QUIT) {
-        startRound();
-        update();
+    while (state_ != GameState::GAME_OVER && state_ != GameState::GAME_QUIT) { startRound(); update();
         while (state_ != GameState::ROUND_ENDED) {
             if (state_ == GameState::COMPUTER_PLAYER_TURN) {
                 std::cout << controller_->onAITurn() << std::endl;
@@ -161,32 +163,3 @@ void GameView::run() {
         }
     } // prints nothing if the state was GAME_QUIT
 }
-
-/*
-void GameView::start() {
-    // first we invite all the players
-    invitePlayers();
-
-    // run the game
-    run();
-}
-
-
-
-
-void GameView::invitePlayers() {
-    for (unsigned int i = 0; i < Game::NUM_PLAYERS; i++) {
-        std::cout << "Is player " << i+1 << " a human(h) or a computer(c)?\n>";
-        char cmd;
-        std::cin >> cmd;
-        if (cmd == 'h') {
-            controller_->onPlayerAdded(cmd);
-        }
-        else if (cmd == 'c') {
-            controller_->onPlayerAdded(cmd);
-        }
-        else {
-            assert(cmd); // TODO: gotta change how failure or invalidity is handled
-        }
-    }
-}*/
