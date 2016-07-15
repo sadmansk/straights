@@ -40,7 +40,7 @@ GameView::GameView(GameController* controller, Game* game) :
     table_.add(*(game_->deck()));
 
     new_game_.signal_clicked().connect(sigc::mem_fun(*this, &GameView::newGameButtonClicked) );
-    //end_game_.signal_clicked().connect(sigc::mem_fun(*this, &GameView::endGameButtonClicked) );
+    end_game_.signal_clicked().connect(sigc::mem_fun(*this, &GameView::endGameButtonClicked) );
 
     // add the player panel
     panels_.add(player_panel_);
@@ -72,24 +72,18 @@ void GameView::newGameButtonClicked() {
     while( players.size() != game_->NUM_PLAYERS){
         players = selections.query();
     }
+
     game_->reset(players);
-    startRound();
+    run();
 }
 
-void GameView::endGameButtonClicked() {}
+void GameView::endGameButtonClicked() {
+    gtk_main_quit();
+}
 
 void GameView::startRound() {
     int first_player = controller_->onStartRound();
     std::cout << "A new round begins. It's player " << first_player << "'s turn to play." << std::endl;
-}
-
-/*
-void GameView::start() {
-    // first we invite all the players
-    invitePlayers();
-
-    // run the game
-    run();
 }
 
 void GameView::run() {
@@ -162,11 +156,22 @@ void GameView::run() {
     }
     if (state_ == GameState::GAME_OVER) {
         std::vector<int> winners = game_->winners();
-        for(int i = 0; i < winners.size(); i++){
+        for(unsigned int i = 0; i < winners.size(); i++){
             std::cout << "Player " << winners[i] << " wins!" << std::endl;
         }
     } // prints nothing if the state was GAME_QUIT
 }
+
+/*
+void GameView::start() {
+    // first we invite all the players
+    invitePlayers();
+
+    // run the game
+    run();
+}
+
+
 
 
 void GameView::invitePlayers() {

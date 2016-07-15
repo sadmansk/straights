@@ -29,6 +29,7 @@ bool Player::checkLegality(const Card& first, const std::vector<Card*>& played) 
 }
 
 Player::Player() {
+    score_ = 0;
 }
 
 Player::~Player() {

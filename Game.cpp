@@ -21,6 +21,7 @@ Game::~Game() {
    for (unsigned int i = 0; i < player_count_; i++) {
        delete players_[i];
    }
+   
    delete deck_;
 }
 
@@ -136,7 +137,7 @@ std::string Game::aiTurn() {
     ss << "Player " << current_player_ << " " << play.second << " " << *play.first << ".";
     state_ = GameState::NEXT_TURN;      //TODO, kind of sketch, but ai turn should never fail, so whatevs
     if(play.second == "plays"){
-        deck_->off(play.first);
+        deck_->on(play.first);
     }
     notify();
     return ss.str();
@@ -223,6 +224,8 @@ void Game::reset(const std::vector<char> players){
     for(player = players.begin();  player != players.end(); player++){
         addPlayer(*player);
     }
+    state_ = GameState::GAME_START;
+    notify();
 }
 
 std::string Game::updateScore(int player) {

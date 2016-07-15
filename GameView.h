@@ -38,10 +38,11 @@ private:
 
     virtual void startRound();          // start a new round
 
+    virtual void run();                 // run the game loop
+
     // helper functions
     /*
     virtual void invitePlayers();       // invite and add the players
-    virtual void run();                 // run the game loop
     */
 
     // signal handlers
