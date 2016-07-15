@@ -15,7 +15,7 @@ public:
     Deck* onShowDeck();              // shows the deck
     void onQuit();
     int onRageQuit();
-    std::string onPlay(const Card&);
+    std::string onPlay(Card&);
     std::string onDiscard(const Card&);
     std::string listClubs() const;  // list all the played clubs
     std::string listDiamonds() const;// list all the played diamonds

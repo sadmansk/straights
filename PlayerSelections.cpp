@@ -51,7 +51,7 @@ std::vector<char> PlayerSelections::query(){
         }
 
         return response;
-        }break;
+        } break;
     default:
         std::vector<char> empty;
         return empty;

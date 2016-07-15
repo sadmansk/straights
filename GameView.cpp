@@ -80,7 +80,6 @@ void GameView::endGameButtonClicked() {}
 
 void GameView::startRound() {
     int first_player = controller_->onStartRound();
-
     std::cout << "A new round begins. It's player " << first_player << "'s turn to play." << std::endl;
 }
 

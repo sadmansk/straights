@@ -51,6 +51,7 @@ int Game::startRound() {
         // distribute the cards uniformly
         for (int j = 0; j < CARD_COUNT/NUM_PLAYERS; ++j) {
             Card* cur_card = deck_->getCardAt((j + (i* Rank::RANK_COUNT)));
+            deck_->off(cur_card);
             (*iter)->addCard(cur_card);
             // check if the current card is the seven of spades
             if (cur_card->getSuit() == SPADE && cur_card->getRank() == SEVEN)
@@ -72,11 +73,12 @@ void Game::endTurn() {
     notify();
 }
 
-std::string Game::play(const Card& card) {
+std::string Game::play(Card& card) {
     state_ = players_[current_player_-1]->playCard(card, played_cards_);
     std::stringstream ss;
     if (state_ != GameState::ILLEGAL_PLAY) {
         ss << "Player " << current_player_ << " plays " << card << "." << std::endl;
+        deck_->on( &card );
     }
     notify();
     return ss.str();
@@ -133,6 +135,9 @@ std::string Game::aiTurn() {
     std::stringstream ss;
     ss << "Player " << current_player_ << " " << play.second << " " << *play.first << ".";
     state_ = GameState::NEXT_TURN;      //TODO, kind of sketch, but ai turn should never fail, so whatevs
+    if(play.second == "plays"){
+        deck_->off(play.first);
+    }
     notify();
     return ss.str();
 }

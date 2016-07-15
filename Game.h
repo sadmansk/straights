@@ -33,7 +33,7 @@ public:
     void addPlayer(const char);     // adds a new player to the game
     GameState getState();           // accessor for the game state
     Deck* deck() const;             // accessor for the deck
-    std::string play(const Card&);         // play the given card of the current player
+    std::string play(Card&);         // play the given card of the current player
     std::string discard(const Card&);      // discard the given card of the current player
     void quit();                    // quit the game
     int rageQuit();                // rage quit the current player

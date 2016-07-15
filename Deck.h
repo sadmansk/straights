@@ -13,7 +13,8 @@ public:
     void shuffle();             // public function fot shuffling the deck
     Card* getCardAt(int) const; // accessor for individual cards
     static int rng_seed;        // global static seed for rng
-
+    void on(Card*);
+    void off(Card*);
 private:
     Card* cards_[CARD_COUNT]; // array of cards
 };

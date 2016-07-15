@@ -10,20 +10,20 @@ enum Suit { CLUB, DIAMOND, HEART, SPADE, SUIT_COUNT };
 enum Rank { ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN,
 			EIGHT, NINE, TEN, JACK, QUEEN, KING, RANK_COUNT };
 
-class Card{
+class Card : public Gtk::Image{
 	friend std::istream &operator>>(std::istream &, Card &);
 
 public:
 	Card(Suit, Rank);
 	Suit getSuit() const;
 	Rank getRank() const;
-    Gtk::Image* getImage(bool show = false);
-	
+	void hide();
+	void show();
 private:
 	Suit suit_;
 	Rank rank_;
-    Gtk::Image image_;
-    Gtk::Image hidden_;
+	std::string imagePath;
+	std::string nothingPath = "img/nothing.png";
 };
 
 bool operator==(const Card &, const Card &);

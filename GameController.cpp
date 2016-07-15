@@ -23,7 +23,7 @@ void GameController::onQuit() {
     game_->quit();
 }
 
-std::string GameController::onPlay(const Card& card) {
+std::string GameController::onPlay(Card& card) {
     return game_->play(card);
 }
 
