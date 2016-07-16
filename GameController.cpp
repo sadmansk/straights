@@ -35,7 +35,7 @@ std::string GameController::onAITurn(){
     return game_->aiTurn();
 }
 
-std::string GameController::getHand() const{
+std::vector< std::pair<Card*, bool> >  GameController::getHand() const{
     return game_->getHand();
 }
 

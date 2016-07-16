@@ -2,6 +2,9 @@
 #define GAME_CONTROLLER_H_
 
 #include "Game.h"
+#include "Card.h"
+#include <vector>
+#include <utility>
 
 #include <ostream>
 
@@ -22,7 +25,7 @@ public:
     std::string listHearts() const; // list all the played hearts
     std::string listSpades() const; // list all the played spades
     std::string onAITurn();                // computer player's turn
-    std::string getHand() const;    // returns the hand of the current player
+    std::vector< std::pair<Card*, bool> > getHand() const;    // returns the hand of the current player
     std::string getLegalPlays() const;//returns the legal plays of the current player
     void endTurn();                 // end turn of the current player
     void endRound();                // end the current round

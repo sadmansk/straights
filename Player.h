@@ -5,6 +5,7 @@
 #include <array>
 #include <vector>
 #include <unordered_set>
+#include <utility>
 
 enum class GameState: unsigned int;
 
@@ -19,6 +20,7 @@ public:
     GameState playCard(const Card&, std::vector<Card*>&);                     // play a legal card
     GameState discardCard(const Card&, const std::vector<Card*>& );                  // discard a card if no plays can be made
     std::vector<Card*> legalMoves(const std::vector<Card*>& ) const;            // return a set of legal moves
+    std::vector< std::pair<Card*,bool> > markedCards(const std::vector<Card*>& ) const;            // return a set of legal moves
     Card* removeFromHand(const Card&);     // find a pointer to a card given a suit and rank
     int getScore();                                // gets current score of player
     std::vector<Card*> getDiscards() const;        // return the discarded cards

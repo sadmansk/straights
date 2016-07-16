@@ -2,6 +2,7 @@
 #define GAME_H_
 
 #include <array>
+#include <utility>
 #include <vector>
 #include <ostream>
 #include "Subject.h"
@@ -48,7 +49,7 @@ public:
     std::string listSpades() const; // list all the spades on the table
     int getDiscards(int) const; //gets all the discarded cards of a player
     int updateScore(int);       //updates and returns score of player
-    std::string getHand() const;   // show the hand of the current player
+    std::vector< std::pair<Card*, bool> > getHand() const;   // show the hand of the current player
     std::string getLegalPlays() const;//show the legal plays of the current player
     void reset(const std::vector<char>, std::array<PlayerGui*, 4>&); //resets game to group of players
 

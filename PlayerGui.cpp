@@ -24,11 +24,17 @@ void HandGui::update(const std::vector< std::pair<Card*, bool> >& cards) {
     for (; i < cards.size(); i++) {
         cards_[i]->set_image(*(cards[i].first));
         cards_[i]->set_sensitive(cards[i].second);
+        cards_[i]->signal_clicked().connect(sigc::bind<Card&>(sigc::mem_fun(*this, &HandGui::onCardClicked), *(cards[i].first) ) );
     }
     for (; i < cards_.size(); i++) {
         cards_[i]->set_image(*(nothing_[i]));
         cards_[i]->set_sensitive(false);
     }
+}
+
+void HandGui::onCardClicked(Card& card) {
+    controller_->onPlay(card);
+    controller_->endTurn();
 }
 
 PlayerGui::PlayerGui(GameController* controller) : container_(false, 5), rage_button_("RAGE!"), score_label_("Score: 0"), discards_label_("Discards: 0"), controller_(controller) {

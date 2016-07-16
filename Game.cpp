@@ -144,7 +144,7 @@ std::string Game::aiTurn() {
     return ss.str();
 }
 
-std::string Game::getHand() const{
+std::vector< std::pair<Card*, bool> > Game::getHand() const{
     std::vector<Card*> hand = ((HumanPlayer*) players_[current_player_-1])->getHand();
     std::stringstream ss;
 
@@ -152,7 +152,7 @@ std::string Game::getHand() const{
     for(card = hand.begin(); card != hand.end(); ++card){
        ss << " " << **card;
     }
-    return ss.str();
+    return ((HumanPlayer*) players_[current_player_-1])->markedCards(played_cards_);
 }
 
 std::string Game::getLegalPlays() const{

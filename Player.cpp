@@ -104,6 +104,22 @@ std::vector<Card*> Player::legalMoves(const std::vector<Card*>& played_cards) co
         assert( legalPlays.size() == 1 );
     }
     return legalPlays;
+
+}
+
+std::vector<std::pair<Card*,bool> > Player::markedCards(const std::vector<Card*>& played_cards) const {
+    std::vector<std::pair<Card*,bool> > markedCards;
+
+    std::vector<Card*>::const_iterator card;
+    for(card = hand_.begin(); card != hand_.end(); ++card){
+        if (checkLegality(**card, played_cards)) {
+            markedCards.push_back({*card,true});
+        } else {
+            markedCards.push_back({*card,false});
+        }
+    }
+
+    return markedCards;
 }
 
 int Player::updateScore(){
