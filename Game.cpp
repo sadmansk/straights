@@ -136,7 +136,6 @@ std::string Game::aiTurn() {
     std::pair<Card*, std::string>  play = ((ComputerPlayer*) players_[current_player_-1]) -> autoPlay(played_cards_);
     std::stringstream ss;
     ss << "Player " << current_player_ << " " << play.second << " " << *play.first << ".";
-    state_ = GameState::NEXT_TURN;      //TODO, kind of sketch, but ai turn should never fail, so whatevs
     if(play.second == "plays"){
         deck_->on(play.first);
     }

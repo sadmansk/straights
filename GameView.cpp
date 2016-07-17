@@ -97,11 +97,15 @@ void GameView::startGame() {
 }
 
 void GameView::nextTurn() {
+    update();
     if (state_ == GameState::COMPUTER_PLAYER_TURN) {
         aiTurn();
     }
     else if (state_ == GameState::HUMAN_PLAYER_TURN) {
         humanTurn();
+
+        // go to the next player
+        player_index_ = (player_index_+1)%4;
     }
     else if (state_ == GameState::ROUND_ENDED) {
         for (int i = 0; i < Game::NUM_PLAYERS; i++) {
@@ -116,10 +120,6 @@ void GameView::nextTurn() {
             std::cout << "Player " << winners[i] << " wins!" << std::endl;
         }
     } // prints nothing if the state was GAME_QUIT
-
-    // go to the next player
-    player_index_ = (player_index_+1)%4;
-    update();
 }
 
 void GameView::aiTurn() {
@@ -127,6 +127,9 @@ void GameView::aiTurn() {
         // go through computer player turns
         controller_->onAITurn();
         controller_->endRound();
+
+        // go to the next player
+        player_index_ = (player_index_+1)%4;
         update();
     }
 }

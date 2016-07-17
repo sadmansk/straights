@@ -11,6 +11,7 @@ HandGui::HandGui(GameView* parent, GameController* controller) : hand_(1, 13), c
         cards_[i] = new Gtk::Button();
         nothing_[i] = new Gtk::Image("img/nothing.png");
         cards_[i]->set_image(*(nothing_[i]));
+        cards_[i]->set_sensitive(false);
         hand_.attach(*(cards_[i]), i, i+1, 0, 1, Gtk::FILL, Gtk::FILL);
     }
 }
