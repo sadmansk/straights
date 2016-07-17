@@ -34,7 +34,7 @@ void HandGui::update(const std::vector< std::pair<Card*, bool> >& cards) {
     for (; i < cards.size(); i++) {
         cards_[i]->set_image(*(cards[i].first->getImage()));
         cards_[i]->set_sensitive(cards[i].second || mustDicard);
-        cards_[i]->signal_clicked().connect(sigc::bind<Card&>(sigc::mem_fun(*this, &HandGui::onCardClicked), *(cards[i].first),  cards[i].second) );
+        signals_[i] = cards_[i]->signal_clicked().connect(sigc::bind<Card&>(sigc::mem_fun(*this, &HandGui::onCardClicked), *(cards[i].first),  cards[i].second) );
     }
     for (; i < cards_.size(); i++) {
         cards_[i]->set_image(*(nothing_[i]));
@@ -51,7 +51,9 @@ void HandGui::onCardClicked(Card& card, bool playable) {
     }
 
     for(unsigned int i = 0; i < cards_.size(); i++){ //TODO not working for some reason
-        cards_[i]->set_sensitive(true);
+        cards_[i]->set_sensitive(false);
+        cards_[i]->set_image(*(nothing_[i]));
+        signals_[i].disconnect();
     }
 
     controller_->endTurn();

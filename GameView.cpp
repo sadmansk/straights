@@ -99,6 +99,7 @@ void GameView::endGameButtonClicked() {
 
 int GameView::startRound() {
     return controller_->onStartRound();
+    nextTurn();
 }
 
 void GameView::startGame() {
@@ -132,15 +133,13 @@ void GameView::nextTurn() {
 }
 
 void GameView::aiTurn() {
-    while (state_ == GameState::COMPUTER_PLAYER_TURN) {
-        // go through computer player turns
-        controller_->onAITurn();
-        controller_->endTurn();
+    // go through computer player turns
+    controller_->onAITurn();
+    controller_->endTurn();
 
-        // go to the next player
-        player_index_ = (player_index_+1)%4;
-        update();
-    }
+    // go to the next player
+    player_index_ = (player_index_+1)%4;
+    nextTurn();
 }
 
 void GameView::humanTurn() {
