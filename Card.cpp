@@ -11,9 +11,9 @@ Card::Card(Suit s, Rank r){
 	string ranks = "0123456789jqk";
     std::stringstream image_name;
     image_name << "img/" << s << "_" << ranks[r] << ".png";
-    imagePath = image_name.str();
+    imagePath_ = image_name.str();
 
-	set(imagePath);
+	set(imagePath_);
 }
 
 Suit Card::getSuit() const{
@@ -24,12 +24,18 @@ Rank Card::getRank() const{
 	return rank_;
 }
 
+Gtk::Image* Card::getImage() const{
+	Gtk::Image* image = new Gtk::Image;
+	image->set(imagePath_);
+	return image;
+}
+
 void Card::hide(){
-	set(nothingPath);
+	set(nothingPath_);
 }
 
 void Card::show(){
-	set(imagePath);
+	set(imagePath_);
 }
 
 bool operator==(const Card &a, const Card &b){

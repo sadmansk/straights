@@ -17,13 +17,14 @@ public:
 	Card(Suit, Rank);
 	Suit getSuit() const;
 	Rank getRank() const;
+	Gtk::Image* getImage() const;
 	void hide();
 	void show();
 private:
 	Suit suit_;
 	Rank rank_;
-	std::string imagePath;
-	std::string nothingPath = "img/nothing.png";
+	std::string imagePath_;
+	std::string nothingPath_ = "img/nothing.png";
 };
 
 bool operator==(const Card &, const Card &);

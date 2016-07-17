@@ -24,9 +24,16 @@ HandGui::~HandGui() {
 
 void HandGui::update(const std::vector< std::pair<Card*, bool> >& cards) {
     unsigned int i = 0;
+    bool mustDicard= true;
+    for(int j = 0; j < cards.size(); j++){
+        if(cards[j].second){
+            mustDicard = false;
+        }
+    }
+
     for (; i < cards.size(); i++) {
-        cards_[i]->set_image(*(cards[i].first));
-        cards_[i]->set_sensitive(cards[i].second);
+        cards_[i]->set_image(*(cards[i].first->getImage()));
+        cards_[i]->set_sensitive(cards[i].second || mustDicard); 
         cards_[i]->signal_clicked().connect(sigc::bind<Card&>(sigc::mem_fun(*this, &HandGui::onCardClicked), *(cards[i].first) ) );
     }
     for (; i < cards_.size(); i++) {

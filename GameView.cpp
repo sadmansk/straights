@@ -75,8 +75,17 @@ void GameView::newGameButtonClicked() {
 
     if(players.size() != game_->NUM_PLAYERS)
         return;
-        
-    game_->reset(players, player_gui_); // TODO: BAD, this is not MVC
+
+    std::string seedText = seed_buffer_->get_text();
+    int seedValue = 0;
+    try{
+        seedValue = atoi(seedText.c_str());
+    }
+    catch(...){
+        seed_buffer_->set_text("0");
+        seedValue = 0;
+    }
+    game_->reset(players, player_gui_, seedValue); // TODO: BAD, this is not MVC
 
     // update the player cards
     assert(player_gui_.size() == game_->NUM_PLAYERS);
@@ -136,15 +145,16 @@ void GameView::aiTurn() {
 }
 
 void GameView::humanTurn() {
+    std::cout << player_index_ << std::endl;
     // enable rage
-    player_gui_[player_index_]->enableRage();
+    player_gui_[player_index_ - 1]->enableRage();
     // update hand
     player_hand_.update(controller_->getHand());
     // update discard count
-    player_gui_[player_index_]->updateDiscard(controller_->getDiscards(player_index_));
+    player_gui_[player_index_ - 1]->updateDiscard(controller_->getDiscards(player_index_ - 1));
 }
 
 void GameView::disableRage() {
     // disable rage of the current player
-    player_gui_[player_index_]->disableRage();
+    player_gui_[player_index_ - 1]->disableRage();
 }

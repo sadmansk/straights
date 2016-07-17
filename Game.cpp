@@ -145,12 +145,7 @@ std::string Game::aiTurn() {
 
 std::vector< std::pair<Card*, bool> > Game::getHand() const{
     std::vector<Card*> hand = ((HumanPlayer*) players_[current_player_-1])->getHand();
-    std::stringstream ss;
 
-    std::vector<Card*>::iterator card;
-    for(card = hand.begin(); card != hand.end(); ++card){
-       ss << " " << **card;
-    }
     return ((HumanPlayer*) players_[current_player_-1])->markedCards(played_cards_);
 }
 
@@ -204,14 +199,14 @@ std::string Game::listSpades() const { // list all the played spades
     return listBySuit(played_cards_, SPADE);
 }
 
-void Game::reset(const std::vector<char> players, std::array<PlayerGui*, 4>& player_gui){
+void Game::reset(const std::vector<char> players, std::array<PlayerGui*, 4>& player_gui, int seed){
     assert(players.size() == NUM_PLAYERS);
 
     //clear old players / board
     for (unsigned int i = 0; i < player_count_; i++) {
         delete players_[i];
     }
-
+    Deck::rng_seed = seed;
     player_count_ = 0;
     current_player_ = -1;
     played_cards_.clear();
@@ -219,9 +214,8 @@ void Game::reset(const std::vector<char> players, std::array<PlayerGui*, 4>& pla
     std::vector<char>::const_iterator player;
     for(player = players.begin();  player != players.end(); player++){
         addPlayer(*player);
-        player_gui[player_count_ - 1]->setPlayer(player_count_ - 1);
+        player_gui[player_count_-1]->setPlayer(player_count_);
     }
-
     state_ = GameState::GAME_START;
     notify();
 }
