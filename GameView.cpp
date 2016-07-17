@@ -10,10 +10,11 @@ GameView::GameView(GameController* controller, Game* game) :
         controller_(controller),
         panels_(false, 10),
         menu_buttons_(true, 10),
-        player_hand_(controller_),
+        player_hand_(this, controller_),
         new_game_("Start new game with seed:"),
         end_game_("End current game") {
         
+    player_index_ = 0;
 
     set_title("Straights UI");
     set_border_width(10);
@@ -47,7 +48,7 @@ GameView::GameView(GameController* controller, Game* game) :
     // add the player panel
     panels_.add(player_panel_);
     for (unsigned int i = 0; i < 4; i++) {
-        player_gui_[i] = new PlayerGui(controller_);
+        player_gui_[i] = new PlayerGui(this, controller_);
         player_panel_.attach(*(player_gui_[i]), i, i+1, 0, 1, Gtk::EXPAND, Gtk::EXPAND, 2, 2);
     }
 
@@ -79,72 +80,67 @@ void GameView::newGameButtonClicked() {
     // update the player cards
     assert(player_gui_.size() == game_->NUM_PLAYERS);
 
-    run();
+    startGame();
 }
 
 void GameView::endGameButtonClicked() {
-    gtk_main_quit();
+    hide();
 }
 
-void GameView::startRound() {
-    int first_player = controller_->onStartRound();
-    std::cout << "A new round begins. It's player " << first_player << "'s turn to play." << std::endl;
+int GameView::startRound() {
+    return controller_->onStartRound();
 }
 
-void GameView::run() {
-    int player_index = 0;
-    // game loop
-    while (state_ != GameState::GAME_OVER && state_ != GameState::GAME_QUIT) { startRound(); update();
-        while (state_ != GameState::ROUND_ENDED) {
-            if (state_ == GameState::COMPUTER_PLAYER_TURN) {
-                std::cout << controller_->onAITurn() << std::endl;
-            }
-            else if (state_ == GameState::HUMAN_PLAYER_TURN) {
-                // do action for the current state
-                // enable rage
-                player_gui_[player_index]->enableRage();
-                // update hand
-                ///player_hand_.update(controller_->getHand());
-                std::cout << "Legal plays:" << controller_->getLegalPlays() << std::endl;
-                while (state_ != GameState::NEXT_TURN) {
-                    if (state_ == GameState::ILLEGAL_PLAY) {
-                        // TODO: Replace this with a dialog
-                        std::cout << "This is not a legal play." << std::endl;
-                    }
-                    else if(state_ == GameState::ILLEGAL_DISCARD){
-                        // TODO: Replace this with a dialog
-                        std::cout << "You have a legal play. You may not discard." << std::endl;
-                    }
+void GameView::startGame() {
+    player_index_ = startRound();
+    nextTurn();
+}
 
-                            //std::cout << controller_->onPlay(instr.card);
-                            //std::cout << controller_->onDiscard(instr.card);
-
-                    if(state_ == GameState::GAME_QUIT)
-                        return;
-                }
-            }
-            // update discard count
-            player_gui_[player_index]->updateDiscard(controller_->getDiscards(player_index));
-            // disable rage
-            player_gui_[player_index]->disableRage();
-            // go to the next player
-            controller_->endTurn();
-            player_index = (player_index+1)%4;
-        }
-        // After each round ends:
-        for (int i = 0; i < Game::NUM_PLAYERS; i++) {
-            //std::cout << "Player " << i + 1 << "'s discards:" << controller_->getDiscards(i) << std::endl;
-            player_gui_[i]->updateScore(controller_->updateScore(i));
-            player_gui_[i]->updateDiscard(controller_->getDiscards(i));
-
-            //std::cout << "Player " << i + 1 << "'s score: " << controller_->updateScore(i) << std::endl;
-        }
-        controller_->endRound();
+void GameView::nextTurn() {
+    if (state_ == GameState::COMPUTER_PLAYER_TURN) {
+        aiTurn();
     }
-    if (state_ == GameState::GAME_OVER) {
+    else if (state_ == GameState::HUMAN_PLAYER_TURN) {
+        humanTurn();
+    }
+    else if (state_ == GameState::ROUND_ENDED) {
+        for (int i = 0; i < Game::NUM_PLAYERS; i++) {
+            player_gui_[i]->updateScore(controller_->updateScore(i));
+        }
+        startRound();
+    }
+    else if (state_ == GameState::GAME_OVER) {
+        //TODO: winner screen goes here
         std::vector<int> winners = game_->winners();
         for(unsigned int i = 0; i < winners.size(); i++){
             std::cout << "Player " << winners[i] << " wins!" << std::endl;
         }
     } // prints nothing if the state was GAME_QUIT
+
+    // go to the next player
+    player_index_ = (player_index_+1)%4;
+    update();
+}
+
+void GameView::aiTurn() {
+    while (state_ == GameState::COMPUTER_PLAYER_TURN) {
+        // go through computer player turns
+        controller_->onAITurn();
+        controller_->endRound();
+        update();
+    }
+}
+
+void GameView::humanTurn() {
+    // enable rage
+    player_gui_[player_index_]->enableRage();
+    // update hand
+    player_hand_.update(controller_->getHand());
+    // update discard count
+    player_gui_[player_index_]->updateDiscard(controller_->getDiscards(player_index_));
+}
+
+void GameView::disableRage() {
+    // disable rage of the current player
+    player_gui_[player_index_]->disableRage();
 }

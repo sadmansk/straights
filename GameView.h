@@ -7,19 +7,23 @@
 #include "Observer.h"
 #include "GameController.h"
 #include "Game.h"
-#include "PlayerGui.h"
 #include "PlayerSelections.h"
+#include "PlayerGui.h"
+#include "HandGui.h"
 
 // View class
 class GameView : public Gtk::Window, public Observer {
 public:
     GameView(GameController*, Game*);   // contructor
     virtual void update();              // Observer pattern: concrete update method
+    virtual void nextTurn();            // do the magic for next turn
+    virtual void disableRage();         // disable rage for the current player
 
 private:
 	// Observer Pattern: to access model accessors without having to downcast subject
 	Game *game_;
     GameState state_;
+    int player_index_;
 
 	// Strategy Pattern member (plus signal handlers)
 	GameController *controller_;
@@ -37,8 +41,10 @@ private:
     std::array< PlayerGui*, 4 > player_gui_;
 
     // helper functions
-    virtual void startRound();          // start a new round
-    virtual void run();                 // run the game loop
+    virtual int startRound();          // start a new round
+    virtual void startGame();           // start a new game
+    virtual void humanTurn();           // on a human player's turn
+    virtual void aiTurn();              // on an AI player's turn
 
     // signal handlers
     void newGameButtonClicked();
