@@ -102,7 +102,7 @@ int GameView::startRound() {
 }
 
 void GameView::startGame() {
-    player_index_ = startRound();
+    player_index_ = startRound() - 1;
     nextTurn();
 }
 
@@ -147,14 +147,14 @@ void GameView::aiTurn() {
 void GameView::humanTurn() {
     std::cout << player_index_ << std::endl;
     // enable rage
-    player_gui_[player_index_ - 1]->enableRage();
+    player_gui_[player_index_]->enableRage();
     // update hand
     player_hand_.update(controller_->getHand());
     // update discard count
-    player_gui_[player_index_ - 1]->updateDiscard(controller_->getDiscards(player_index_ - 1));
+    player_gui_[player_index_]->updateDiscard(controller_->getDiscards(player_index_));
 }
 
 void GameView::disableRage() {
     // disable rage of the current player
-    player_gui_[player_index_ - 1]->disableRage();
+    player_gui_[player_index_]->disableRage();
 }

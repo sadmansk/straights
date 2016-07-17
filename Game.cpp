@@ -6,7 +6,7 @@
 #include "ComputerPlayer.h"
 #include "PlayerGui.h"
 #include <sstream>
-
+#include <iostream>
 // initialize static variables
 unsigned int Game::player_count_ = 0;
 
@@ -82,6 +82,7 @@ std::string Game::play(Card& card) {
         ss << "Player " << current_player_ << " plays " << card << "." << std::endl;
         deck_->on( &card );
     }
+    std::cout << ss.str();
     notify();
     return ss.str();
 }
@@ -110,6 +111,8 @@ std::string Game::discard(const Card& card) {
     if (state_ != GameState::ILLEGAL_DISCARD) {
         ss << "Player " << current_player_ << " discards " << card << "." << std::endl;
     }
+
+    std::cout << ss.str();
     notify();
     return ss.str();
 }

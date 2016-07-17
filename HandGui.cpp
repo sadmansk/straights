@@ -25,7 +25,7 @@ HandGui::~HandGui() {
 void HandGui::update(const std::vector< std::pair<Card*, bool> >& cards) {
     unsigned int i = 0;
     bool mustDicard= true;
-    for(int j = 0; j < cards.size(); j++){
+    for(unsigned int j = 0; j < cards.size(); j++){
         if(cards[j].second){
             mustDicard = false;
         }
@@ -33,8 +33,8 @@ void HandGui::update(const std::vector< std::pair<Card*, bool> >& cards) {
 
     for (; i < cards.size(); i++) {
         cards_[i]->set_image(*(cards[i].first->getImage()));
-        cards_[i]->set_sensitive(cards[i].second || mustDicard); 
-        cards_[i]->signal_clicked().connect(sigc::bind<Card&>(sigc::mem_fun(*this, &HandGui::onCardClicked), *(cards[i].first) ) );
+        cards_[i]->set_sensitive(cards[i].second || mustDicard);
+        cards_[i]->signal_clicked().connect(sigc::bind<Card&>(sigc::mem_fun(*this, &HandGui::onCardClicked), *(cards[i].first),  cards[i].second) );
     }
     for (; i < cards_.size(); i++) {
         cards_[i]->set_image(*(nothing_[i]));
@@ -42,8 +42,12 @@ void HandGui::update(const std::vector< std::pair<Card*, bool> >& cards) {
     }
 }
 
-void HandGui::onCardClicked(Card& card) {
-    controller_->onPlay(card);
+void HandGui::onCardClicked(Card& card, bool playable) {
+    if(playable){
+        controller_->onPlay(card);
+    } else{
+        controller_->onDiscard(card);
+    }
     controller_->endTurn();
     parent_->nextTurn();
 }
