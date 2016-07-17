@@ -113,7 +113,6 @@ void GameView::nextTurn() {
     }
     else if (state_ == GameState::HUMAN_PLAYER_TURN) {
         humanTurn();
-
         // go to the next player
         player_index_ = (player_index_+1)%4;
     }
@@ -136,7 +135,7 @@ void GameView::aiTurn() {
     while (state_ == GameState::COMPUTER_PLAYER_TURN) {
         // go through computer player turns
         controller_->onAITurn();
-        controller_->endRound();
+        controller_->endTurn();
 
         // go to the next player
         player_index_ = (player_index_+1)%4;
