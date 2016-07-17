@@ -22,7 +22,7 @@ Game::~Game() {
    for (unsigned int i = 0; i < player_count_; i++) {
        delete players_[i];
    }
-   
+
    delete deck_;
 }
 
@@ -219,9 +219,9 @@ void Game::reset(const std::vector<char> players, std::array<PlayerGui*, 4>& pla
     std::vector<char>::const_iterator player;
     for(player = players.begin();  player != players.end(); player++){
         addPlayer(*player);
-        player_gui[player_count_-1]->setPlayer(player_count_);
-
+        player_gui[player_count_ - 1]->setPlayer(player_count_ - 1);
     }
+
     state_ = GameState::GAME_START;
     notify();
 }

@@ -13,7 +13,7 @@ GameView::GameView(GameController* controller, Game* game) :
         player_hand_(this, controller_),
         new_game_("Start new game with seed:"),
         end_game_("End current game") {
-        
+
     player_index_ = 0;
 
     set_title("Straights UI");
@@ -47,7 +47,7 @@ GameView::GameView(GameController* controller, Game* game) :
 
     // add the player panel
     panels_.add(player_panel_);
-    for (unsigned int i = 0; i < 4; i++) {
+    for (unsigned int i = 0; i < game_->NUM_PLAYERS; i++) {
         player_gui_[i] = new PlayerGui(this, controller_);
         player_panel_.attach(*(player_gui_[i]), i, i+1, 0, 1, Gtk::EXPAND, Gtk::EXPAND, 2, 2);
     }
@@ -71,10 +71,11 @@ void GameView::update() {
 void GameView::newGameButtonClicked() {
     PlayerSelections selections(*this, "Human or Computer Players?", game_->NUM_PLAYERS);
     std::vector<char> players;
-    while( players.size() != game_->NUM_PLAYERS){
-        players = selections.query();
-    }
+    players = selections.query();
 
+    if(players.size() != game_->NUM_PLAYERS)
+        return;
+        
     game_->reset(players, player_gui_); // TODO: BAD, this is not MVC
 
     // update the player cards
