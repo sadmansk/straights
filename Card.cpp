@@ -42,6 +42,25 @@ bool operator==(const Card &a, const Card &b){
 	return a.getSuit() == b.getSuit() && a.getRank() == b.getRank();
 }
 
+bool operator<(const Card&a, const Card&b){
+	if(a.getSuit() < b.getSuit()){
+		return true;
+	}
+	return a.getRank() < b.getRank();
+}
+
+bool operator<=(const Card&a, const Card&b){
+	return a == b || a < b;
+}
+
+bool operator>(const Card&a, const Card&b){
+	return !(a<=b);
+}
+
+bool operator>=(const Card&a, const Card&b){
+	return (a>b) || (a==b);
+}
+
 ostream &operator<<(ostream &out, const Card &c){
 	string suits[SUIT_COUNT] = {"C", "D", "H", "S"};
 	string ranks[RANK_COUNT] = {"A", "2", "3", "4", "5", "6",

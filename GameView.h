@@ -20,6 +20,7 @@ public:
     virtual void disableRage();         // disable rage for the current player
 
 private:
+    void endGameDialog(std::vector<int>);
 	// Observer Pattern: to access model accessors without having to downcast subject
 	Game *game_;
     GameState state_;
@@ -41,7 +42,7 @@ private:
     std::array< PlayerGui*, 4 > player_gui_;
 
     // helper functions
-    virtual int startRound();          // start a new round
+    virtual void startRound();          // start a new round
     virtual void startGame();           // start a new game
     virtual void humanTurn();           // on a human player's turn
     virtual void aiTurn();              // on an AI player's turn

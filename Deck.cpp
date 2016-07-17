@@ -1,6 +1,8 @@
 #include "Deck.h"
 #include <cassert>
 #include <random>
+#include <algorithm>
+#include <iostream>
 
 // initialize static seed
 int Deck::rng_seed = 0;
@@ -19,13 +21,19 @@ Deck::~Deck(){
     }
 }
 
+void Deck::reset(int seed) {
+    rng_seed = seed;
+}
+
 void Deck::shuffle() {
     static std::mt19937 rng(rng_seed);
+    std::cout << std::endl << rng_seed << std::endl;
 
 	int n = CARD_COUNT;
 
 	while ( n > 1 ) {
 		int k = (int) (rng() % n);
+        //std::cout << k << std::endl;
 		--n;
 		Card *c = cards_[n];
 		cards_[n] = cards_[k];

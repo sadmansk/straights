@@ -209,7 +209,8 @@ void Game::reset(const std::vector<char> players, std::array<PlayerGui*, 4>& pla
     for (unsigned int i = 0; i < player_count_; i++) {
         delete players_[i];
     }
-    Deck::rng_seed = seed;
+
+    deck_->reset(seed);
     player_count_ = 0;
     current_player_ = -1;
     played_cards_.clear();

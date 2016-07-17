@@ -2,7 +2,7 @@
 
 #include "Command.h"
 #include "GameView.h"
-
+#include <sstream>
 // Contructor
 GameView::GameView(GameController* controller, Game* game) :
         Observer(),
@@ -97,14 +97,38 @@ void GameView::endGameButtonClicked() {
     hide();
 }
 
-int GameView::startRound() {
-    return controller_->onStartRound();
+void GameView::startRound() {
+    player_index_ = controller_->onStartRound() - 1;
     nextTurn();
 }
 
 void GameView::startGame() {
-    player_index_ = startRound() - 1;
-    nextTurn();
+    startRound();
+}
+
+void GameView::endGameDialog( std::vector<int> winners ) {
+    Gtk::Dialog dialog("Game Over", *this);
+
+    std::stringstream ss;
+
+    if(winners.size() == 1){
+        ss << "Player " << winners[0] << " wins!";
+    } else {
+        ss << "Players";
+        ss << " " << winners[0];
+        for(int i = 1; i < winners.size(); i++){
+            ss << " and " << winners[i];
+        }
+        ss << " wins!";
+    }
+
+    Gtk::Label nameLabel(ss.str());
+    Gtk::VBox* content = dialog.get_vbox();
+    content->pack_start(nameLabel, true, false);
+
+    nameLabel.show();
+    dialog.add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
+    dialog.run();
 }
 
 void GameView::nextTurn() {
@@ -121,15 +145,13 @@ void GameView::nextTurn() {
         for (int i = 0; i < Game::NUM_PLAYERS; i++) {
             player_gui_[i]->updateScore(controller_->updateScore(i));
         }
-        startRound();
+        controller_->endRound();
+        if(state_ == GameState::ROUND_ENDED){
+            startRound();
+        } else if (state_ == GameState::GAME_OVER) {
+            endGameDialog(game_->winners());
+        } // prints nothing if the state was GAME_QUIT)
     }
-    else if (state_ == GameState::GAME_OVER) {
-        //TODO: winner screen goes here
-        std::vector<int> winners = game_->winners();
-        for(unsigned int i = 0; i < winners.size(); i++){
-            std::cout << "Player " << winners[i] << " wins!" << std::endl;
-        }
-    } // prints nothing if the state was GAME_QUIT
 }
 
 void GameView::aiTurn() {
