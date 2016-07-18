@@ -24,8 +24,6 @@ GameView::GameView(GameController* controller, Game* game) :
 
     panels_.pack_start(menu_buttons_, Gtk::PACK_SHRINK);
     panels_.pack_start(table_, Gtk::PACK_SHRINK);
-    //panels.add(player_panel);
-    //panels.add(player_hand);
 
     // Add widgets to the top panel
     menu_buttons_.pack_start(new_game_, Gtk::PACK_EXPAND_WIDGET);
@@ -82,6 +80,7 @@ void GameView::newGameButtonClicked() {
         seedValue = atoi(seedText.c_str());
     }
     catch(...){
+        std::cout << "Warning: Invalid seed value, setting it to 0." << std::endl;
         seed_buffer_->set_text("0");
         seedValue = 0;
     }
@@ -90,6 +89,7 @@ void GameView::newGameButtonClicked() {
         player_gui_[i]->updateScore(0);
     }
 
+    player_hand_.reset();
     game_->reset(players, player_gui_, seedValue); // TODO: BAD, this is not MVC
 
     // update the player cards
@@ -137,6 +137,7 @@ void GameView::endGameDialog( std::vector<int> winners ) {
 }
 
 void GameView::nextTurn() {
+    player_hand_.reset();
     update();
     if (state_ == GameState::COMPUTER_PLAYER_TURN) {
         aiTurn();

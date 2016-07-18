@@ -16,8 +16,6 @@ PlayerGui::PlayerGui(GameView* parent, GameController* controller) : container_(
     container_.pack_start(discards_label_, Gtk::PACK_EXPAND_WIDGET);
 
     rage_button_.set_sensitive(false);
-    signal_ = rage_button_.signal_clicked().connect(sigc::mem_fun(*this, &PlayerGui::onRageClicked) );
-
 }
 
 void PlayerGui::setPlayer(unsigned int index) {
@@ -44,15 +42,16 @@ void PlayerGui::updateDiscard(int count) { std::stringstream ss;
 }
 
 void PlayerGui::disableRage() {
+    signal_.disconnect();
     rage_button_.set_sensitive(false);
 }
 
 void PlayerGui::enableRage() {
+    signal_ = rage_button_.signal_clicked().connect(sigc::mem_fun(*this, &PlayerGui::onRageClicked) );
     rage_button_.set_sensitive(true);
 }
 
 void PlayerGui::onRageClicked() {
-    signal_.disconnect();
     disableRage();
     controller_->onRageQuit();
     controller_->onAITurn();
