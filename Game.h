@@ -63,11 +63,11 @@ private:
     Players players_;                   // list of the current players
     unsigned int current_player_;       // keep track of the current player
     Deck *deck_;                        // stores the main deck
-    std::vector<Card*> played_cards_;    // we store the values of the cards already played
-    GameState state_;
+    std::vector<Card*> played_cards_;   // stores the cards already played
+    GameState state_;                   // state of the game
     std::string listBySuit(const std::vector<Card*>, Suit) const;
-    std::ofstream output_;
-    static unsigned int player_count_;
+    std::ofstream output_;              // stream the file output for play history
+    static unsigned int player_count_;  // current player count
 };
 
 #endif // GAME_H_

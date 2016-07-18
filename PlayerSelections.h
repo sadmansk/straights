@@ -21,11 +21,12 @@
 class PlayerSelections : Gtk::Dialog {
 public:
 	// Specifies the parent window of the dialog box and the title of the dialog box.
-	PlayerSelections( Gtk::Window & parentWindow, std::string title, int players);
-    std::vector<char> query();
-	virtual ~PlayerSelections();
+	PlayerSelections( Gtk::Window & parentWindow, std::string title, int players);  // contructor
+    std::vector<char> query();                                                      // returns the selected choices
+	virtual ~PlayerSelections();                                                    // destructor
 
 private:
-	std::vector<Gtk::ComboBoxText*> choices;
+	std::vector<Gtk::ComboBoxText*> choices;                                        // choices combo box
 };
+
 #endif

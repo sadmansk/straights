@@ -9,10 +9,10 @@
 
 class HumanPlayer: public Player{
 public:
-    virtual std::pair<Card*, std::string> autoPlay(std::vector<Card*> &);
-    const std::vector<Card*> getHand() const;
-    const std::vector<Card*> getMoves(const std::vector<Card*>) const;
-    GameState getTurnState() const;
+    virtual std::pair<Card*, std::string> autoPlay(std::vector<Card*> &);   // auto play (does nothing for human players)
+    const std::vector<Card*> getHand() const;                               // get the cards in the hand
+    const std::vector<Card*> getMoves(const std::vector<Card*>) const;      // get the moves available
+    GameState getTurnState() const;                                         // get the type of turn state
 };
 
 #endif // HUMANPLAYER_H_

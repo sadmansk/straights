@@ -13,11 +13,10 @@ public:
     void shuffle();             // public function fot shuffling the deck
     Card* getCardAt(int) const; // accessor for individual cards
     static int rng_seed;        // global static seed for rng
-    void reset(int);
-    void on(Card*);
-    void off(Card*);
+    void on(Card*);             // show the card
+    void off(Card*);            // hide the card
 private:
-    Card* cards_[CARD_COUNT]; // array of cards
+    Card* cards_[CARD_COUNT];   // array of cards
 };
 
 // stream operators

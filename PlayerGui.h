@@ -9,7 +9,7 @@ class GameController;
 
 class PlayerGui : public Gtk::Frame {
 public:
-    PlayerGui(GameView*, GameController*);                 // constructor
+    PlayerGui(GameView*, GameController*);      // constructor
     void setPlayer(unsigned int);               // sets the player associated with the frame
     void updateScore(int);                      // update the score display
     void updateDiscard(int);                    // update the discard count display
@@ -23,9 +23,9 @@ private:
     Gtk::Label score_label_;                    // label for score
     Gtk::Label discards_label_;                 // label for # of discards
     unsigned int index_;                        // index indicating the player this is atached to
-    sigc::connection signal_;
-    GameController* controller_;
-    GameView* parent_;
+    sigc::connection signal_;                   // store the signal connected to rage button
+    GameController* controller_;                // controller reference
+    GameView* parent_;                          // parent window reference
 };
 
 #endif // PLAYER_GUI_H_

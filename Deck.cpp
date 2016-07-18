@@ -21,10 +21,6 @@ Deck::~Deck(){
     }
 }
 
-void Deck::reset(int seed) {
-    rng_seed = seed;
-}
-
 void Deck::shuffle() {
     static std::mt19937 rng(rng_seed);
 

@@ -97,9 +97,7 @@ void GameView::newGameButtonClicked() {
 
     //reset card buttons from previous rounds
     player_hand_.reset();
-
-    //reset and reseed game
-    game_->reset(players, player_gui_, seedValue);
+    controller_->reset(players, player_gui_, seedValue);
 
     // update the player cards
     assert(player_gui_.size() == game_->NUM_PLAYERS);
