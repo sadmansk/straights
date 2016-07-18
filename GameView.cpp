@@ -169,7 +169,7 @@ void GameView::humanTurn() {
     // enable rage
     player_gui_[player_index_]->enableRage();
     // update hand
-    player_hand_.update(controller_->getHand());
+    player_hand_.update(controller_->getHand(), player_index_ + 1);
     // update discard count
     player_gui_[player_index_]->updateDiscard(controller_->getDiscards(player_index_));
 }

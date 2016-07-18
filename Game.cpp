@@ -207,6 +207,9 @@ void Game::reset(const std::vector<char> players, std::array<PlayerGui*, 4>& pla
 
     //clear old players / board
     for (unsigned int i = 0; i < player_count_; i++) {
+        if(i < player_count_){
+            players_[i]->clearDiscards();
+        }
         delete players_[i];
     }
 

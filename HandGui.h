@@ -21,7 +21,7 @@ class HandGui : public Gtk::Frame {
 public:
     HandGui(GameView*, GameController*);                   // constructor
     virtual ~HandGui();                         // destructor
-    void update(const std::vector< std::pair<Card*, bool> >&);     // update the hand display with new cards
+    void update(const std::vector< std::pair<Card*, bool> >&, int);     // update the hand display with new cards
     void onCardClicked(Card&, bool);            // manages clicked cards
 private:
     std::array <Gtk::Image*, 13> nothing_;      // TODO: should be able to get away with using just one image
