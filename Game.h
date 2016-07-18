@@ -54,7 +54,7 @@ public:
     std::vector< std::pair<Card*, bool> > getHand() const;   // show the hand of the current player
     std::string getLegalPlays() const;//show the legal plays of the current player
     void reset(const std::vector<char>&, std::array<PlayerGui*, 4>&, int); //resets game to group of players
-
+    int getScore(int) const;
     // consts
     const static int NUM_PLAYERS = 4;
 

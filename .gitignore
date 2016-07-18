@@ -9,4 +9,5 @@ straights
 # C++ temp files
 *.o
 
-*.txt
+# Output files 
+GameRecord.txt

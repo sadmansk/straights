@@ -89,6 +89,8 @@ void GameView::newGameButtonClicked() {
         player_gui_[i]->updateScore(0);
     }
 
+    disableRage();
+
     player_hand_.reset();
     controller_->reset(players, player_gui_, seedValue);
 
@@ -104,12 +106,33 @@ void GameView::endGameButtonClicked() {
 
 void GameView::startRound() {
     player_index_ = controller_->onStartRound() - 1;
+    newRoundDialog();
+
     nextTurn();
 }
 
 void GameView::startGame() {
     startRound();
 }
+
+void GameView::newRoundDialog() {
+    Gtk::Dialog dialog("New Round Has Started", *this);
+
+    std::stringstream ss;
+    ss << "A new round has started" << std::endl;
+    for(unsigned int i = 0; i < Game::NUM_PLAYERS; i++){
+        ss << "Player " << (i + 1) << " has " << game_->getScore(i) << " points." << std::endl;
+    }
+
+    Gtk::Label nameLabel(ss.str());
+    Gtk::VBox* content = dialog.get_vbox();
+    content->pack_start(nameLabel, true, false);
+
+    nameLabel.show();
+    dialog.add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
+    dialog.run();
+}
+
 
 void GameView::endGameDialog( std::vector<int> winners ) {
     Gtk::Dialog dialog("Game Over", *this);
@@ -180,8 +203,8 @@ void GameView::humanTurn() {
 }
 
 void GameView::disableRage() {
-    // disable rage of the previous player
-    int prev = player_index_ - 1;
-    if (prev < 0) prev = 3;
-    player_gui_[prev]->disableRage();
+    // disable rage of all player
+    for(int i = 0; i < Game::NUM_PLAYERS; i++){
+        player_gui_[i]->disableRage();
+    }
 }

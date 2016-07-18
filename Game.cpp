@@ -253,6 +253,12 @@ void Game::reset(const std::vector<char>& players, std::array<PlayerGui*, 4>& pl
     notify();
 }
 
+int Game::getScore(int player) const{
+    assert(player < NUM_PLAYERS && player >= 0);
+
+    return players_[player]->getScore();
+}
+
 int Game::updateScore(int player) {
     std::stringstream ss;
     int oldScore = players_[player]->getScore();
