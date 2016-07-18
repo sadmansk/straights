@@ -1,0 +1,3 @@
+Above the GUI of the hand, it tells the player whether he is allowed to play a card or if he has to discard. All the buttons containing illegal moves are disabled.
+
+We also added a textual record of all the plays made in the current game. The record can be found in the file GameRecord.txt.
