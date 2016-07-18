@@ -1,6 +1,6 @@
 #include "PlayerGui.h"
 #include "GameView.h"
-
+#include <iostream>
 
 PlayerGui::PlayerGui(GameView* parent, GameController* controller) : container_(false, 5), rage_button_("RAGE!"), score_label_("Score: 0"), discards_label_("Discards: 0"), controller_(controller), parent_(parent) {
     index_ = 0;
@@ -16,7 +16,7 @@ PlayerGui::PlayerGui(GameView* parent, GameController* controller) : container_(
     container_.pack_start(discards_label_, Gtk::PACK_EXPAND_WIDGET);
 
     rage_button_.set_sensitive(false);
-    rage_button_.signal_clicked().connect(sigc::mem_fun(*this, &PlayerGui::onRageClicked) );
+    signal_ = rage_button_.signal_clicked().connect(sigc::mem_fun(*this, &PlayerGui::onRageClicked) );
 
 }
 
@@ -52,6 +52,10 @@ void PlayerGui::enableRage() {
 }
 
 void PlayerGui::onRageClicked() {
+    signal_.disconnect();
+    disableRage();
     controller_->onRageQuit();
     controller_->onAITurn();
+    controller_->endTurn();
+    parent_->nextTurn();
 }

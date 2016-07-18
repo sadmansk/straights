@@ -57,5 +57,6 @@ void HandGui::onCardClicked(Card& card, bool playable) {
     }
 
     controller_->endTurn();
+    parent_->disableRage();
     parent_->nextTurn();
 }

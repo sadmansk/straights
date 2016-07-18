@@ -23,6 +23,7 @@ private:
     Gtk::Label score_label_;                    // label for score
     Gtk::Label discards_label_;                 // label for # of discards
     unsigned int index_;                        // index indicating the player this is atached to
+    sigc::connection signal_;
     GameController* controller_;
     GameView* parent_;
 };
