@@ -24,6 +24,7 @@ public:
     Card* removeFromHand(const Card&);     // find a pointer to a card given a suit and rank
     int getScore();                                // gets current score of player
     std::vector<Card*> getDiscards() const;        // return the discarded cards
+    void clearDiscards();
     virtual GameState getTurnState() const = 0;           // returns the turn state type
     virtual int updateScore();                             // updates score at end of round, clears discard pile
     //ComputerPlayer* rageQuit();

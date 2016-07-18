@@ -131,6 +131,10 @@ std::vector<std::pair<Card*,bool> > Player::markedCards(const std::vector<Card*>
     return markedCards;
 }
 
+void Player::clearDiscards(){
+    discard_.clear();
+}
+
 int Player::updateScore(){
     assert( hand_.size() == 0);                                 // Shouldn't end round if still has cards
     int increment = 0;

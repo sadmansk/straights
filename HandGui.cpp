@@ -1,7 +1,7 @@
 #include "HandGui.h"
 #include "Card.h"
 #include "GameView.h"
-
+#include <sstream>
 HandGui::HandGui(GameView* parent, GameController* controller) : hand_(1, 13), controller_(controller), parent_(parent) {
     set_label("Your Hand");
     set_label_align(Gtk::ALIGN_LEFT, Gtk::ALIGN_TOP);
@@ -22,7 +22,7 @@ HandGui::~HandGui() {
     }
 }
 
-void HandGui::update(const std::vector< std::pair<Card*, bool> >& cards) {
+void HandGui::update(const std::vector< std::pair<Card*, bool> >& cards, int player) {
     unsigned int i = 0;
     bool mustDicard= true;
     for(unsigned int j = 0; j < cards.size(); j++){
@@ -30,6 +30,15 @@ void HandGui::update(const std::vector< std::pair<Card*, bool> >& cards) {
             mustDicard = false;
         }
     }
+
+    std::stringstream ss;
+    ss << "Player " << player << " to play: Choose a card to ";
+    if(mustDicard){
+        ss << "DISCARD.";
+    } else{
+        ss << "PLAY.";
+    }
+    set_label(ss.str());
 
     for (; i < cards.size(); i++) {
         cards_[i]->set_image(*(cards[i].first->getImage()));
