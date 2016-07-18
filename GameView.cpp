@@ -132,6 +132,7 @@ void GameView::endGameDialog( std::vector<int> winners ) {
 }
 
 void GameView::nextTurn() {
+    player_hand_.reset();
     update();
     if (state_ == GameState::COMPUTER_PLAYER_TURN) {
         aiTurn();
