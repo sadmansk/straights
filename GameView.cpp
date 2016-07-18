@@ -1,6 +1,5 @@
 #include <cassert>
 
-#include "Command.h"
 #include "GameView.h"
 #include <sstream>
 // Contructor
