@@ -99,16 +99,7 @@ std::vector<Card*> Player::legalMoves(const std::vector<Card*>& played_cards) co
             legalPlays.push_back(*card);
         }
     }
-
-    std::cout << "new" << std::endl;
-    for(int i = 0; i < played_cards.size(); i++){
-        std::cout << *played_cards[i];
-    }
-
-    // for(int i = 0; i < legalPlays.size(); i++){
-    //     std::cout << *legalPlays[i];
-    // }
-
+    
     if(played_cards.size() == 0){ // assert exactly one playable card (7 of spades) if first play
         assert( legalPlays.size() == 1 );
     }

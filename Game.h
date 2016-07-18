@@ -7,6 +7,8 @@
 #include <ostream>
 #include "Subject.h"
 #include "Deck.h"
+#include <fstream>
+
 
 // declare states of the game
 enum class GameState: unsigned int {
@@ -41,7 +43,7 @@ public:
     int rageQuit();                // rage quit the current player
     void endTurn();                 // end turn of the current player
     void endRound();                // end the round
-    std::vector<int> winners() const;             // declares winner
+    std::vector<int> winners();             // declares winner
     std::string aiTurn();     // ai play
     std::string listClubs() const;  // list all the clubs on the table
     std::string listDiamonds() const;// list all diamonds on the table
@@ -64,6 +66,7 @@ private:
     std::vector<Card*> played_cards_;    // we store the values of the cards already played
     GameState state_;
     std::string listBySuit(const std::vector<Card*>, Suit) const;
+    std::ofstream output_;
     static unsigned int player_count_;
 };
 

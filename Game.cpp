@@ -1,5 +1,4 @@
 #include <cassert>
-
 #include "Game.h"
 #include "Player.h"
 #include "HumanPlayer.h"
@@ -15,6 +14,7 @@ Game::Game() : Subject() {
     // initialize the deck of cards
     deck_ = new Deck();
     state_ = GameState::GAME_START;
+    output_.open("GameRecord.txt");
     notify();
 }
 
@@ -22,7 +22,7 @@ Game::~Game() {
    for (unsigned int i = 0; i < player_count_; i++) {
        delete players_[i];
    }
-
+   output_.close();
    delete deck_;
 }
 
@@ -61,6 +61,14 @@ int Game::startRound() {
         }
         i++;
     }
+
+    if(state_ == GameState::GAME_START){
+        output_ << std::endl << "New Game Has Begun" << std::endl << std:: endl;
+    }
+
+    output_ << "New Round Has Begun" << std::endl;
+    output_ << std::endl << "Deck:" << std::endl << *deck_ << std::endl;
+
     state_ = players_[current_player_ - 1]->getTurnState();
     return current_player_;
 }
@@ -82,12 +90,12 @@ std::string Game::play(Card& card) {
         ss << "Player " << current_player_ << " plays " << card << "." << std::endl;
         deck_->on( &card );
     }
-    std::cout << ss.str();
+    output_ << ss.str();
     notify();
     return ss.str();
 }
 
-std::vector<int> Game::winners() const{
+std::vector<int> Game::winners() {
     int lowScore = players_[0] -> getScore();
     for(unsigned int i = 1; i < player_count_; i++){
         if( lowScore > players_[i]->getScore()){
@@ -102,6 +110,22 @@ std::vector<int> Game::winners() const{
             lowPlayers.push_back(i+1);
         }
     }
+
+    std::stringstream ss;
+    ss << std::endl;
+    ss << "Game Has Ended:" << std::endl;
+    if(lowPlayers.size() == 1){
+        ss << "Player " << lowPlayers[0] << " wins!";
+    } else {
+        ss << "Players";
+        ss << " " << lowPlayers[0];
+        for(unsigned int i = 1; i < lowPlayers.size(); i++){
+            ss << " and " << lowPlayers[i];
+        }
+        ss << " wins!";
+    }
+
+    output_ << ss.str();
     return lowPlayers;
 }
 
@@ -112,7 +136,7 @@ std::string Game::discard(const Card& card) {
         ss << "Player " << current_player_ << " discards " << card << "." << std::endl;
     }
 
-    std::cout << ss.str();
+    output_ << ss.str();
     notify();
     return ss.str();
 }
@@ -138,11 +162,12 @@ int Game::rageQuit() {
 std::string Game::aiTurn() {
     std::pair<Card*, std::string>  play = ((ComputerPlayer*) players_[current_player_-1]) -> autoPlay(played_cards_);
     std::stringstream ss;
-    ss << "Player " << current_player_ << " " << play.second << " " << *play.first << ".";
+    ss << "Player " << current_player_ << " " << play.second << " " << *play.first << "." << std::endl;
     if(play.second == "plays"){
         deck_->on(play.first);
     }
     notify();
+    output_ << ss.str();
     return ss.str();
 }
 
@@ -228,15 +253,22 @@ void Game::reset(const std::vector<char> players, std::array<PlayerGui*, 4>& pla
 }
 
 int Game::updateScore(int player) {
+    std::stringstream ss;
+    int oldScore = players_[player]->getScore();
+    ss << "Player " << (player + 1) << " : " << oldScore;
+
     players_[player]->updateScore();
     int newScore = players_[player]->getScore();
     if (newScore >= 80) {
         state_ = GameState::GAME_OVER;
     }
+    ss << " + " << (newScore - oldScore) << " = " << newScore << std::endl;
+    output_ << ss.str();
     return newScore;
 }
 
 void Game::endRound() {
+    output_ << "Round Has Ended" << std::endl ;
     played_cards_.clear();
     notify();
 }

@@ -85,6 +85,11 @@ void GameView::newGameButtonClicked() {
         seed_buffer_->set_text("0");
         seedValue = 0;
     }
+
+    for (int i = 0; i < Game::NUM_PLAYERS; i++) {
+        player_gui_[i]->updateScore(0);
+    }
+
     game_->reset(players, player_gui_, seedValue); // TODO: BAD, this is not MVC
 
     // update the player cards
@@ -116,7 +121,7 @@ void GameView::endGameDialog( std::vector<int> winners ) {
     } else {
         ss << "Players";
         ss << " " << winners[0];
-        for(int i = 1; i < winners.size(); i++){
+        for(unsigned int i = 1; i < winners.size(); i++){
             ss << " and " << winners[i];
         }
         ss << " wins!";
@@ -165,7 +170,6 @@ void GameView::aiTurn() {
 }
 
 void GameView::humanTurn() {
-    std::cout << player_index_ << std::endl;
     // enable rage
     player_gui_[player_index_]->enableRage();
     // update hand

@@ -52,7 +52,6 @@ void HandGui::update(const std::vector< std::pair<Card*, bool> >& cards, int pla
 }
 
 void HandGui::onCardClicked(Card& card, bool playable) {
-    std::cout << card << std::endl;
     if(playable){
         controller_->onPlay(card);
     } else{

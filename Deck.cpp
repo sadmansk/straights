@@ -27,7 +27,6 @@ void Deck::reset(int seed) {
 
 void Deck::shuffle() {
     static std::mt19937 rng(rng_seed);
-    std::cout << std::endl << rng_seed << std::endl;
 
 	int n = CARD_COUNT;
 
