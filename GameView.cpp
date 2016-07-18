@@ -24,8 +24,6 @@ GameView::GameView(GameController* controller, Game* game) :
 
     panels_.pack_start(menu_buttons_, Gtk::PACK_SHRINK);
     panels_.pack_start(table_, Gtk::PACK_SHRINK);
-    //panels.add(player_panel);
-    //panels.add(player_hand);
 
     // Add widgets to the top panel
     menu_buttons_.pack_start(new_game_, Gtk::PACK_EXPAND_WIDGET);
@@ -82,6 +80,7 @@ void GameView::newGameButtonClicked() {
         seedValue = atoi(seedText.c_str());
     }
     catch(...){
+        std::cout << "Warning: Invalid seed value, setting it to 0." << std::endl;
         seed_buffer_->set_text("0");
         seedValue = 0;
     }

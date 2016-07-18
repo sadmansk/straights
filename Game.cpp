@@ -202,7 +202,7 @@ std::string Game::listSpades() const { // list all the played spades
     return listBySuit(played_cards_, SPADE);
 }
 
-void Game::reset(const std::vector<char> players, std::array<PlayerGui*, 4>& player_gui, int seed){
+void Game::reset(const std::vector<char>& players, std::array<PlayerGui*, 4>& player_gui, int seed){
     assert(players.size() == NUM_PLAYERS);
 
     //clear old players / board
@@ -210,9 +210,10 @@ void Game::reset(const std::vector<char> players, std::array<PlayerGui*, 4>& pla
         delete players_[i];
     }
 
-    deck_->reset(seed);
+    Deck::rng_seed = seed;
     player_count_ = 0;
-    current_player_ = -1;
+    current_player_ = 0;
+
     played_cards_.clear();
 
     std::vector<char>::const_iterator player;
