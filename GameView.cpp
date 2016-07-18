@@ -89,6 +89,8 @@ void GameView::newGameButtonClicked() {
         player_gui_[i]->updateScore(0);
     }
 
+    disableRage();
+
     player_hand_.reset();
     game_->reset(players, player_gui_, seedValue); // TODO: BAD, this is not MVC
 
@@ -201,8 +203,8 @@ void GameView::humanTurn() {
 }
 
 void GameView::disableRage() {
-    // disable rage of the previous player
-    int prev = player_index_ - 1;
-    if (prev < 0) prev = 3;
-    player_gui_[prev]->disableRage();
+    // disable rage of all player
+    for(int i = 0; i < Game::NUM_PLAYERS; i++){
+        player_gui_[i]->disableRage();
+    }
 }
