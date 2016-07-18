@@ -84,6 +84,7 @@ void GameView::newGameButtonClicked() {
         seed_buffer_->set_text("0");
         seedValue = 0;
     }
+    player_hand_.reset();
     game_->reset(players, player_gui_, seedValue); // TODO: BAD, this is not MVC
 
     // update the player cards

@@ -51,6 +51,14 @@ void HandGui::update(const std::vector< std::pair<Card*, bool> >& cards, int pla
     }
 }
 
+void HandGui::reset() {
+    for(unsigned int i = 0; i < cards_.size(); i++){
+        cards_[i]->set_sensitive(false);
+        cards_[i]->set_image(*(nothing_[i]));
+        signals_[i].disconnect();
+    }
+}
+
 void HandGui::onCardClicked(Card& card, bool playable) {
     std::cout << card << std::endl;
     if(playable){
@@ -58,12 +66,7 @@ void HandGui::onCardClicked(Card& card, bool playable) {
     } else{
         controller_->onDiscard(card);
     }
-
-    for(unsigned int i = 0; i < cards_.size(); i++){ //TODO not working for some reason
-        cards_[i]->set_sensitive(false);
-        cards_[i]->set_image(*(nothing_[i]));
-        signals_[i].disconnect();
-    }
+    reset();
 
     controller_->endTurn();
     parent_->disableRage();
