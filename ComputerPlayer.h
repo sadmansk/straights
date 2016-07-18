@@ -8,10 +8,10 @@
 
 class ComputerPlayer: public Player{
 public:
-    ComputerPlayer() : Player() {}
-    ComputerPlayer(Player&);
+    ComputerPlayer() : Player() {}  // constructor
+    ComputerPlayer(Player&);        // copy constructor (kind of)
     virtual std::pair<Card*, std::string> autoPlay(std::vector<Card*> &);           // Automatically takes its turn
-    GameState getTurnState() const;
+    GameState getTurnState() const; // return the kind of turn state
 };
 
 

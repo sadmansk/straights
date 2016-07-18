@@ -8,3 +8,5 @@ straights
 
 # C++ temp files
 *.o
+
+*.txt
