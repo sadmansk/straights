@@ -175,6 +175,8 @@ void GameView::humanTurn() {
 }
 
 void GameView::disableRage() {
-    // disable rage of the current player
-    player_gui_[player_index_]->disableRage();
+    // disable rage of the previous player
+    int prev = player_index_ - 1;
+    if (prev < 0) prev = 3;
+    player_gui_[prev]->disableRage();
 }
