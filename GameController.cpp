@@ -73,3 +73,7 @@ void GameController::endTurn() {
 void GameController::endRound() {
     game_->endRound();
 }
+
+void GameController::reset(const std::vector<char>& players, std::array<PlayerGui*, 4>& player_gui, int seed){
+    game_->reset(players, player_gui, seed);
+}

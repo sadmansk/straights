@@ -90,7 +90,7 @@ void GameView::newGameButtonClicked() {
     }
 
     player_hand_.reset();
-    game_->reset(players, player_gui_, seedValue); // TODO: BAD, this is not MVC
+    controller_->reset(players, player_gui_, seedValue);
 
     // update the player cards
     assert(player_gui_.size() == game_->NUM_PLAYERS);
