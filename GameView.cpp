@@ -71,11 +71,14 @@ void GameView::newGameButtonClicked() {
     std::vector<char> players;
     players = selections.query();
 
+    //if player cancels new game, exit with no changes
     if(players.size() != game_->NUM_PLAYERS)
         return;
 
     std::string seedText = seed_buffer_->get_text();
     int seedValue = 0;
+
+    //attempt to parse input seed
     try{
         seedValue = atoi(seedText.c_str());
     }
@@ -89,10 +92,14 @@ void GameView::newGameButtonClicked() {
         player_gui_[i]->updateScore(0);
     }
 
+    //disable rage buttons from previous rounds
     disableRage();
 
+    //reset card buttons from previous rounds
     player_hand_.reset();
-    game_->reset(players, player_gui_, seedValue); // TODO: BAD, this is not MVC
+
+    //reset and reseed game
+    game_->reset(players, player_gui_, seedValue);
 
     // update the player cards
     assert(player_gui_.size() == game_->NUM_PLAYERS);
@@ -105,40 +112,47 @@ void GameView::endGameButtonClicked() {
 }
 
 void GameView::startRound() {
+    //have controller start new round
     player_index_ = controller_->onStartRound() - 1;
-    newRoundDialog();
 
+    //output new round
+    newRoundDialog();
     nextTurn();
 }
 
 void GameView::startGame() {
+    //starts a new round
     startRound();
 }
 
 void GameView::newRoundDialog() {
+    //disables current window while active
     Gtk::Dialog dialog("New Round Has Started", *this);
 
+    //output current game state
     std::stringstream ss;
     ss << "A new round has started" << std::endl;
     for(unsigned int i = 0; i < Game::NUM_PLAYERS; i++){
         ss << "Player " << (i + 1) << " has " << game_->getScore(i) << " points." << std::endl;
     }
 
+    //label and ok button
     Gtk::Label nameLabel(ss.str());
     Gtk::VBox* content = dialog.get_vbox();
     content->pack_start(nameLabel, true, false);
-
     nameLabel.show();
     dialog.add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
+
     dialog.run();
 }
 
 
 void GameView::endGameDialog( std::vector<int> winners ) {
+    //disables current window while active
     Gtk::Dialog dialog("Game Over", *this);
 
+    //output game winner
     std::stringstream ss;
-
     if(winners.size() == 1){
         ss << "Player " << winners[0] << " wins!";
     } else {
@@ -150,12 +164,13 @@ void GameView::endGameDialog( std::vector<int> winners ) {
         ss << " wins!";
     }
 
+    //label winner, add button to close
     Gtk::Label nameLabel(ss.str());
     Gtk::VBox* content = dialog.get_vbox();
     content->pack_start(nameLabel, true, false);
-
     nameLabel.show();
     dialog.add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
+
     dialog.run();
 }
 
